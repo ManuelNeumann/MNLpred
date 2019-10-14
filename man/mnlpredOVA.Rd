@@ -2,7 +2,7 @@
 % Please edit documentation in R/mnlpredOVA.R
 \name{mnlpredOVA}
 \alias{mnlpredOVA}
-\title{Title}
+\title{Multinomial Prediction Function (Observed Value Approach)}
 \usage{
 mnlpredOVA(model, data, xvari, scenname = NULL, scenvalue = NULL,
   by = 1, nsim = 1000, seed = "random", probs = c(0.025, 0.975))
@@ -11,5 +11,8 @@ mnlpredOVA(model, data, xvari, scenname = NULL, scenvalue = NULL,
 \item{probs}{}
 }
 \description{
-Title
+Multinomial Prediction Function (Observed Value Approach)
+}
+\examples{
+
 }
