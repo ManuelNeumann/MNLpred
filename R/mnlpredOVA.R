@@ -1,20 +1,22 @@
 #' Multinomial Prediction Function (Observed Value Approach)
 #'
-#' @param model
-#' @param data
-#' @param xvari
-#' @param scenname
-#' @param scenvalue
-#' @param by
-#' @param nsim
-#' @param seed
-#' @param probs
+#' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
+#' @param data the data with which the model was estimated
+#' @param xvari the name of the variable that should be varied (the x-axis variable in prediction plots)
+#' @param scenname if you want to hold a specific variable stable over all scenarios, you can name it here (optional).
+#' @param scenvalue determine at which value you want to fix the \code{scenname}.
+#' @param by define the steps of the \code{xvari}.
+#' @param nsim numbers of simulations
+#' @param seed set a seed for replication purposes.
+#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% siginficance level (\code{c(0.025, 0.975)})
 #'
-#' @return
+#' @return The function returns a list with several elements.
 #' @export
 #'
-#' @examples
-#'
+#' @importFrom magrittr %>%
+#' @importFrom tibble tibble
+#' @importFrom stats coef na.omit quantile
+
 
 mnlpredOVA <- function(model,
                        data,
@@ -182,12 +184,12 @@ mnlpredOVA <- function(model,
 
   # Aggregate the simulations
   # Create tibble for plot
-  plotdat <- tibble(iv = rep(variation, J),
-                    categories = rep(ChoiceCategories,each = length(variation)),
-                    scen = rep(scenvalues, each = length(ChoiceCategories)),
-                    mean = NA,
-                    lower = NA,
-                    upper = NA)
+  plotdat <- tibble::tibble(iv = rep(variation, J),
+                            categories = rep(categories, each = length(variation)),
+                            scen = rep(scenvalue, each = length(categories)),
+                            mean = NA,
+                            lower = NA,
+                            upper = NA)
 
   # Aggregate
   start <- 1
@@ -199,7 +201,7 @@ mnlpredOVA <- function(model,
     start <- end+1
   }
 
-  colnames(plotdat)[1:3] <- c(vari, dv, xvari)
+  colnames(plotdat)[1:3] <- c(xvari, dv, scenname)
 
   return(output)
 }

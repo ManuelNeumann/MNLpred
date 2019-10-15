@@ -8,11 +8,27 @@ mnlpredOVA(model, data, xvari, scenname = NULL, scenvalue = NULL,
   by = 1, nsim = 1000, seed = "random", probs = c(0.025, 0.975))
 }
 \arguments{
-\item{probs}{}
+\item{model}{the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)}
+
+\item{data}{the data with which the model was estimated}
+
+\item{xvari}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
+
+\item{scenname}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
+
+\item{scenvalue}{determine at which value you want to fix the \code{scenname}.}
+
+\item{by}{define the steps of the \code{xvari}.}
+
+\item{nsim}{numbers of simulations}
+
+\item{seed}{set a seed for replication purposes.}
+
+\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level (\code{c(0.025, 0.975)})}
+}
+\value{
+The function returns a list with several elements.
 }
 \description{
 Multinomial Prediction Function (Observed Value Approach)
-}
-\examples{
-
 }

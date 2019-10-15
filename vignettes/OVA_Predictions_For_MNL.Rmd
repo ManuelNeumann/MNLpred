@@ -1,0 +1,20 @@
+---
+title: "Observed Value Predictions for Multinomial Logit Models"
+author: "Manuel Neumann"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Observed Value Predictions for Multinomial Logit Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MNLpred)
+```

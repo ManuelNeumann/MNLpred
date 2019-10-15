@@ -1,5 +1,5 @@
 Package: MNLpred
-Title: Package for Simulated Predictions from Multinomial Logistic Models
+Title: Package For Simulated Predictions From Multinomial Logistic Models
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Manuel",
@@ -11,3 +11,10 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    magrittr,
+    tibble
