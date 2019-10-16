@@ -16,17 +16,18 @@
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile
+#' @importFrom MASS mvrnorm
 
 
-mnlpredOVA <- function(model,
-                       data,
-                       xvari,
-                       scenname = NULL,
-                       scenvalue = NULL,
-                       by = 1,
-                       nsim = 1000,
-                       seed = "random",
-                       probs = c(0.025, 0.975)){
+mnl_pred_ova <- function(model,
+                         data,
+                         xvari,
+                         scenname = NULL,
+                         scenvalue = NULL,
+                         by = 1,
+                         nsim = 1000,
+                         seed = "random",
+                         probs = c(0.025, 0.975)){
 
   # Create list that is returned in the end.
   output <- list()
@@ -60,6 +61,7 @@ mnlpredOVA <- function(model,
 
   # Length of sequence
   nseq <- length(variation)
+  output[["nvariation"]] <- nseq
 
   # Names of variables in model (without the "list" character in the vector)
   variables <- as.character(attr(model$terms, "variables"))[-1]
@@ -83,7 +85,7 @@ mnlpredOVA <- function(model,
   categories <- sort(unique(eval(parse(text = paste0("data$", dv)))))
   J <- length(categories)
   output[["ChoiceCategories"]] <- categories
-  output[["J"]] <- J
+  output[["nchoices"]] <- J
 
   # Numbers of interactions
   ninteraction <- sum(grepl(":", model$coefnames))
@@ -202,6 +204,8 @@ mnlpredOVA <- function(model,
   }
 
   colnames(plotdat)[1:3] <- c(xvari, dv, scenname)
+
+  output[["plotdata"]] <- plotdat
 
   return(output)
 }
