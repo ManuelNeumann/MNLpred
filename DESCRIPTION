@@ -17,4 +17,7 @@ Suggests:
 VignetteBuilder: knitr
 Imports: 
     magrittr,
+    MASS,
+    stats,
     tibble
+    
