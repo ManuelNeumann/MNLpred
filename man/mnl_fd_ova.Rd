@@ -7,8 +7,23 @@
 mnl_fd_ova(model, data, xvari, scenname, scenvalues, by = 1,
   nsim = 1000, seed = "random", probs = c(0.025, 0.975))
 }
+\arguments{
+\item{model}{}
+}
+\value{
+The function returns a list with several elements.
+}
 \description{
-Multinomial First Differences Prediction (Observed Value Approach)
+This function predicts values for two different scenarios over a range of
+values. It then takes the differences between the different simulations to
+return first differences for each value.
+}
+\details{
+The function uses the \code{\link{mnl_pred_ova}} function for each scenario.
+The results of these predictions are also returned and can therefore be
+easily accessed. If you need predictions for multiple scenarios, you can use
+this function to both plot the predictions for each scenario and the
+differences between them.
 }
 \examples{
 
