@@ -8,7 +8,7 @@
 #' @param by define the steps of the \code{xvari}.
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
-#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% siginficance level (\code{c(0.025, 0.975)})
+#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}
 #'
 #' @return The function returns a list with several elements.
 #' @export
@@ -21,10 +21,10 @@
 
 mnl_pred_ova <- function(model,
                          data,
-                         xvari,
+                         xvari = NULL,
                          scenname = NULL,
                          scenvalue = NULL,
-                         by = 1,
+                         by = NULL,
                          nsim = 1000,
                          seed = "random",
                          probs = c(0.025, 0.975)){
@@ -54,14 +54,21 @@ mnl_pred_ova <- function(model,
   output$S <- S
 
   # Artificial variation ov independent variable of interest
-  variation <- seq(from = min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
-                   to = max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
-                   by = by)
-  output[["variation"]] <- variation
+  if (is.null(xvari) == TRUE) {
+
+    variation <- NA
+
+  } else {
+    variation <- seq(from = min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
+                     to = max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
+                     by = by)
+  }
+
+  output[["Variation"]] <- variation
 
   # Length of sequence
   nseq <- length(variation)
-  output[["nvariation"]] <- nseq
+  output[["nVariation"]] <- nseq
 
   # Names of variables in model (without the "list" character in the vector)
   variables <- as.character(attr(model$terms, "variables"))[-1]
@@ -79,13 +86,13 @@ mnl_pred_ova <- function(model,
 
   # Number of full observations
   obs <- nrow(data_redux)
-  output[["obs"]] <- obs
+  output[["Observations"]] <- obs
 
   # Choice categories of the dependent variable
   categories <- sort(unique(eval(parse(text = paste0("data$", dv)))))
   J <- length(categories)
   output[["ChoiceCategories"]] <- categories
-  output[["nchoices"]] <- J
+  output[["nChoices"]] <- J
 
   # Numbers of interactions
   ninteraction <- sum(grepl(":", model$coefnames))
@@ -105,12 +112,16 @@ mnl_pred_ova <- function(model,
   ovacases[,,] <- X
 
   # Select the position of the variable which should vary:
-  varidim <- which(colnames(X) == xvari)
+  if (is.null(xvari) == FALSE) {
+    varidim <- which(colnames(X) == xvari)
+  }
 
   # Artificially alter the variable in each dimension according to
   # the preferred sequence:
-  for (i in 1:nseq) {
-    ovacases[, varidim, i] <- variation[i]
+  if (is.null(xvari) == FALSE) {
+    for (i in 1:nseq) {
+      ovacases[, varidim, i] <- variation[i]
+    }
   }
 
   # Hold a second variable steady (if need be)
@@ -203,8 +214,10 @@ mnl_pred_ova <- function(model,
     start <- end+1
   }
 
+  # Rename the variables in the plot data
   colnames(plotdat)[1:3] <- c(xvari, dv, scenname)
 
+  # Put the data in the output
   output[["plotdata"]] <- plotdat
 
   return(output)
