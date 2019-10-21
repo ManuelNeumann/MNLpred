@@ -15,6 +15,105 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+This package provides functions that make it easy to get plottable predictions from multinomial logit models. The predictions are based on simulated draws of regression estimates from their respective sampling distribution.
+
+## The multinomial logit model
+
+This is a short introduction in the theoretical and statistical background of the multinomial logit.
+
+Dependent variables can not necessarily be ordered. In political science, for example, the variable of interest is often the individual's vote choice, based on the set of parties that are presented. Of interest is then, how somebody comes up with their choice.
+
+More generally spoken, many questions deal with a nominal outcome variable and we want to test assumptions about the function that may lead to a respective outcome.
+
+For these questions, the multinomial logit model is often a fitting option. Similar to an ordinary logit model, the multinomial logit model assumes that the probability to choose one over the other outcomes can be modeled with a linear function and a fitting logit link function. The difference of the multinomial logit is that it models the choice of *each* category as a function of the characteristics of the observation.
+
+In formal terms, we assume $\Pr(y_i = j|X_i)$ is a linear combination of $X_i\beta_j$, whereby $\beta_j$ is a choice specific vector. This means we are interested in the probability that the observed choice of the individual $i$ $y_i$ choice is the choice category $j$ dependent on characteristics of the observation $X_i$. Therefore we estimate a choice specific vector $\beta_j$. Since the probability is restricted to be between $0$ and $1$, we use $exp(X_i\beta_j)$ as a fitting link function. Additionally, we bring the exponants into relationship with each other and normalize them by dividing through the sum of them.
+
+Since we cannot compare all choices against each other, the model is not-identified so far. Instead, we have to make one choice the baseline and fix it to $0$. Therefore we estimate the probability of all choices to be chosen in comparison to the baseline choice.
+
+Eventually, we end up with the following probability function:
+
+$\Pr(y_i|X_i)= \frac{exp(X_i\beta_j)}{\sum^{J}_{m=1}exp(X_i \beta_m)}$, whereby $\beta_1 = 1$
+
+## Using the package
+
+```{r setup, warning=FALSE}
+# Reading data
+library(foreign)
+
+# Required packages
+library(magrittr) # for pipes
+library(nnet) # for the multinom()-function
+library(MASS) # for the multivariate normal distribution
+
+# The package
 library(MNLpred)
+
+# Plotting the predicted probabilities:
+library(ggplot2)
 ```
+
+```{r data}
+ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
+```
+
+```{r data preparation}
+ml$prog2 <- relevel(ml$prog, ref = "academic")
+ml$female2 <- as.numeric(ml$female == "female")
+
+```
+
+```{r model}
+mod1 <- multinom(prog2 ~ female2 + read + write + math,
+                 Hess = T,
+                 data = ml)
+summary(mod1)
+```
+
+```{r}
+pred1 <- mnl_pred_ova(model = mod1,
+                      data = ml,
+                      xvari = "math",
+                      by = 1)
+pred1$plotdata %>% head()
+```
+
+```{r plot1}
+ggplot(data = pred1$plotdata, aes(x = math, y = mean,
+                                  ymin = lower, ymax = upper)) +
+  geom_ribbon(alpha = 0.1) +
+  geom_line() +
+  facet_grid(prog2 ~., scales = "free_y") +
+  theme_bw()
+```
+
+```{r}
+fdif1 <- mnl_fd_ova(model = mod1,
+                    data = ml,
+                    xvari = "math",
+                    by = 1,
+                    scenname = "female2",
+                    scenvalues = c(0,1))
+fdif1$plotdata %>% head()
+```
+
+```{r}
+pred_plotdat <- rbind(fdif1$Prediction1$plotdata,
+                      fdif1$Prediction2$plotdata)
+
+ggplot(data = pred_plotdat, aes(x = math, y = mean,
+                                ymin = lower, ymax = upper,
+                                linetype = as.factor(female2))) +
+  geom_ribbon(alpha = 0.1) +
+  geom_line() +
+  facet_grid(prog2 ~., scales = "free_y") +
+  theme_bw()
+
+ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
+                                  ymin = lower, ymax = upper)) +
+  geom_ribbon(alpha = 0.1) +
+  geom_line() +
+  facet_grid(prog2 ~., scales = "free_y") +
+  theme_bw()
+```
+
