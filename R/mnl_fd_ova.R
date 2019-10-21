@@ -29,6 +29,10 @@ mnl_fd_ova <- function(model,
                        probs = c(0.025, 0.975)){
   output <- list()
 
+  if (seed == "random") {
+    seed <- sample(1:10000, 1)
+  }
+
   # Predictions for first scenario
   pred1 <- mnl_pred_ova(model = model,
                         data = data,
@@ -62,7 +66,7 @@ mnl_fd_ova <- function(model,
 
   # Plotdata
   plotdata_fd <- pred1$plotdata[, c(1:2,4:6)]
-  plotdata_fd[, c(4:6)] <- NA
+  plotdata_fd[, c("mean", "lower", "upper")] <- NA
 
   start <- 1
   for (i in 1:pred1$nChoices){
