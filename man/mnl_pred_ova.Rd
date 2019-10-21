@@ -4,8 +4,9 @@
 \alias{mnl_pred_ova}
 \title{Multinomial Prediction Function (Observed Value Approach)}
 \usage{
-mnl_pred_ova(model, data, xvari, scenname = NULL, scenvalue = NULL,
-  by = 1, nsim = 1000, seed = "random", probs = c(0.025, 0.975))
+mnl_pred_ova(model, data, xvari = NULL, scenname = NULL,
+  scenvalue = NULL, by = NULL, nsim = 1000, seed = "random",
+  probs = c(0.025, 0.975))
 }
 \arguments{
 \item{model}{the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)}
@@ -24,7 +25,7 @@ mnl_pred_ova(model, data, xvari, scenname = NULL, scenvalue = NULL,
 
 \item{seed}{set a seed for replication purposes.}
 
-\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level (\code{c(0.025, 0.975)})}
+\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}}
 }
 \value{
 The function returns a list with several elements.

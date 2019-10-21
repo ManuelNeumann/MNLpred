@@ -51,7 +51,7 @@ mnl_pred_ova <- function(model,
 
   # Simulate a sampling distribution
   S <- mvrnorm(nsim, mu, varcov)
-  output$S <- S
+  output[["S"]] <- S
 
   # Artificial variation ov independent variable of interest
   if (is.null(xvari) == TRUE) {
@@ -197,12 +197,21 @@ mnl_pred_ova <- function(model,
 
   # Aggregate the simulations
   # Create tibble for plot
-  plotdat <- tibble::tibble(iv = rep(variation, J),
-                            categories = rep(categories, each = length(variation)),
-                            scen = rep(scenvalue, each = length(categories)),
-                            mean = NA,
-                            lower = NA,
-                            upper = NA)
+  if (is.null(scenvalue) == TRUE) {
+    plotdat <- tibble::tibble(iv = rep(variation, J),
+                              categories = rep(categories, each = length(variation)),
+                              mean = NA,
+                              lower = NA,
+                              upper = NA)
+  } else {
+    plotdat <- tibble::tibble(iv = rep(variation, J),
+                              categories = rep(categories, each = length(variation)),
+                              scen = rep(scenvalue, each = length(categories)),
+                              mean = NA,
+                              lower = NA,
+                              upper = NA)
+    }
+
 
   # Aggregate
   start <- 1
@@ -215,7 +224,12 @@ mnl_pred_ova <- function(model,
   }
 
   # Rename the variables in the plot data
-  colnames(plotdat)[1:3] <- c(xvari, dv, scenname)
+  if (is.null(scenname) == TRUE) {
+    colnames(plotdat)[1:2] <- c(xvari, dv)
+  } else {
+    colnames(plotdat)[1:3] <- c(xvari, dv, scenname)
+  }
+
 
   # Put the data in the output
   output[["plotdata"]] <- plotdat
