@@ -71,7 +71,7 @@ The data is an example dataset, including the career choice of 200 high school s
 
 For this task, we need the following packages:
 
-```{r setup, warning=FALSE}
+```{r setup}
 # Reading data
 library(foreign)
 
@@ -98,7 +98,7 @@ ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
 
 As we have seen above, we need a baseline or reference category for the model to work. With the function `relevel()` we set the category `"academic"` as the baseline. Additionally, we compute a numeric dummy for the gender variable to include it in the model.
 
-```{r data preparation}
+```{r data_preparation}
 # Data preparation:
 
 # Set "academic" as the reference category for the multinomial model
@@ -152,7 +152,7 @@ pred1$plotdata %>% head()
 
 As we can see, it includes the range of the x variable, a mean, a lower, and an upper bound of the confidence interval. Concerning the choice category, the data is in a long format. This makes it easy to plot it with the `ggplot` syntax. The choice category can now easily used to differenciate the lines in the plot by using `linetype = prog2` in the `aes()`. Another option is to use `facet_wrap()` or `facet_grid()` to differenciate the predictions: 
 
-```{r prediction plot1}
+```{r prediction_plot1}
 ggplot(data = pred1$plotdata, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) + # Confidence intervals
@@ -166,7 +166,7 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
 
 We are often not only interested in the progress of probability but in the difference between scenarios. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `female`. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two numeric values. These values are held stable for the variable that is named in `scenname`. 
 
-```{r first diffferences prediction}
+```{r first_diffferences_prediction}
 fdif1 <- mnl_fd_ova(model = mod1,
                     data = ml,
                     xvari = "math",
@@ -176,13 +176,13 @@ fdif1 <- mnl_fd_ova(model = mod1,
 ```
 As before, the function returns a list, including a data set that can be used to plot the differences.
 
-```{r fd return}
+```{r fd_return}
 fdif1$plotdata %>% head()
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it also returns the output of the two predictions in the list element `Prediction1` and `Prediction2`. These elements also include the plot data for both scenarios. Binding them together makes for good data to visualize the differences.
 
-```{r prediction plot2}
+```{r prediction_plot2}
 pred_plotdat <- rbind(fdif1$Prediction1$plotdata,
                       fdif1$Prediction2$plotdata)
 
@@ -200,7 +200,7 @@ ggplot(data = pred_plotdat, aes(x = math, y = mean,
 
 As we can see, the differences between `female` and not-`female` are minimal. So let's take a look at the differences:
 
-```{r first differences plot}
+```{r first_differences_plot}
 ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +

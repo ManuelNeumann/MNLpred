@@ -15,11 +15,15 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat,
+    foreign,
+    nnet,
+    ggplot2,
+    scales
 VignetteBuilder: knitr
 Imports: 
     magrittr,
     MASS,
     stats,
     tibble
-    
