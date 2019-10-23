@@ -78,6 +78,7 @@ library(nnet) # for the multinom()-function
 library(MASS) # for the multivariate normal distribution
 
 # The package
+# devtools::install_github("ManuelNeumann/MNLpred")
 library(MNLpred)
 
 # Plotting the predicted probabilities:
