@@ -10,8 +10,20 @@
 #' @param seed set a seed for replication purposes.
 #' @param probs a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}
 #'
-#' @return The function returns a list with several elements.
+#' @return The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, and a data set for plotting `plotdata`.
 #' @export
+#'
+#' @examples
+#' library(foreign)
+#' library(magrittr)
+#' library(nnet)
+#' library(MASS)
+#'
+#' ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
+#'
+#' mod1 <- multinom(prog2 ~ female2 + read + write + math + science, Hess = TRUE, data = ml)
+#'
+#' pred <- mnl_pred_ova(model = mod1, data = ml, xvari = "math", by = 1)
 #'
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
@@ -54,6 +66,11 @@ mnl_pred_ova <- function(model,
   output[["S"]] <- S
 
   # Artificial variation ov independent variable of interest
+  if (is.null(by) == TRUE) {
+    by <- abs(min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE) -
+                max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE))
+  }
+
   if (is.null(xvari) == TRUE) {
 
     variation <- NA
