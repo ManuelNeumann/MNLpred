@@ -30,27 +30,27 @@ be modeled with a linear function and a fitting logit link function. The
 difference of the multinomial logit is that it models the choice of
 *each* category as a function of the characteristics of the observation.
 
-In formal terms, we assume \(\Pr(y_i = j|X_i)\) is a linear combination
-of \(X_i\beta_j\), whereby \(\beta_j\) is a choice specific vector. This
+In formal terms, we assume \[\Pr(y_i = j|X_i)\] is a linear combination
+of \[X_i\beta_j\], whereby \[\beta_j\] is a choice specific vector. This
 means we are interested in the probability that the observed choice of
-the individual \(i\) \(y_i\) choice is the choice category \(j\)
-dependent on characteristics of the observation \(X_i\). Therefore we
+the individual \[i\] \[y_i\] choice is the choice category \[j\]
+dependent on characteristics of the observation \[X_i\]. Therefore we
 estimate a choice specific vector \(\beta_j\). Since the probability is
-restricted to be between \(0\) and \(1\), we use \(exp(X_i\beta_j)\) as
+restricted to be between \[0\] and \[1\], we use \[exp(X_i\beta_j)\] as
 a fitting link function. Additionally, we bring the exponants into
 relationship with each other and normalize them by dividing through the
 sum of them.
 
 Since we cannot compare all choices against each other, the model is
 not-identified so far. Instead, we have to make one choice the baseline
-and fix it to \(0\). Therefore we estimate the probability of all
+and fix it to \[0\]. Therefore we estimate the probability of all
 choices to be chosen in comparison to the baseline choice.
 
 Eventually, we end up with the following probability
 function:
 
-\(\Pr(y_i|X_i)= \frac{exp(X_i\beta_j)}{\sum^{J}_{m=1}exp(X_i \beta_m)}\),
-whereby \(\beta_1 = 1\)
+\[\Pr(y_i|X_i)= \frac{exp(X_i\beta_j)}{\sum^{J}_{m=1}exp(X_i \beta_m)}\],
+whereby \[\beta_1 = 1\]
 
 ## Using the package
 
@@ -122,6 +122,7 @@ library(nnet) # for the multinom()-function
 library(MASS) # for the multivariate normal distribution
 
 # The package
+# devtools::install_github("ManuelNeumann/MNLpred")
 library(MNLpred)
 
 # Plotting the predicted probabilities:
@@ -248,12 +249,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.150 0.0471 0.315
-#> 2    34 academic 0.162 0.0551 0.326
-#> 3    35 academic 0.175 0.0649 0.339
-#> 4    36 academic 0.189 0.0762 0.351
-#> 5    37 academic 0.204 0.0887 0.362
-#> 6    38 academic 0.220 0.103  0.375
+#> 1    33 academic 0.144 0.0501 0.309
+#> 2    34 academic 0.157 0.0584 0.320
+#> 3    35 academic 0.170 0.0678 0.331
+#> 4    36 academic 0.184 0.0787 0.344
+#> 5    37 academic 0.199 0.0910 0.356
+#> 6    38 academic 0.215 0.105  0.368
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -276,7 +277,7 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/prediction%20plot1-1.png)<!-- -->
+![](README_files/figure-gfm/prediction_plot1-1.png)<!-- -->
 
 We are often not only interested in the progress of probability but in
 the difference between scenarios. This is especially helpful when we
@@ -305,12 +306,12 @@ fdif1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0336 -0.141 0.0569
-#> 2    34 academic -0.0356 -0.147 0.0624
-#> 3    35 academic -0.0376 -0.152 0.0648
-#> 4    36 academic -0.0396 -0.154 0.0686
-#> 5    37 academic -0.0417 -0.159 0.0736
-#> 6    38 academic -0.0437 -0.164 0.0779
+#> 1    33 academic -0.0318 -0.137 0.0508
+#> 2    34 academic -0.0338 -0.140 0.0559
+#> 3    35 academic -0.0359 -0.143 0.0587
+#> 4    36 academic -0.0380 -0.150 0.0602
+#> 5    37 academic -0.0402 -0.157 0.0614
+#> 6    38 academic -0.0423 -0.159 0.0656
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -335,7 +336,7 @@ ggplot(data = pred_plotdat, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/prediction%20plot2-1.png)<!-- -->
+![](README_files/figure-gfm/prediction_plot2-1.png)<!-- -->
 
 As we can see, the differences between `female` and not-`female` are
 minimal. So let’s take a look at the differences:
@@ -353,8 +354,8 @@ ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/first%20differences%20plot-1.png)<!-- --> We
-can see that the differences are in fact minimal and at no point
+![](README_files/figure-gfm/first_differences_plot-1.png)<!-- --> We can
+see that the differences are in fact minimal and at no point
 statistically significant from 0.
 
 ## Conclusion
@@ -381,7 +382,7 @@ simulations to the method courses in the Political Science master’s
 program at the University of Mannheim. The code is based mainly on the
 tutorials of the “Advanced Quantitative Methods” course by [Thomas
 Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/), that
-was taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
+were taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
 and [Sebastian Sternberg](https://sebastiansternberg.github.io/).
 
 ## References
