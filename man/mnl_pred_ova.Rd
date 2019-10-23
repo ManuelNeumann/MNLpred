@@ -28,8 +28,21 @@ mnl_pred_ova(model, data, xvari = NULL, scenname = NULL,
 \item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}}
 }
 \value{
-The function returns a list with several elements.
+The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, and a data set for plotting `plotdata`.
 }
 \description{
 Multinomial Prediction Function (Observed Value Approach)
+}
+\examples{
+library(foreign)
+library(magrittr)
+library(nnet)
+library(MASS)
+
+ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
+
+mod1 <- multinom(prog2 ~ female2 + read + write + math + science, Hess = TRUE, data = ml)
+
+pred <- mnl_pred_ova(model = mod1, data = ml, xvari = "math", by = 1)
+
 }
