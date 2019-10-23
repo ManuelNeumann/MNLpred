@@ -8,10 +8,26 @@ mnl_fd_ova(model, data, xvari, scenname, scenvalues, by = NULL,
   nsim = 1000, seed = "random", probs = c(0.025, 0.975))
 }
 \arguments{
-\item{model}{}
+\item{model}{the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)}
+
+\item{data}{the data with which the model was estimated}
+
+\item{xvari}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
+
+\item{scenname}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
+
+\item{scenvalues}{determine the two values at which value you want to fix the scenario (\code{scenname}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.}
+
+\item{by}{define the steps of the \code{xvari}.}
+
+\item{nsim}{numbers of simulations}
+
+\item{seed}{set a seed for replication purposes.}
+
+\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}}
 }
 \value{
-The function returns a list with several elements.
+The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, and a data set for plotting `plotdata`.
 }
 \description{
 This function predicts values for two different scenarios over a range of
@@ -26,5 +42,20 @@ this function to both plot the predictions for each scenario and the
 differences between them.
 }
 \examples{
+library(foreign)
+library(magrittr)
+library(nnet)
+library(MASS)
+
+ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
+
+ml$prog2 <- relevel(ml$prog, ref = "academic")
+ml$female2 <- as.numeric(ml$female == "female")
+
+mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
+                 Hess = TRUE, data = ml)
+
+fdif <- mnl_fd_ova(model = mod1, data = ml, xvari = "math", by = 1,
+                   scenname = "female2", scenvalues = c(0,1))
 
 }
