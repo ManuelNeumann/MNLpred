@@ -50,6 +50,24 @@ mnl_pred_ova <- function(model,
                          seed = "random",
                          probs = c(0.025, 0.975)){
 
+  # Errors:
+  if (is.null(model) == TRUE) {
+    stop("Please supply a model")
+  }
+
+  if (sum(grepl("multinom", model$call)) == 0) {
+    stop("Please supply a multinom()-model")
+  }
+
+  if (is.null(data) == TRUE) {
+    stop("Please supply a data set")
+  }
+
+  if (is.null(xvari) == TRUE | is.character(xvari) == FALSE) {
+    stop("Please supply a character of your x-variable of interest")
+  }
+
+
   # Create list that is returned in the end.
   output <- list()
 

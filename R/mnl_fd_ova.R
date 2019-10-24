@@ -51,6 +51,35 @@ mnl_fd_ova <- function(model,
                        nsim = 1000,
                        seed = "random",
                        probs = c(0.025, 0.975)){
+  # Errors:
+  if (is.null(model) == TRUE) {
+    stop("Please supply a model")
+  }
+
+  if (sum(grepl("multinom", model$call)) == 0) {
+    stop("Please supply a multinom()-model")
+  }
+
+  if (is.null(data) == TRUE) {
+    stop("Please supply a data set")
+  }
+
+  if (is.null(xvari) == TRUE | is.character(xvari) == FALSE) {
+    stop("Please supply a character of your x-variable of interest")
+  }
+
+  if (is.null(scenname) == TRUE | is.character(scenname) == FALSE) {
+    stop("Please supply a character of the scenario variable of interest")
+  }
+
+  if (is.null(scenvalues) == TRUE |
+      length(scenvalues) != 2 |
+      is.vector(scenvalues, mode = "numeric") == FALSE) {
+    stop("Please two numeric values that are used for the different scenarios")
+  }
+
+
+  # Prepare output:
   output <- list()
 
   if (seed == "random") {
