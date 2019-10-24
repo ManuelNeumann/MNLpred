@@ -53,7 +53,7 @@ The procedure follows the following steps:
 1.  Estimate a multinomial model and save the coefficients and the
     variance covariance matrix (based on the Hessian-matrix of the
     model).
-2.  To simulate uncertainty, draw \(n\) times coefficients from a
+2.  To simulate uncertainty, make \(n\) draws of coefficients from a
     simulated sampling distribution based on the coefficients and the
     variance covariance matrix.
 3.  Predict probabilities by multiplying the drawn coefficients with a
@@ -61,27 +61,28 @@ The procedure follows the following steps:
 4.  Take the mean and the quantiles of the simulated predicted
     probabilities.
 
-The presented functions follow these steps. Additionally, they use (so
-far) the so called observed value approach. This means as the
-“scenario”, all the observed values are used that were informin the
-model. Therefore the function takes these more detailed steps:
+The presented functions follow these steps. Additionally, they use the
+so called observed value approach. This means that the “scenario” uses
+all observed values that informed the model. Therefore the function
+takes these more detailed steps:
 
 1.  For all (complete) cases \(n\) predictions are computed based on
     their observed independent values and the \(n\) sets of
     coefficients.
-2.  Next the predicted values of all observation for each simulation are
-    averaged.
-3.  See step 4. above.
+2.  Next the predicted values of all observationS for each simulation
+    are averaged.
+3.  Take the mean and the quantiles of the simulated predicted
+    probabilities (same as above).
 
-For so-called first differences, the simulated predictions are
-subtracted from each other.
+For first differences, the simulated predictions are subtracted from
+each other.
 
-To showcase these steps, I present a reproducable example how the
+To showcase these steps, I present a reproducible example of how the
 functions can be used.
 
 ### Example
 
-The example is based on this [UCLA R data analysis
+The example is based on [this UCLA R data analysis
 example](https://stats.idre.ucla.edu/r/dae/multinomial-logistic-regression/).
 
 The data is an example dataset, including the career choice of 200 high
@@ -207,8 +208,8 @@ should be predicted (`by`). Additionally, a `seed` can be defined for
 replication purposes, the numbers of simulations can be defined
 (`nsim`), and the confidence intervals (`probs`).
 
-(If we want to hold another variable stable, we can specify so with
-`scennname`and `scenvalue`. See also the `mnl_fd_ova()` function below.)
+If we want to hold another variable stable, we can specify so with
+`scennname`and `scenvalue`. See also the `mnl_fd_ova()` function below.
 
 ``` r
 pred1 <- mnl_pred_ova(model = mod1,
@@ -216,7 +217,7 @@ pred1 <- mnl_pred_ova(model = mod1,
                       xvari = "math",
                       by = 1,
                       seed = "random", # default
-                      nsim = 1000, # default
+                      nsim = 100, # faster
                       probs = c(0.025, 0.975)) # default
 ```
 
@@ -228,18 +229,18 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.148 0.0474 0.318
-#> 2    34 academic 0.160 0.0554 0.331
-#> 3    35 academic 0.173 0.0643 0.344
-#> 4    36 academic 0.187 0.0750 0.357
-#> 5    37 academic 0.202 0.0878 0.369
-#> 6    38 academic 0.218 0.101  0.381
+#> 1    33 academic 0.142 0.0496 0.305
+#> 2    34 academic 0.155 0.0580 0.314
+#> 3    35 academic 0.168 0.0677 0.324
+#> 4    36 academic 0.182 0.0787 0.333
+#> 5    37 academic 0.196 0.0913 0.343
+#> 6    38 academic 0.212 0.106  0.352
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
 and an upper bound of the confidence interval. Concerning the choice
 category, the data is in a long format. This makes it easy to plot it
-with the `ggplot` syntax. The choice category can now easily used to
+with the `ggplot` syntax. The choice category can now easily be used to
 differenciate the lines in the plot by using `linetype = prog2` in the
 `aes()`. Another option is to use `facet_wrap()` or `facet_grid()` to
 differenciate the predictions:
@@ -258,39 +259,68 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
 
 ![](README_files/figure-gfm/prediction_plot1-1.png)<!-- -->
 
-We are often not only interested in the progress of probability but in
-the difference between scenarios. This is especially helpful when we
-look at dummy variables. For example, we could be interested in the
-effect of `female`. With the `mnl_fd_ova()` function, we can predict the
-probabilities for two scenarios and subtract them. The function returns
-the differences and the confidence intervals of the differences. The
-different scenarios can be held stable with `scenname` and the
-`scenvalues`. `scenvalues` takes a vector of two numeric values. These
-values are held stable for the variable that is named in `scenname`.
+If we want first differences between two scenarios, we can use the
+function `mnl_fd2_ova()`. The function takes similar arguments as the
+function above, but now the values for the scenarios of interest have to
+be supplied. Imagine we want to know what difference it makes to have
+the lowest or highest `math` score. This can be done as follows:
 
 ``` r
-fdif1 <- mnl_fd_ova(model = mod1,
+fdif1 <- mnl_fd2_ova(model = mod1,
+                     data = ml,
+                     xvari = "math",
+                     value1 = min(ml$math),
+                     value2 = max(ml$math),
+                     nsim = 100)
+```
+
+The first differences can then be depicted in a graph.
+
+``` r
+ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
+                              ymin = lower, max = upper)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 0) +
+  scale_y_continuous(labels = percent_format())
+```
+
+![](README_files/figure-gfm/static_fd_plot-1.png)<!-- -->
+
+We are often not only interested in the static difference, but the
+difference across a span of values, given a difference in a second
+variable. This is especially helpful when we look at dummy variables.
+For example, we could be interested in the effect of `female`. With the
+`mnl_fd_ova()` function, we can predict the probabilities for two
+scenarios and subtract them. The function returns the differences and
+the confidence intervals of the differences. The different scenarios can
+be held stable with `scenname` and the `scenvalues`. `scenvalues` takes
+a vector of two numeric values. These values are held stable for the
+variable that is named in `scenname`.
+
+``` r
+fdif2 <- mnl_fd_ova(model = mod1,
                     data = ml,
                     xvari = "math",
                     by = 1,
                     scenname = "female2",
-                    scenvalues = c(0,1))
+                    scenvalues = c(0,1),
+                    nsim = 100)
 ```
 
 As before, the function returns a list, including a data set that can be
 used to plot the differences.
 
 ``` r
-fdif1$plotdata %>% head()
+fdif2$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0333 -0.138 0.0497
-#> 2    34 academic -0.0353 -0.142 0.0526
-#> 3    35 academic -0.0373 -0.147 0.0564
-#> 4    36 academic -0.0394 -0.152 0.0603
-#> 5    37 academic -0.0415 -0.156 0.0627
-#> 6    38 academic -0.0436 -0.160 0.0649
+#> 1    33 academic -0.0363 -0.141 0.0426
+#> 2    34 academic -0.0385 -0.148 0.0455
+#> 3    35 academic -0.0409 -0.154 0.0485
+#> 4    36 academic -0.0433 -0.160 0.0515
+#> 5    37 academic -0.0457 -0.166 0.0543
+#> 6    38 academic -0.0482 -0.171 0.0566
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -300,8 +330,8 @@ data for both scenarios. Binding them together makes for good data to
 visualize the differences.
 
 ``` r
-pred_plotdat <- rbind(fdif1$Prediction1$plotdata,
-                      fdif1$Prediction2$plotdata)
+pred_plotdat <- rbind(fdif2$Prediction1$plotdata,
+                      fdif2$Prediction2$plotdata)
 
 ggplot(data = pred_plotdat, aes(x = math, y = mean,
                                 ymin = lower, ymax = upper,
@@ -310,6 +340,7 @@ ggplot(data = pred_plotdat, aes(x = math, y = mean,
   geom_line() +
   facet_grid(prog2 ~., scales = "free_y") +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
+  scale_linetype_discrete(name = "Female") +
   theme_bw() +
   labs(y = "Predicted probabilities",
        x = "Math score") # Always label your axes ;)
@@ -321,7 +352,7 @@ As we can see, the differences between `female` and not-`female` are
 minimal. So let’s take a look at the differences:
 
 ``` r
-ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +
@@ -333,36 +364,38 @@ ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/first_differences_plot-1.png)<!-- --> We can
-see that the differences are in fact minimal and at no point
+![](README_files/figure-gfm/first_differences_plot-1.png)<!-- -->
+
+We can see that the differences are in fact minimal and at no point
 statistically significant from 0.
 
 ## Conclusion
 
 Multinomial logit models are important to model nominal choices. They
 are restricted however by being in need of a baseline category.
-Additionally, the log-character of the estimates makes them difficult to
-interpret in meaningful ways. Predicting probabilities for all choices
-for scenarios, based on the observed data provides much more insight.
-The functions of this package provide easy to use functions that return
-data that can be used to plot predicted probabilities. The function uses
-a model from the `multinom()` function and uses the observed value
-approach and a supplied scenario to predict values over the range of
-fitting values. The functions simulate sampling distributions and
-therefore provide meaningful confidence intervals. `mnl_pred_ova()` can
-be used to predict probabilities for a certain scenario. `mnl_fd_ova()`
-can be used to predict probabilities for two scenarios and their first
-differences.
+Additionally, the log-character of the estimates makes it difficult to
+interpret them in meaningful ways. Predicting probabilities for all
+choices for scenarios, based on the observed data provides much more
+insight. The functions of this package provide easy to use functions
+that return data that can be used to plot predicted probabilities. The
+function uses a model from the `multinom()` function and uses the
+observed value approach and a supplied scenario to predict values over
+the range of fitting values. The functions simulate sampling
+distributions and therefore provide meaningful confidence intervals.
+`mnl_pred_ova()` can be used to predict probabilities for a certain
+scenario. `mnl_fd_ova()` can be used to predict probabilities for two
+scenarios and their first differences.
 
 ## Acknowledgement
 
-I owe my statistical knowledge about the multinomial model and
-simulations to the method courses in the Political Science master’s
-program at the University of Mannheim. The code is based mainly on the
-tutorials of the “Advanced Quantitative Methods” course by [Thomas
-Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/), that
-were taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
-and [Sebastian Sternberg](https://sebastiansternberg.github.io/).
+My code is inspired by the method courses in the [Political Science
+master’s program at the University of
+Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool
+place, check it out\!). The skeleton of the code is based on a tutorial
+taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/) and
+[Sebastian Sternberg](https://sebastiansternberg.github.io/) (lecture:
+“Advanced Quantitative Methods” by [Thomas
+Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
 
 ## References
 

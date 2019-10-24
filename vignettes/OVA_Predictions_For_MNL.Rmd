@@ -168,8 +168,30 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
   labs(y = "Predicted probabilities",
        x = "Math score") # Always label your axes ;)
 ```
+If we want first differences between two scenarios, we can use the function `mnl_fd2_ova()`. The function takes similar arguments as the function above, but now the values for the scenarios of interest have to be supplied. Imagine we want to know what difference it makes to have the lowest or highest `math` score. This can be done as follows:
 
-We are often not only interested in the progress of probability but in the difference between scenarios. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `female`. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two numeric values. These values are held stable for the variable that is named in `scenname`. 
+```{r static_fd}
+fdif1 <- mnl_fd2_ova(model = mod1,
+                     data = ml,
+                     xvari = "math",
+                     value1 = min(ml$math),
+                     value2 = max(ml$math),
+                     nsim = 100)
+```
+
+The first differences can then be depicted in a graph.
+
+```{r static_fd_plot}
+ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
+                              ymin = lower, max = upper)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 0) +
+  scale_y_continuous(labels = percent_format(),
+                     name = "First difference") +
+  theme_bw()
+```
+
+We are often not only interested in the static difference, but the difference across a span of values, given a difference in a second variable. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `female`. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two numeric values. These values are held stable for the variable that is named in `scenname`. 
 
 ```{r first_diffferences_prediction}
 fdif1 <- mnl_fd_ova(model = mod1,
@@ -219,6 +241,7 @@ ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
   labs(y = "Predicted probabilities",
        x = "Math score") # Always label your axes ;)
 ```
+
 We can see that the differences are in fact minimal and at no point statistically significant from 0.
 
 ## Conclusion

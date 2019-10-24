@@ -159,10 +159,32 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-We are often not only interested in the progress of probability but in the difference between scenarios. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `female`. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two numeric values. These values are held stable for the variable that is named in `scenname`. 
+If we want first differences between two scenarios, we can use the function `mnl_fd2_ova()`. The function takes similar arguments as the function above, but now the values for the scenarios of interest have to be supplied. Imagine we want to know what difference it makes to have the lowest or highest `math` score. This can be done as follows:
+
+```{r static_fd}
+fdif1 <- mnl_fd2_ova(model = mod1,
+                     data = ml,
+                     xvari = "math",
+                     value1 = min(ml$math),
+                     value2 = max(ml$math),
+                     nsim = 100)
+```
+
+The first differences can then be depicted in a graph.
+
+```{r static_fd_plot}
+ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
+                              ymin = lower, max = upper)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 0) +
+  scale_y_continuous(labels = percent_format())
+```
+
+
+We are often not only interested in the static difference, but the difference across a span of values, given a difference in a second variable. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `female`. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two numeric values. These values are held stable for the variable that is named in `scenname`. 
 
 ```{r first_diffferences_prediction}
-fdif1 <- mnl_fd_ova(model = mod1,
+fdif2 <- mnl_fd_ova(model = mod1,
                     data = ml,
                     xvari = "math",
                     by = 1,
@@ -173,14 +195,14 @@ fdif1 <- mnl_fd_ova(model = mod1,
 As before, the function returns a list, including a data set that can be used to plot the differences.
 
 ```{r fd_return}
-fdif1$plotdata %>% head()
+fdif2$plotdata %>% head()
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it also returns the output of the two predictions in the list element `Prediction1` and `Prediction2`. These elements also include the plot data for both scenarios. Binding them together makes for good data to visualize the differences.
 
 ```{r prediction_plot2}
-pred_plotdat <- rbind(fdif1$Prediction1$plotdata,
-                      fdif1$Prediction2$plotdata)
+pred_plotdat <- rbind(fdif2$Prediction1$plotdata,
+                      fdif2$Prediction2$plotdata)
 
 ggplot(data = pred_plotdat, aes(x = math, y = mean,
                                 ymin = lower, ymax = upper,
@@ -198,7 +220,7 @@ ggplot(data = pred_plotdat, aes(x = math, y = mean,
 As we can see, the differences between `female` and not-`female` are minimal. So let's take a look at the differences:
 
 ```{r first_differences_plot}
-ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +
@@ -209,7 +231,9 @@ ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
   labs(y = "Predicted probabilities",
        x = "Math score") # Always label your axes ;)
 ```
+
 We can see that the differences are in fact minimal and at no point statistically significant from 0.
+
 
 ## Conclusion
 Multinomial logit models are important to model nominal choices. They are restricted however by being in need of a baseline category. Additionally, the log-character of the estimates makes it difficult to interpret them in meaningful ways. Predicting probabilities for all choices for scenarios, based on the observed data provides much more insight. The functions of this package provide easy to use functions that return data that can be used to plot predicted probabilities. The function uses a model from the `multinom()` function and uses the observed value approach and a supplied scenario to predict values over the range of fitting values. The functions simulate sampling distributions and therefore provide meaningful confidence intervals. `mnl_pred_ova()` can be used to predict probabilities for a certain scenario. `mnl_fd_ova()` can be used to predict probabilities for two scenarios and their first differences.
