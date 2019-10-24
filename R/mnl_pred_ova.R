@@ -1,5 +1,8 @@
 #' Multinomial Prediction Function (Observed Value Approach)
 #'
+#' This function predicts probabilities for all choices of a multinomial logit
+#' model over a specified span of values.
+#'
 #' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
 #' @param data the data with which the model was estimated
 #' @param xvari the name of the variable that should be varied (the x-axis variable in prediction plots)
@@ -27,7 +30,9 @@
 #' mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
 #'                  Hess = TRUE, data = ml)
 #'
-#' pred <- mnl_pred_ova(model = mod1, data = ml, xvari = "math", by = 1)
+#' pred <- mnl_pred_ova(model = mod1, data = ml,
+#'                      xvari = "math", by = 1,
+#'                      nsim = 100)
 #'
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble

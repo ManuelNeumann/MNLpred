@@ -31,7 +31,8 @@ mnl_pred_ova(model, data, xvari, by = NULL, scenname = NULL,
 The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, and a data set for plotting `plotdata`.
 }
 \description{
-Multinomial Prediction Function (Observed Value Approach)
+This function predicts probabilities for all choices of a multinomial logit
+model over a specified span of values.
 }
 \examples{
 library(foreign)
@@ -47,6 +48,8 @@ ml$female2 <- as.numeric(ml$female == "female")
 mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
                  Hess = TRUE, data = ml)
 
-pred <- mnl_pred_ova(model = mod1, data = ml, xvari = "math", by = 1)
+pred <- mnl_pred_ova(model = mod1, data = ml,
+                     xvari = "math", by = 1,
+                     nsim = 100)
 
 }
