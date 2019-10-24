@@ -11,46 +11,25 @@ before using sample data to demonstrate the functions of the package.
 
 ## The multinomial logit model
 
-This is a short introduction in the theoretical and statistical
-background of the multinomial logit.
+For the statistical and theoretical background of the multinomial logit
+regression please refer to the vignette or sources like [these lecture
+notes by Germán
+Rodríguez](https://data.princeton.edu/wws509/notes/c6s2).
 
-Dependent variables can not necessarily be ordered. In political
-science, for example, the variable of interest is often the individual’s
-vote choice, based on the set of parties that are presented. Of interest
-is then, how somebody comes up with their choice.
+Due to the inconvenience of integrating math equations in the README
+file, this is not the place to write comprehensively about it.
 
-More generally spoken, many questions deal with a nominal outcome
-variable and we want to test assumptions about the function that may
-lead to a respective outcome.
+These are the important characteristics of the model: \* The multinomial
+logit regression is used to model nominal outcomes. It provides the
+opportunity to assign specific choices a probability based on a set of
+independent variables. \* The model needs an assigned baseline category
+to be indentifiable. All other choices are evaluated in contrast to this
+reference. \* The model returns a set of coefficients for each choice
+category. \* Like all logit models, the multinomial logit model returns
+logg-ods which are difficult to interpret in terms of effect sizes and
+uncertainties.
 
-For these questions, the multinomial logit model is often a fitting
-option. Similar to an ordinary logit model, the multinomial logit model
-assumes that the probability to choose one over the other outcomes can
-be modeled with a linear function and a fitting logit link function. The
-difference of the multinomial logit is that it models the choice of
-*each* category as a function of the characteristics of the observation.
-
-In formal terms, we assume \[\Pr(y_i = j|X_i)\] is a linear combination
-of \[X_i\beta_j\], whereby \[\beta_j\] is a choice specific vector. This
-means we are interested in the probability that the observed choice of
-the individual \[i\] \[y_i\] choice is the choice category \[j\]
-dependent on characteristics of the observation \[X_i\]. Therefore we
-estimate a choice specific vector \(\beta_j\). Since the probability is
-restricted to be between \[0\] and \[1\], we use \[exp(X_i\beta_j)\] as
-a fitting link function. Additionally, we bring the exponants into
-relationship with each other and normalize them by dividing through the
-sum of them.
-
-Since we cannot compare all choices against each other, the model is
-not-identified so far. Instead, we have to make one choice the baseline
-and fix it to \[0\]. Therefore we estimate the probability of all
-choices to be chosen in comparison to the baseline choice.
-
-Eventually, we end up with the following probability
-function:
-
-\[\Pr(y_i|X_i)= \frac{exp(X_i\beta_j)}{\sum^{J}_{m=1}exp(X_i \beta_m)}\],
-whereby \[\beta_1 = 1\]
+This package helps to interpret the model in meaningful ways.
 
 ## Using the package
 
@@ -249,12 +228,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.144 0.0501 0.309
-#> 2    34 academic 0.157 0.0584 0.320
-#> 3    35 academic 0.170 0.0678 0.331
-#> 4    36 academic 0.184 0.0787 0.344
-#> 5    37 academic 0.199 0.0910 0.356
-#> 6    38 academic 0.215 0.105  0.368
+#> 1    33 academic 0.148 0.0474 0.318
+#> 2    34 academic 0.160 0.0554 0.331
+#> 3    35 academic 0.173 0.0643 0.344
+#> 4    36 academic 0.187 0.0750 0.357
+#> 5    37 academic 0.202 0.0878 0.369
+#> 6    38 academic 0.218 0.101  0.381
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -306,12 +285,12 @@ fdif1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0318 -0.137 0.0508
-#> 2    34 academic -0.0338 -0.140 0.0559
-#> 3    35 academic -0.0359 -0.143 0.0587
-#> 4    36 academic -0.0380 -0.150 0.0602
-#> 5    37 academic -0.0402 -0.157 0.0614
-#> 6    38 academic -0.0423 -0.159 0.0656
+#> 1    33 academic -0.0333 -0.138 0.0497
+#> 2    34 academic -0.0353 -0.142 0.0526
+#> 3    35 academic -0.0373 -0.147 0.0564
+#> 4    36 academic -0.0394 -0.152 0.0603
+#> 5    37 academic -0.0415 -0.156 0.0627
+#> 6    38 academic -0.0436 -0.160 0.0649
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
