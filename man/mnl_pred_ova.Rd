@@ -4,9 +4,9 @@
 \alias{mnl_pred_ova}
 \title{Multinomial Prediction Function (Observed Value Approach)}
 \usage{
-mnl_pred_ova(model, data, xvari = NULL, scenname = NULL,
-  scenvalue = NULL, by = NULL, nsim = 1000, seed = "random",
-  probs = c(0.025, 0.975))
+mnl_pred_ova(model, data, xvari, by = NULL, scenname = NULL,
+  scenvalue = NULL, nsim = 1000, seed = "random", probs = c(0.025,
+  0.975))
 }
 \arguments{
 \item{model}{the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)}
@@ -15,11 +15,11 @@ mnl_pred_ova(model, data, xvari = NULL, scenname = NULL,
 
 \item{xvari}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
 
+\item{by}{define the steps of the \code{xvari}.}
+
 \item{scenname}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
 
 \item{scenvalue}{determine at which value you want to fix the \code{scenname}.}
-
-\item{by}{define the steps of the \code{xvari}.}
 
 \item{nsim}{numbers of simulations}
 

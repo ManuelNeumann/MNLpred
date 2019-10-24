@@ -37,10 +37,10 @@
 
 mnl_pred_ova <- function(model,
                          data,
-                         xvari = NULL,
+                         xvari,
+                         by = NULL,
                          scenname = NULL,
                          scenvalue = NULL,
-                         by = NULL,
                          nsim = 1000,
                          seed = "random",
                          probs = c(0.025, 0.975)){
@@ -72,18 +72,12 @@ mnl_pred_ova <- function(model,
   # Artificial variation ov independent variable of interest
   if (is.null(by) == TRUE) {
     by <- abs(min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE) -
-                max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE))
+      max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE))
   }
 
-  if (is.null(xvari) == TRUE) {
-
-    variation <- NA
-
-  } else {
-    variation <- seq(from = min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
-                     to = max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
-                     by = by)
-  }
+  variation <- seq(from = min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
+                   to = max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE),
+                   by = by)
 
   output[["Variation"]] <- variation
 
@@ -231,7 +225,8 @@ mnl_pred_ova <- function(model,
                               mean = NA,
                               lower = NA,
                               upper = NA)
-    }
+  }
+
 
 
   # Aggregate
