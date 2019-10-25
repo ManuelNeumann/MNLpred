@@ -1,6 +1,6 @@
 Package: MNLpred
 Title: Package For Simulated Predictions From Multinomial Logistic Models
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Manuel",
            family = "Neumann",
@@ -8,7 +8,9 @@ Authors@R:
            email = "manuel.neumann@mzes.uni-mannheim.de")
 Description: This package includes functions that return predictions from 
     estimates of multinomial logistic models. The function uses models that 
-    were estimated with the multinom function from the nnet package.
+    were estimated with the multinom function from the nnet package. It includes
+    functions that return predicted probabilities and first differences for 
+    specified scenarios.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
