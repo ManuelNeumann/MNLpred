@@ -1,13 +1,13 @@
 citHeader("To cite MNLpred in publications please use:")
 
-citEntry(entry = "Article",
+citEntry(entry = "Manual",
   title        = "MNLpred - Simulated Predicted Probabilities for Multinomial Logit Models",
   author       = as.person("Manuel Neumann"),
   year         = "2019",
   url          = "https://github.com/ManuelNeumann/MNLpred",
 
   textVersion  =
-  paste("Garrett Grolemund, Hadley Wickham (2011).",
-        "Dates and Times Made Easy with lubridate.",
+  paste("Neumann, Manuel (2019).",
+        "MNLpred - Simulated Predicted Probabilities for Multinomial Logit Models",
         "URL https://github.com/ManuelNeumann/MNLpred.")
 )
