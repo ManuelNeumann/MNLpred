@@ -177,7 +177,8 @@ ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
                               ymin = lower, max = upper)) +
   geom_pointrange() +
   geom_hline(yintercept = 0) +
-  scale_y_continuous(labels = percent_format())
+  scale_y_continuous(labels = percent_format()) +
+  theme_bw()
 ```
 
 
@@ -195,16 +196,13 @@ fdif2 <- mnl_fd_ova(model = mod1,
 As before, the function returns a list, including a data set that can be used to plot the differences.
 
 ```{r fd_return}
-fdif2$plotdata %>% head()
+fdif2$plotdata_fd %>% head()
 ```
 
-Since the function calls the `mnl_pred_ova()` function internally, it also returns the output of the two predictions in the list element `Prediction1` and `Prediction2`. These elements also include the plot data for both scenarios. Binding them together makes for good data to visualize the differences.
+Since the function calls the `mnl_pred_ova()` function internally, it also returns the output of the two predictions in the list element `Prediction1` and `Prediction2`. The plot data for the predictions is already bound together row wise to easily plot the predicted probabilities.
 
 ```{r prediction_plot2}
-pred_plotdat <- rbind(fdif2$Prediction1$plotdata,
-                      fdif2$Prediction2$plotdata)
-
-ggplot(data = pred_plotdat, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
                                 ymin = lower, ymax = upper,
                                 linetype = as.factor(female2))) +
   geom_ribbon(alpha = 0.1) +
@@ -220,7 +218,7 @@ ggplot(data = pred_plotdat, aes(x = math, y = mean,
 As we can see, the differences between `female` and not-`female` are minimal. So let's take a look at the differences:
 
 ```{r first_differences_plot}
-ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata_fd, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +

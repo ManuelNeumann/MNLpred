@@ -107,6 +107,11 @@ mnl_fd_ova <- function(model,
 
   output[["Prediction2"]] <- pred2
 
+  plotdat <- rbind(pred1$plotdata,
+                   pred2$plotdata)
+
+  output[["plotdata"]] <- plotdat
+
 
   # First differences
   P_fd <- array(NA, dim = c(nsim, pred1$nChoices, pred1$nVariation))
@@ -130,7 +135,7 @@ mnl_fd_ova <- function(model,
     start <- end+1
   }
 
-  output[["plotdata"]] <- plotdata_fd
+  output[["plotdata_fd"]] <- plotdata_fd
 
   return(output)
 
