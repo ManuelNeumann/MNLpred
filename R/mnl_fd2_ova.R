@@ -28,7 +28,7 @@
 #' fd1 <- mnl_fd2_ova(model = mod1, data = ml,
 #'                    xvari = "math",
 #'                    value1 = min(ml$math), value2= max(ml$math),
-#'                    nsim = 100)
+#'                    nsim = 10)
 #'
 #' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile

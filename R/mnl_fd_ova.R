@@ -38,7 +38,7 @@
 #'
 #' fdif <- mnl_fd_ova(model = mod1, data = ml, xvari = "math", by = 1,
 #'                    scenname = "female2", scenvalues = c(0,1),
-#'                    nsim = 100)
+#'                    nsim = 10)
 #'
 
 mnl_fd_ova <- function(model,

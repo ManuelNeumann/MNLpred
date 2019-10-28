@@ -31,7 +31,7 @@
 #'
 #' pred <- mnl_pred_ova(model = mod1, data = ml,
 #'                      xvari = "math", by = 1,
-#'                      nsim = 100)
+#'                      nsim = 10)
 #'
 #' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile
