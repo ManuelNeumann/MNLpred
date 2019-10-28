@@ -10,7 +10,8 @@ bibliography: vignettes/bibliography.bib
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "man/figures/README-"
 )
 ```
 

@@ -237,12 +237,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.151 0.0435 0.308
-#> 2    34 academic 0.163 0.0513 0.322
-#> 3    35 academic 0.176 0.0604 0.336
-#> 4    36 academic 0.190 0.0709 0.348
-#> 5    37 academic 0.204 0.0830 0.358
-#> 6    38 academic 0.220 0.0969 0.369
+#> 1    33 academic 0.148 0.0535 0.344
+#> 2    34 academic 0.160 0.0621 0.356
+#> 3    35 academic 0.173 0.0719 0.367
+#> 4    36 academic 0.187 0.0835 0.378
+#> 5    37 academic 0.202 0.0964 0.390
+#> 6    38 academic 0.218 0.111  0.402
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -265,7 +265,7 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/prediction_plot1-1.png)<!-- -->
+![](man/figures/README-prediction_plot1-1.png)<!-- -->
 
 If we want first differences between two scenarios, we can use the
 function `mnl_fd2_ova()`. The function takes similar arguments as the
@@ -293,7 +293,7 @@ ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
   theme_bw()
 ```
 
-![](README_files/figure-gfm/static_fd_plot-1.png)<!-- -->
+![](man/figures/README-static_fd_plot-1.png)<!-- -->
 
 We are often not only interested in the static difference, but the
 difference across a span of values, given a difference in a second
@@ -324,12 +324,12 @@ fdif2$plotdata_fd %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0329 -0.144 0.0522
-#> 2    34 academic -0.0349 -0.149 0.0545
-#> 3    35 academic -0.0369 -0.160 0.0569
-#> 4    36 academic -0.0389 -0.171 0.0594
-#> 5    37 academic -0.0409 -0.175 0.0620
-#> 6    38 academic -0.0429 -0.177 0.0661
+#> 1    33 academic -0.0291 -0.115 0.0448
+#> 2    34 academic -0.0310 -0.121 0.0478
+#> 3    35 academic -0.0329 -0.126 0.0508
+#> 4    36 academic -0.0348 -0.130 0.0535
+#> 5    37 academic -0.0368 -0.133 0.0559
+#> 6    38 academic -0.0389 -0.136 0.0583
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -352,7 +352,7 @@ ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/prediction_plot2-1.png)<!-- -->
+![](man/figures/README-prediction_plot2-1.png)<!-- -->
 
 As we can see, the differences between `female` and not-`female` are
 minimal. So let’s take a look at the differences:
@@ -370,7 +370,7 @@ ggplot(data = fdif2$plotdata_fd, aes(x = math, y = mean,
        x = "Math score") # Always label your axes ;)
 ```
 
-![](README_files/figure-gfm/first_differences_plot-1.png)<!-- -->
+![](man/figures/README-first_differences_plot-1.png)<!-- -->
 
 We can see that the differences are in fact minimal and at no point
 statistically significant from 0.
