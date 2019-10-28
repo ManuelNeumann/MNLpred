@@ -4,3 +4,4 @@
 ^cran-comments\.md$
 feedback
 README_files
+^\.travis\.yml$
