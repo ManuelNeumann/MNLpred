@@ -2,7 +2,6 @@ context("Variations in the input")
 library(MNLpred)
 library(foreign)
 library(nnet)
-library(magrittr)
 library(MASS)
 
 test_that("mnl_pred_ova() returns two predictions when by = NULL", {

@@ -110,7 +110,7 @@ mnl_fd2_ova <- function(model,
   output[["DV"]] <- dv
 
   # Full observations (listwise deletion:
-  data_redux <- data[, c(dv, iv)] %>% na.omit()
+  data_redux <- na.omit(data[, c(dv, iv)])
 
   # Number of full observations
   obs <- nrow(data_redux)

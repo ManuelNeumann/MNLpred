@@ -21,6 +21,7 @@ Suggests:
     testthat,
     foreign,
     nnet,
+    magrittr,
     ggplot2,
     scales
 VignetteBuilder: knitr
