@@ -5,9 +5,7 @@ bibliography: vignettes/bibliography.bib
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-  <!-- badges: end -->
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -17,6 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 # MNLpred - Simulated Predictions From Multinomial Logistic Models
+
+<!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
+  <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable predictions from multinomial logit models. The predictions are based on simulated draws of regression estimates from their respective sampling distribution.
 

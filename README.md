@@ -1,6 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# MNLpred - Simulated Predictions From Multinomial Logistic Models
+
+<!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
+<!-- badges: end -->
+
 This package provides functions that make it easy to get plottable
 predictions from multinomial logit models. The predictions are based on
 simulated draws of regression estimates from their respective sampling
@@ -229,12 +237,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.142 0.0496 0.305
-#> 2    34 academic 0.155 0.0580 0.314
-#> 3    35 academic 0.168 0.0677 0.324
-#> 4    36 academic 0.182 0.0787 0.333
-#> 5    37 academic 0.196 0.0913 0.343
-#> 6    38 academic 0.212 0.106  0.352
+#> 1    33 academic 0.157 0.0562 0.309
+#> 2    34 academic 0.169 0.0652 0.322
+#> 3    35 academic 0.182 0.0754 0.335
+#> 4    36 academic 0.195 0.0871 0.349
+#> 5    37 academic 0.210 0.100  0.363
+#> 6    38 academic 0.225 0.115  0.377
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -281,7 +289,8 @@ ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
                               ymin = lower, max = upper)) +
   geom_pointrange() +
   geom_hline(yintercept = 0) +
-  scale_y_continuous(labels = percent_format())
+  scale_y_continuous(labels = percent_format()) +
+  theme_bw()
 ```
 
 ![](README_files/figure-gfm/static_fd_plot-1.png)<!-- -->
@@ -311,29 +320,26 @@ As before, the function returns a list, including a data set that can be
 used to plot the differences.
 
 ``` r
-fdif2$plotdata %>% head()
+fdif2$plotdata_fd %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0363 -0.141 0.0426
-#> 2    34 academic -0.0385 -0.148 0.0455
-#> 3    35 academic -0.0409 -0.154 0.0485
-#> 4    36 academic -0.0433 -0.160 0.0515
-#> 5    37 academic -0.0457 -0.166 0.0543
-#> 6    38 academic -0.0482 -0.171 0.0566
+#> 1    33 academic -0.0266 -0.119 0.0577
+#> 2    34 academic -0.0285 -0.122 0.0604
+#> 3    35 academic -0.0305 -0.128 0.0630
+#> 4    36 academic -0.0325 -0.133 0.0656
+#> 5    37 academic -0.0345 -0.141 0.0678
+#> 6    38 academic -0.0366 -0.149 0.0693
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
 also returns the output of the two predictions in the list element
-`Prediction1` and `Prediction2`. These elements also include the plot
-data for both scenarios. Binding them together makes for good data to
-visualize the differences.
+`Prediction1` and `Prediction2`. The plot data for the predictions is
+already bound together row wise to easily plot the predicted
+probabilities.
 
 ``` r
-pred_plotdat <- rbind(fdif2$Prediction1$plotdata,
-                      fdif2$Prediction2$plotdata)
-
-ggplot(data = pred_plotdat, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
                                 ymin = lower, ymax = upper,
                                 linetype = as.factor(female2))) +
   geom_ribbon(alpha = 0.1) +
@@ -352,7 +358,7 @@ As we can see, the differences between `female` and not-`female` are
 minimal. So let’s take a look at the differences:
 
 ``` r
-ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata_fd, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +
