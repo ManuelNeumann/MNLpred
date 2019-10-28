@@ -24,6 +24,21 @@
 #' @export
 #'
 #' @examples
+#' library(nnet)
+#' library(MASS)
+#'
+#' dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
+#'                       x1 = rnorm(30),
+#'                       x2 = rnorm(30, mean = 1),
+#'                       x3 = sample(1:10, 30, replace = TRUE))
+#'
+#' mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
+#'
+#' fdif <- mnl_fd_ova(model = mod, data = dataset,
+#'                    xvari = "x1", scenname = "x3",
+#'                    scenvalues = c(min(dataset$x3), max(dataset$x3)))
+#'
+#' \dontrun{
 #' library(foreign)
 #' library(nnet)
 #' library(MASS)
@@ -38,7 +53,8 @@
 #'
 #' fdif <- mnl_fd_ova(model = mod1, data = ml, xvari = "math", by = 1,
 #'                    scenname = "female2", scenvalues = c(0,1),
-#'                    nsim = 10)
+#'                    nsim = 1000)
+#' }
 #'
 
 mnl_fd_ova <- function(model,

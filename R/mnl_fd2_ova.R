@@ -13,6 +13,22 @@
 #' @export
 #'
 #' @examples
+#'library(nnet)
+#' library(MASS)
+#'
+#' dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
+#'                       x1 = rnorm(30),
+#'                       x2 = rnorm(30, mean = 1),
+#'                       x3 = sample(1:10, 30, replace = TRUE))
+#'
+#' mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
+#'
+#' fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
+#'                     xvari = "x1",
+#'                     value1 = min(dataset$x1), value2 = max(dataset$x1))
+#'
+#'
+#' \dontrun{
 #' library(foreign)
 #' library(nnet)
 #' library(MASS)
@@ -28,7 +44,8 @@
 #' fd1 <- mnl_fd2_ova(model = mod1, data = ml,
 #'                    xvari = "math",
 #'                    value1 = min(ml$math), value2= max(ml$math),
-#'                    nsim = 10)
+#'                    nsim = 1000)
+#' }
 #'
 #' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile

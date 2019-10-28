@@ -35,6 +35,23 @@ This function predicts probabilities for all choices of a multinomial logit
 model over a specified span of values.
 }
 \examples{
+library(nnet)
+library(MASS)
+
+dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
+                      x1 = rnorm(30),
+                      x2 = rnorm(30, mean = 1),
+                      x3 = sample(1:10, 30, replace = TRUE))
+
+mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
+
+pred <- mnl_pred_ova(model = mod, data = dataset,
+                     xvari = "x1",
+                     nsim = 100)
+
+
+
+\dontrun{
 library(foreign)
 library(nnet)
 library(MASS)
@@ -49,6 +66,7 @@ mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
 
 pred <- mnl_pred_ova(model = mod1, data = ml,
                      xvari = "math", by = 1,
-                     nsim = 100)
+                     nsim = 1000)
+}
 
 }
