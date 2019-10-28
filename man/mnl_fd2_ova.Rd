@@ -22,10 +22,10 @@ mnl_fd2_ova(model, data, xvari, value1, value2, nsim = 1000,
 
 \item{seed}{set a seed for replication purposes.}
 
-\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}}
+\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}}
 }
 \value{
-The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, the first differences of the predictions `P_fd`, a data set for plotting `plotdata` the predicted probabilities, and one forthe first differences `plotdata_fd`.
+The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, the first differences of the predictions `P_fd`, a data set for plotting `plotdata` the predicted probabilities, and one for the first differences `plotdata_fd`.
 }
 \description{
 Multinomial First Differences Predictions For Two Values (Observed Value Approach)

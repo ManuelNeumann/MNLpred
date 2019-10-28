@@ -18,7 +18,7 @@
 #' @param by define the steps of the \code{xvari}.
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
-#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}
+#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}
 #'
 #' @return The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, and a data set for plotting `plotdata`.
 #' @export

@@ -25,7 +25,7 @@ mnl_pred_ova(model, data, xvari, by = NULL, scenname = NULL,
 
 \item{seed}{set a seed for replication purposes.}
 
-\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}}
+\item{probs}{a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}}
 }
 \value{
 The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, and a data set for plotting `plotdata`.

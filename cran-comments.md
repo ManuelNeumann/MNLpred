@@ -2,7 +2,7 @@
 
 * Windows, R 3.6.1
 * OS Catalina 10.15, R 3.6.1
-* ubuntu 16.04 (on travis-ci), R 3.6.1
+* ubuntu 16.04 (on travis-ci), release & devel
 
 
 ## R CMD check results

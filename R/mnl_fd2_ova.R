@@ -7,9 +7,9 @@
 #' @param value2 second value for the difference
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
-#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% siginficance level: \code{c(0.025, 0.975)}
+#' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}
 #'
-#' @return The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, the first differences of the predictions `P_fd`, a data set for plotting `plotdata` the predicted probabilities, and one forthe first differences `plotdata_fd`.
+#' @return The function returns a list with several elements. Most importantly the list includes the simulated draws `S`, the simulated predictions `P`, the first differences of the predictions `P_fd`, a data set for plotting `plotdata` the predicted probabilities, and one for the first differences `plotdata_fd`.
 #' @export
 #'
 #' @examples

@@ -8,7 +8,7 @@ Authors@R:
            email = "manuel.neumann@mzes.uni-mannheim.de")
 Description: Functions to easily return simulated predicted probabilities and
     first differences for multinomial logit models. It takes a specified 
-    scenario and a multinom model to predict probabilities with a set of
+    scenario and a multinom-model to predict probabilities with a set of
     coefficients, drawn from a simulated sampling distribution. The simulated 
     predictions allow for meaningful plots with means and confidence intervals.
 License: GPL-3

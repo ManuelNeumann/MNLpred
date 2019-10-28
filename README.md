@@ -31,10 +31,10 @@ These are the important characteristics of the model: \* The multinomial
 logit regression is used to model nominal outcomes. It provides the
 opportunity to assign specific choices a probability based on a set of
 independent variables. \* The model needs an assigned baseline category
-to be indentifiable. All other choices are evaluated in contrast to this
+to be identifiable. All other choices are evaluated in contrast to this
 reference. \* The model returns a set of coefficients for each choice
 category. \* Like all logit models, the multinomial logit model returns
-logg-ods which are difficult to interpret in terms of effect sizes and
+log-odds which are difficult to interpret in terms of effect sizes and
 uncertainties.
 
 This package helps to interpret the model in meaningful ways.
@@ -77,7 +77,7 @@ takes these more detailed steps:
 1.  For all (complete) cases \(n\) predictions are computed based on
     their observed independent values and the \(n\) sets of
     coefficients.
-2.  Next the predicted values of all observationS for each simulation
+2.  Next the predicted values of all observations for each simulation
     are averaged.
 3.  Take the mean and the quantiles of the simulated predicted
     probabilities (same as above).
@@ -96,7 +96,7 @@ example](https://stats.idre.ucla.edu/r/dae/multinomial-logistic-regression/).
 The data is an example dataset, including the career choice of 200 high
 school students and their respective performance indicators. We want to
 predict the probability of the students to choose either an academic,
-general, or vocational programm.
+general, or vocational program.
 
 For this task, we need the following packages:
 
@@ -237,21 +237,21 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.157 0.0562 0.309
-#> 2    34 academic 0.169 0.0652 0.322
-#> 3    35 academic 0.182 0.0754 0.335
-#> 4    36 academic 0.195 0.0871 0.349
-#> 5    37 academic 0.210 0.100  0.363
-#> 6    38 academic 0.225 0.115  0.377
+#> 1    33 academic 0.151 0.0435 0.308
+#> 2    34 academic 0.163 0.0513 0.322
+#> 3    35 academic 0.176 0.0604 0.336
+#> 4    36 academic 0.190 0.0709 0.348
+#> 5    37 academic 0.204 0.0830 0.358
+#> 6    38 academic 0.220 0.0969 0.369
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
 and an upper bound of the confidence interval. Concerning the choice
 category, the data is in a long format. This makes it easy to plot it
 with the `ggplot` syntax. The choice category can now easily be used to
-differenciate the lines in the plot by using `linetype = prog2` in the
+differentiate the lines in the plot by using `linetype = prog2` in the
 `aes()`. Another option is to use `facet_wrap()` or `facet_grid()` to
-differenciate the predictions:
+differentiate the predictions:
 
 ``` r
 ggplot(data = pred1$plotdata, aes(x = math, y = mean,
@@ -324,12 +324,12 @@ fdif2$plotdata_fd %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0266 -0.119 0.0577
-#> 2    34 academic -0.0285 -0.122 0.0604
-#> 3    35 academic -0.0305 -0.128 0.0630
-#> 4    36 academic -0.0325 -0.133 0.0656
-#> 5    37 academic -0.0345 -0.141 0.0678
-#> 6    38 academic -0.0366 -0.149 0.0693
+#> 1    33 academic -0.0329 -0.144 0.0522
+#> 2    34 academic -0.0349 -0.149 0.0545
+#> 3    35 academic -0.0369 -0.160 0.0569
+#> 4    36 academic -0.0389 -0.171 0.0594
+#> 5    37 academic -0.0409 -0.175 0.0620
+#> 6    38 academic -0.0429 -0.177 0.0661
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -392,7 +392,7 @@ distributions and therefore provide meaningful confidence intervals.
 scenario. `mnl_fd_ova()` can be used to predict probabilities for two
 scenarios and their first differences.
 
-## Acknowledgement
+## Acknowledgment
 
 My code is inspired by the method courses in the [Political Science
 master’s program at the University of
