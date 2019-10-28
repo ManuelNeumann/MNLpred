@@ -18,7 +18,6 @@
 #'
 #' @examples
 #' library(foreign)
-#' library(magrittr)
 #' library(nnet)
 #' library(MASS)
 #'
@@ -34,7 +33,6 @@
 #'                      xvari = "math", by = 1,
 #'                      nsim = 100)
 #'
-#' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile
 #' @importFrom MASS mvrnorm
@@ -78,7 +76,7 @@ mnl_pred_ova <- function(model,
   ncoef <- ncol(coefmatrix)
 
   # Model coefficients as a vector
-  mu <- coef(model) %>% t() %>% as.vector()
+  mu <- as.vector(t(coef(model)))
 
   # Variance-covariance matrix of estimates
   varcov <- solve(model$Hessian)
@@ -120,7 +118,7 @@ mnl_pred_ova <- function(model,
   output[["DV"]] <- dv
 
   # Full observations (listwise deletion:
-  data_redux <- data[, c(dv, iv)] %>% na.omit()
+  data_redux <- na.omit(data[, c(dv, iv)])
 
   # Number of full observations
   obs <- nrow(data_redux)

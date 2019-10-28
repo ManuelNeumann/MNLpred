@@ -25,7 +25,6 @@
 #'
 #' @examples
 #' library(foreign)
-#' library(magrittr)
 #' library(nnet)
 #' library(MASS)
 #'

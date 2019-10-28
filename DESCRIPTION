@@ -24,8 +24,7 @@ Suggests:
     ggplot2,
     scales
 VignetteBuilder: knitr
-Imports: 
-    magrittr,
+Imports:
     MASS,
     stats,
     tibble

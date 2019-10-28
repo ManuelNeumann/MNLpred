@@ -14,7 +14,6 @@
 #'
 #' @examples
 #' library(foreign)
-#' library(magrittr)
 #' library(nnet)
 #' library(MASS)
 #'
@@ -31,7 +30,6 @@
 #'                    value1 = min(ml$math), value2= max(ml$math),
 #'                    nsim = 100)
 #'
-#' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile
 #' @importFrom MASS mvrnorm
@@ -78,7 +76,7 @@ mnl_fd2_ova <- function(model,
   ncoef <- ncol(coefmatrix)
 
   # Model coefficients as a vector
-  mu <- coef(model) %>% t() %>% as.vector()
+  mu <- as.vector(t(coef(model)))
 
   # Variance-covariance matrix of estimates
   varcov <- solve(model$Hessian)
