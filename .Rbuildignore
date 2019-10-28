@@ -5,3 +5,4 @@
 feedback
 README_files
 ^\.travis\.yml$
+^CRAN-RELEASE$
