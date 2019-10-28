@@ -36,7 +36,6 @@ model over a specified span of values.
 }
 \examples{
 library(foreign)
-library(magrittr)
 library(nnet)
 library(MASS)
 

@@ -32,7 +32,6 @@ Multinomial First Differences Predictions For Two Values (Observed Value Approac
 }
 \examples{
 library(foreign)
-library(magrittr)
 library(nnet)
 library(MASS)
 
