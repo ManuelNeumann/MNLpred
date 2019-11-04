@@ -11,6 +11,8 @@ Description: Functions to easily return simulated predicted probabilities and
     scenario and a multinomial model to predict probabilities with a set of
     coefficients, drawn from a simulated sampling distribution. The simulated 
     predictions allow for meaningful plots with means and confidence intervals.
+    The methodological approach is based on the principles laid out by King,
+    Tomz, and Wittenberg (2000) <doi:10.2307/2669316>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
