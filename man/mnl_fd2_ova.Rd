@@ -46,7 +46,7 @@ fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
                     value1 = min(dataset$x1), value2 = max(dataset$x1))
 
 
-\dontrun{
+\donttest{
 library(foreign)
 library(nnet)
 library(MASS)

@@ -33,7 +33,7 @@
 #'
 #'
 #'
-#' \dontrun{
+#' \donttest{
 #' library(foreign)
 #' library(nnet)
 #' library(MASS)
@@ -135,7 +135,7 @@ mnl_pred_ova <- function(model,
   dv <- variables[1]
   output[["DV"]] <- dv
 
-  # Full observations (listwise deletion:
+  # Full observations (listwise deletion):
   data_redux <- na.omit(data[, c(dv, iv)])
 
   # Number of full observations
@@ -166,16 +166,13 @@ mnl_pred_ova <- function(model,
   ovacases[,,] <- X
 
   # Select the position of the variable which should vary:
-  if (is.null(xvari) == FALSE) {
-    varidim <- which(colnames(X) == xvari)
-  }
+  varidim <- which(colnames(X) == xvari)
+
 
   # Artificially alter the variable in each dimension according to
   # the preferred sequence:
-  if (is.null(xvari) == FALSE) {
-    for (i in 1:nseq) {
-      ovacases[, varidim, i] <- variation[i]
-    }
+  for (i in 1:nseq) {
+    ovacases[, varidim, i] <- variation[i]
   }
 
   # Hold a second variable steady (if need be)

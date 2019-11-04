@@ -51,7 +51,7 @@ pred <- mnl_pred_ova(model = mod, data = dataset,
 
 
 
-\dontrun{
+\donttest{
 library(foreign)
 library(nnet)
 library(MASS)

@@ -38,7 +38,7 @@
 #'                    xvari = "x1", scenname = "x3",
 #'                    scenvalues = c(min(dataset$x3), max(dataset$x3)))
 #'
-#' \dontrun{
+#' \donttest{
 #' library(foreign)
 #' library(nnet)
 #' library(MASS)

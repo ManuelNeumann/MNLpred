@@ -28,7 +28,7 @@
 #'                     value1 = min(dataset$x1), value2 = max(dataset$x1))
 #'
 #'
-#' \dontrun{
+#' \donttest{
 #' library(foreign)
 #' library(nnet)
 #' library(MASS)
