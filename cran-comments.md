@@ -1,3 +1,10 @@
+## Resubmission
+
+This is a resubmission. I have addressed:
+
+* Including a reference to the  paper the method is based on in the description.
+* Exchanging \dontrun with \donttest
+
 ## Test environments
 
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit (on rhub)
@@ -13,7 +20,21 @@ There is one NOTE:
 
 Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
   
+  
   New submission
+  Possibly mis-spelled words in DESCRIPTION:
+    Tomz (15:5)
+    Wittenberg (15:15)
+  Found the following (possibly) invalid DOIs:
+  
+    DOI: 10.2307/2669316
+      From: DESCRIPTION
+      Status: Forbidden
+      Message: 403
+
+* Mis-spelled words are the names of authors.
+* DOI is correct, but article is behind a pay-wall.
+
 
 
 ## Downstram dependencies
