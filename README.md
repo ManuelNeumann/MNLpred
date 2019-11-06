@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
+[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
 <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable
@@ -27,15 +29,17 @@ Rodríguez](https://data.princeton.edu/wws509/notes/c6s2).
 Due to the inconvenience of integrating math equations in the README
 file, this is not the place to write comprehensively about it.
 
-These are the important characteristics of the model: \* The multinomial
-logit regression is used to model nominal outcomes. It provides the
-opportunity to assign specific choices a probability based on a set of
-independent variables. \* The model needs an assigned baseline category
-to be identifiable. All other choices are evaluated in contrast to this
-reference. \* The model returns a set of coefficients for each choice
-category. \* Like all logit models, the multinomial logit model returns
-log-odds which are difficult to interpret in terms of effect sizes and
-uncertainties.
+These are the important characteristics of the model:
+
+  - The multinomial logit regression is used to model nominal outcomes.
+    It provides the opportunity to assign specific choices a probability
+    based on a set of independent variables.
+  - The model needs an assigned baseline category to be identifiable.
+    All other choices are evaluated in contrast to this reference.
+  - The model returns a set of coefficients for each choice category.
+  - Like all logit models, the multinomial logit model returns log-odds
+    which are difficult to interpret in terms of effect sizes and
+    uncertainties.
 
 This package helps to interpret the model in meaningful ways.
 
@@ -237,12 +241,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.148 0.0535 0.344
-#> 2    34 academic 0.160 0.0621 0.356
-#> 3    35 academic 0.173 0.0719 0.367
-#> 4    36 academic 0.187 0.0835 0.378
-#> 5    37 academic 0.202 0.0964 0.390
-#> 6    38 academic 0.218 0.111  0.402
+#> 1    33 academic 0.149 0.0463 0.325
+#> 2    34 academic 0.161 0.0554 0.335
+#> 3    35 academic 0.174 0.0661 0.346
+#> 4    36 academic 0.188 0.0784 0.357
+#> 5    37 academic 0.203 0.0925 0.367
+#> 6    38 academic 0.219 0.109  0.379
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -324,12 +328,12 @@ fdif2$plotdata_fd %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0291 -0.115 0.0448
-#> 2    34 academic -0.0310 -0.121 0.0478
-#> 3    35 academic -0.0329 -0.126 0.0508
-#> 4    36 academic -0.0348 -0.130 0.0535
-#> 5    37 academic -0.0368 -0.133 0.0559
-#> 6    38 academic -0.0389 -0.136 0.0583
+#> 1    33 academic -0.0259 -0.128 0.0482
+#> 2    34 academic -0.0276 -0.133 0.0505
+#> 3    35 academic -0.0293 -0.138 0.0529
+#> 4    36 academic -0.0311 -0.143 0.0555
+#> 5    37 academic -0.0329 -0.147 0.0581
+#> 6    38 academic -0.0347 -0.152 0.0608
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
