@@ -36,7 +36,7 @@ Due to the inconvenience of integrating math equations in the README file, this 
 
 These are the important characteristics of the model:
 
-- The multinomial logit regression is used to model nominal outcomes. It provides the opportunity to assign specific choices a probability based on a set of independent variables.
+- The multinomial logit regression is used to model nominal outcomes. It provides the opportunity to assign specific choices a probability, based on a set of independent variables.
 - The model needs an assigned baseline category to be identifiable. All other choices are evaluated in contrast to this reference.
 - The model returns a set of coefficients for each choice category.
 - Like all logit models, the multinomial logit model returns log-odds which are difficult to interpret in terms of effect sizes and uncertainties.
@@ -45,23 +45,35 @@ This package helps to interpret the model in meaningful ways.
 
 ## Using the package
 
+### Installing
+
+The package can be both installed from CRAN or the github repository:
+
+```{r}
+# Uncomment if necessary:
+
+# install.packages("MNLpred")
+# devtools::install_github("ManuelNeumann/MNLpred")
+```
+
+
 ### How does the function work?
 
 As we have seen above, the multinomial logit can be used to get an insight into the probabilities to choose one option out of a set of alternatives. We have also seen that we need a baseline category to identify the model. This is mathematically necessary, but does not come in handy for purposes of interpretation.
 
-It is far more helpful and easier to understand to come up with predicted probabilities and first differences for values of interest [see e.g., @king2000 for approaches in social sciences]. Based on simulations, this package helps to easily predict probabilities and confidence intervals for each choice category over a specified scenario (so far: the observed values).
+It is far more helpful and easier to understand to come up with predicted probabilities and first differences for values of interest [see e.g., @king2000 for approaches in social sciences]. Based on simulations, this package helps to easily predict probabilities and their uncertainty in forms of confidence intervals for each choice category over a specified scenario.
 
 The procedure follows the following steps:
 
 1. Estimate a multinomial model and save the coefficients and the variance covariance matrix (based on the Hessian-matrix of the model).
-1. To simulate uncertainty, make $n$ draws of coefficients from a simulated sampling distribution based on the coefficients and the variance covariance matrix.
-1. Predict probabilities by multiplying the drawn coefficients with a specified scenario (so far these are the observed values).
+1. To simulate uncertainty, make n draws of coefficients from a simulated sampling distribution based on the coefficients and the variance covariance matrix.
+1. Predict probabilities by multiplying the drawn coefficients with a specified scenario (the observed values).
 1. Take the mean and the quantiles of the simulated predicted probabilities.
 
 The presented functions follow these steps. Additionally, they use the so called observed value approach. This means that the "scenario" uses all observed values that informed the model. Therefore the function takes these more detailed steps:
 
-1. For all (complete) cases $n$ predictions are computed based on their observed independent values and the $n$ sets of coefficients.
-1. Next the predicted values of all observations for each simulation are averaged.
+1. For all (complete) cases n predictions are computed based on their observed independent values and the n sets of coefficients.
+1. Next, the predicted values of all observations for each simulation are averaged.
 1. Take the mean and the quantiles of the simulated predicted probabilities (same as above).
 
 For first differences, the simulated predictions are subtracted from each other.
@@ -86,7 +98,6 @@ library(nnet) # for the multinom()-function
 library(MASS) # for the multivariate normal distribution
 
 # The package
-# devtools::install_github("ManuelNeumann/MNLpred")
 library(MNLpred)
 
 # Plotting the predicted probabilities:

@@ -34,8 +34,8 @@ file, this is not the place to write comprehensively about it.
 These are the important characteristics of the model:
 
   - The multinomial logit regression is used to model nominal outcomes.
-    It provides the opportunity to assign specific choices a probability
-    based on a set of independent variables.
+    It provides the opportunity to assign specific choices a
+    probability, based on a set of independent variables.
   - The model needs an assigned baseline category to be identifiable.
     All other choices are evaluated in contrast to this reference.
   - The model returns a set of coefficients for each choice category.
@@ -46,6 +46,17 @@ These are the important characteristics of the model:
 This package helps to interpret the model in meaningful ways.
 
 ## Using the package
+
+### Installing
+
+The package can be both installed from CRAN or the github repository:
+
+``` r
+# Uncomment if necessary:
+
+# install.packages("MNLpred")
+# devtools::install_github("ManuelNeumann/MNLpred")
+```
 
 ### How does the function work?
 
@@ -59,19 +70,19 @@ It is far more helpful and easier to understand to come up with
 predicted probabilities and first differences for values of interest
 (see e.g., King, Tomz, and Wittenberg 2000 for approaches in social
 sciences). Based on simulations, this package helps to easily predict
-probabilities and confidence intervals for each choice category over a
-specified scenario (so far: the observed values).
+probabilities and their uncertainty in forms of confidence intervals for
+each choice category over a specified scenario.
 
 The procedure follows the following steps:
 
 1.  Estimate a multinomial model and save the coefficients and the
     variance covariance matrix (based on the Hessian-matrix of the
     model).
-2.  To simulate uncertainty, make \(n\) draws of coefficients from a
+2.  To simulate uncertainty, make n draws of coefficients from a
     simulated sampling distribution based on the coefficients and the
     variance covariance matrix.
 3.  Predict probabilities by multiplying the drawn coefficients with a
-    specified scenario (so far these are the observed values).
+    specified scenario (the observed values).
 4.  Take the mean and the quantiles of the simulated predicted
     probabilities.
 
@@ -80,10 +91,9 @@ so called observed value approach. This means that the “scenario” uses
 all observed values that informed the model. Therefore the function
 takes these more detailed steps:
 
-1.  For all (complete) cases \(n\) predictions are computed based on
-    their observed independent values and the \(n\) sets of
-    coefficients.
-2.  Next the predicted values of all observations for each simulation
+1.  For all (complete) cases n predictions are computed based on their
+    observed independent values and the n sets of coefficients.
+2.  Next, the predicted values of all observations for each simulation
     are averaged.
 3.  Take the mean and the quantiles of the simulated predicted
     probabilities (same as above).
@@ -116,7 +126,6 @@ library(nnet) # for the multinom()-function
 library(MASS) # for the multivariate normal distribution
 
 # The package
-# devtools::install_github("ManuelNeumann/MNLpred")
 library(MNLpred)
 
 # Plotting the predicted probabilities:
@@ -243,12 +252,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.150 0.0501 0.329
-#> 2    34 academic 0.163 0.0588 0.341
-#> 3    35 academic 0.176 0.0688 0.353
-#> 4    36 academic 0.190 0.0804 0.363
-#> 5    37 academic 0.205 0.0936 0.373
-#> 6    38 academic 0.221 0.108  0.383
+#> 1    33 academic 0.153 0.0497 0.315
+#> 2    34 academic 0.165 0.0577 0.324
+#> 3    35 academic 0.178 0.0669 0.331
+#> 4    36 academic 0.191 0.0776 0.341
+#> 5    37 academic 0.206 0.0897 0.354
+#> 6    38 academic 0.221 0.103  0.366
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -330,12 +339,12 @@ fdif2$plotdata_fd %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0287 -0.124 0.0501
-#> 2    34 academic -0.0308 -0.127 0.0540
-#> 3    35 academic -0.0330 -0.132 0.0568
-#> 4    36 academic -0.0352 -0.137 0.0595
-#> 5    37 academic -0.0375 -0.142 0.0622
-#> 6    38 academic -0.0399 -0.148 0.0648
+#> 1    33 academic -0.0347 -0.129 0.0438
+#> 2    34 academic -0.0368 -0.132 0.0483
+#> 3    35 academic -0.0389 -0.136 0.0531
+#> 4    36 academic -0.0411 -0.140 0.0577
+#> 5    37 academic -0.0433 -0.143 0.0613
+#> 6    38 academic -0.0454 -0.147 0.0638
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
