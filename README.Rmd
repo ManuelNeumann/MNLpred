@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred) [![CRAN\_Download\_Badge](https://cranlogs.r-pkg.org/badges/MNLpred)](https://cran.r-project.org/package=MNLpred)
   <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable predictions from multinomial logit models. The predictions are based on simulated draws of regression estimates from their respective sampling distribution.
@@ -32,10 +33,11 @@ For the statistical and theoretical background of the multinomial logit regressi
 Due to the inconvenience of integrating math equations in the README file, this is not the place to write comprehensively about it.
 
 These are the important characteristics of the model:
- * The multinomial logit regression is used to model nominal outcomes. It provides the opportunity to assign specific choices a probability based on a set of independent variables.
- * The model needs an assigned baseline category to be identifiable. All other choices are evaluated in contrast to this reference.
- * The model returns a set of coefficients for each choice category.
- * Like all logit models, the multinomial logit model returns log-odds which are difficult to interpret in terms of effect sizes and uncertainties.
+
+- The multinomial logit regression is used to model nominal outcomes. It provides the opportunity to assign specific choices a probability based on a set of independent variables.
+- The model needs an assigned baseline category to be identifiable. All other choices are evaluated in contrast to this reference.
+- The model returns a set of coefficients for each choice category.
+- Like all logit models, the multinomial logit model returns log-odds which are difficult to interpret in terms of effect sizes and uncertainties.
 
 This package helps to interpret the model in meaningful ways.
 
