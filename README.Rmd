@@ -19,8 +19,9 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
-[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+  [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
+  [![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
   <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable predictions from multinomial logit models. The predictions are based on simulated draws of regression estimates from their respective sampling distribution.
@@ -249,6 +250,6 @@ Multinomial logit models are important to model nominal choices. They are restri
 
 ## Acknowledgment
 
-My code is inspired by the method courses in the [Political Science master's program  at the University of Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool place, check it out!). The skeleton of the code is based on a tutorial taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/) and [Sebastian Sternberg](https://sebastiansternberg.github.io/) (lecture: "Advanced Quantitative Methods" by [Thomas Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
+My code is inspired by the method courses in the [Political Science master's program  at the University of Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool place, check it out!). The skeleton of the code is based on a tutorial taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/) (lecture: "Advanced Quantitative Methods" by [Thomas Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
 
 ## References

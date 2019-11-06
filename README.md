@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
 [![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
 <!-- badges: end -->
@@ -241,12 +243,12 @@ pred1$plotdata %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2     mean  lower upper
 #>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.149 0.0463 0.325
-#> 2    34 academic 0.161 0.0554 0.335
-#> 3    35 academic 0.174 0.0661 0.346
-#> 4    36 academic 0.188 0.0784 0.357
-#> 5    37 academic 0.203 0.0925 0.367
-#> 6    38 academic 0.219 0.109  0.379
+#> 1    33 academic 0.150 0.0501 0.329
+#> 2    34 academic 0.163 0.0588 0.341
+#> 3    35 academic 0.176 0.0688 0.353
+#> 4    36 academic 0.190 0.0804 0.363
+#> 5    37 academic 0.205 0.0936 0.373
+#> 6    38 academic 0.221 0.108  0.383
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -328,12 +330,12 @@ fdif2$plotdata_fd %>% head()
 #> # A tibble: 6 x 5
 #>    math prog2       mean  lower  upper
 #>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0259 -0.128 0.0482
-#> 2    34 academic -0.0276 -0.133 0.0505
-#> 3    35 academic -0.0293 -0.138 0.0529
-#> 4    36 academic -0.0311 -0.143 0.0555
-#> 5    37 academic -0.0329 -0.147 0.0581
-#> 6    38 academic -0.0347 -0.152 0.0608
+#> 1    33 academic -0.0287 -0.124 0.0501
+#> 2    34 academic -0.0308 -0.127 0.0540
+#> 3    35 academic -0.0330 -0.132 0.0568
+#> 4    36 academic -0.0352 -0.137 0.0595
+#> 5    37 academic -0.0375 -0.142 0.0622
+#> 6    38 academic -0.0399 -0.148 0.0648
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -402,9 +404,8 @@ My code is inspired by the method courses in the [Political Science
 master’s program at the University of
 Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool
 place, check it out\!). The skeleton of the code is based on a tutorial
-taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/) and
-[Sebastian Sternberg](https://sebastiansternberg.github.io/) (lecture:
-“Advanced Quantitative Methods” by [Thomas
+taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
+(lecture: “Advanced Quantitative Methods” by [Thomas
 Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
 
 ## References
