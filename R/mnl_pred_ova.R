@@ -122,6 +122,11 @@ mnl_pred_ova <- function(model,
 
   # Length of sequence
   nseq <- length(variation)
+
+  if (nseq == 1) {
+    stop("Please supply a dataset or a x-variable with variation")
+  }
+
   output[["nVariation"]] <- nseq
 
   # Names of variables in model (without the "list" character in the vector)
@@ -145,6 +150,11 @@ mnl_pred_ova <- function(model,
   # Choice categories of the dependent variable
   categories <- sort(unique(eval(parse(text = paste0("data$", dv)))))
   J <- length(categories)
+
+  if (J < 3) {
+    stop("Please supply a dataset with a dependent variable that has a sufficient number of outcomes (> 2)")
+  }
+
   output[["ChoiceCategories"]] <- categories
   output[["nChoices"]] <- J
 
