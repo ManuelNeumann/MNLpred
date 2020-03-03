@@ -4,8 +4,17 @@
 \alias{mnl_fd_ova}
 \title{Multinomial First Differences Prediction (Observed Value Approach)}
 \usage{
-mnl_fd_ova(model, data, xvari, scenname, scenvalues, by = NULL,
-  nsim = 1000, seed = "random", probs = c(0.025, 0.975))
+mnl_fd_ova(
+  model,
+  data,
+  xvari,
+  scenname,
+  scenvalues,
+  by = NULL,
+  nsim = 1000,
+  seed = "random",
+  probs = c(0.025, 0.975)
+)
 }
 \arguments{
 \item{model}{the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)}

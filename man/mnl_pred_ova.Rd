@@ -4,9 +4,17 @@
 \alias{mnl_pred_ova}
 \title{Multinomial Prediction Function (Observed Value Approach)}
 \usage{
-mnl_pred_ova(model, data, xvari, by = NULL, scenname = NULL,
-  scenvalue = NULL, nsim = 1000, seed = "random", probs = c(0.025,
-  0.975))
+mnl_pred_ova(
+  model,
+  data,
+  xvari,
+  by = NULL,
+  scenname = NULL,
+  scenvalue = NULL,
+  nsim = 1000,
+  seed = "random",
+  probs = c(0.025, 0.975)
+)
 }
 \arguments{
 \item{model}{the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)}

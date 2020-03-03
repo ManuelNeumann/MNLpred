@@ -51,7 +51,6 @@
 #'                      nsim = 1000)
 #' }
 #'
-#' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile
 #' @importFrom MASS mvrnorm
 
@@ -258,19 +257,34 @@ mnl_pred_ova <- function(model,
 
   # Aggregate the simulations
   # Create tibble for plot
+  # if (is.null(scenvalue) == TRUE) {
+  #   plotdat <- tibble::tibble(iv = rep(variation, J),
+  #                             categories = rep(categories, each = length(variation)),
+  #                             mean = NA,
+  #                             lower = NA,
+  #                             upper = NA)
+  # } else {
+  #   plotdat <- tibble::tibble(iv = rep(variation, J),
+  #                             categories = rep(categories, each = length(variation)),
+  #                             scen = rep(scenvalue, each = length(categories)),
+  #                             mean = NA,
+  #                             lower = NA,
+  #                             upper = NA)
+  # }
+
   if (is.null(scenvalue) == TRUE) {
-    plotdat <- tibble::tibble(iv = rep(variation, J),
-                              categories = rep(categories, each = length(variation)),
-                              mean = NA,
-                              lower = NA,
-                              upper = NA)
+    plotdat <- data.frame(iv = rep(variation, J),
+                          categories = rep(categories, each = length(variation)),
+                          mean = NA,
+                          lower = NA,
+                          upper = NA)
   } else {
-    plotdat <- tibble::tibble(iv = rep(variation, J),
-                              categories = rep(categories, each = length(variation)),
-                              scen = rep(scenvalue, each = length(categories)),
-                              mean = NA,
-                              lower = NA,
-                              upper = NA)
+    plotdat <- data.frame(iv = rep(variation, J),
+                          categories = rep(categories, each = length(variation)),
+                          scen = rep(scenvalue, each = length(variation)),
+                          mean = NA,
+                          lower = NA,
+                          upper = NA)
   }
 
 

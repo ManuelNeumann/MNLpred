@@ -47,7 +47,6 @@
 #'                    nsim = 1000)
 #' }
 #'
-#' @importFrom tibble tibble
 #' @importFrom stats coef na.omit quantile
 #' @importFrom MASS mvrnorm
 
@@ -234,11 +233,16 @@ mnl_fd2_ova <- function(model,
 
   # Aggregate the simulations
   # Create tibble for plot
-  plotdat <- tibble::tibble(iv = rep(variation, J),
-                            categories = rep(categories, each = length(variation)),
-                            mean = NA,
-                            lower = NA,
-                            upper = NA)
+  # plotdat <- tibble::tibble(iv = rep(variation, J),
+  #                           categories = rep(categories, each = length(variation)),
+  #                           mean = NA,
+  #                           lower = NA,
+  #                           upper = NA)
+  plotdat <- data.frame(iv = rep(variation, J),
+                        categories = rep(categories, each = length(variation)),
+                        mean = NA,
+                        lower = NA,
+                        upper = NA)
 
 
 
@@ -269,10 +273,10 @@ mnl_fd2_ova <- function(model,
   output[["P_fd"]] <- P_fd
 
   # Plotdata
-  plotdat_fd <- tibble::tibble(categories = categories,
-                               mean = NA,
-                               lower = NA,
-                               upper = NA)
+  plotdat_fd <- data.frame(categories = categories,
+                           mean = NA,
+                           lower = NA,
+                           upper = NA)
 
   start <- 1
   for (i in 1:J){
