@@ -230,7 +230,7 @@ ggplot(data = pred_plotdat, aes(x = math, y = mean,
 As we can see, the differences between `female` and not-`female` are minimal. So let's take a look at the differences:
 
 ```{r first_differences_plot}
-ggplot(data = fdif1$plotdata, aes(x = math, y = mean,
+ggplot(data = fdif1$plotdata_fd, aes(x = math, y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +
