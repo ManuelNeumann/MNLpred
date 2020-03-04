@@ -10,7 +10,7 @@ status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
-[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](https://CRAN.R-project.org/package=MNLpred)
 <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable

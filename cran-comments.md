@@ -1,6 +1,10 @@
 ## Resubmission
 
-This is a new release. It does not include the tibble() function anymore since it may cause trouble with the new tibble release (see https://github.com/tidyverse/tibble/issues/689).
+This is a resubmission for a new release. 
+
+It does not include the tibble() function anymore since it may cause trouble with the new tibble release (see https://github.com/tidyverse/tibble/issues/689).
+
+CRAN-URLs are now in canonical form in the README.md.
 
 ## Test environments
 
