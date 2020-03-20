@@ -9,8 +9,9 @@
 status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
-[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](https://CRAN.R-project.org/package=MNLpred)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
+[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+[![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
 <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable
@@ -186,12 +187,9 @@ summary(mod1)
 #>     data = ml, Hess = TRUE)
 #> 
 #> Coefficients:
-#>          (Intercept)   female2        read       write        math
-#> general     4.314585 0.2180419 -0.05466370 -0.03863058 -0.09931014
-#> vocation    8.592285 0.3618313 -0.05535549 -0.07165604 -0.12226602
-#>             science
-#> general  0.09386869
-#> vocation 0.06388337
+#>          (Intercept)   female2        read       write        math    science
+#> general     4.314585 0.2180419 -0.05466370 -0.03863058 -0.09931014 0.09386869
+#> vocation    8.592285 0.3618313 -0.05535549 -0.07165604 -0.12226602 0.06388337
 #> 
 #> Std. Errors:
 #>          (Intercept)   female2       read      write       math    science
@@ -249,15 +247,13 @@ returns a `plotdata` data set:
 
 ``` r
 pred1$plotdata %>% head()
-#> # A tibble: 6 x 5
-#>    math prog2     mean  lower upper
-#>   <dbl> <fct>    <dbl>  <dbl> <dbl>
-#> 1    33 academic 0.153 0.0497 0.315
-#> 2    34 academic 0.165 0.0577 0.324
-#> 3    35 academic 0.178 0.0669 0.331
-#> 4    36 academic 0.191 0.0776 0.341
-#> 5    37 academic 0.206 0.0897 0.354
-#> 6    38 academic 0.221 0.103  0.366
+#>   math    prog2      mean      lower     upper
+#> 1   33 academic 0.1364237 0.06509270 0.2762660
+#> 2   34 academic 0.1485928 0.07399314 0.2866149
+#> 3   35 academic 0.1616646 0.08396523 0.2971575
+#> 4   36 academic 0.1756663 0.09510033 0.3078852
+#> 5   37 academic 0.1906184 0.10748828 0.3187893
+#> 6   38 academic 0.2065332 0.12186680 0.3300093
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -336,15 +332,13 @@ used to plot the differences.
 
 ``` r
 fdif2$plotdata_fd %>% head()
-#> # A tibble: 6 x 5
-#>    math prog2       mean  lower  upper
-#>   <dbl> <fct>      <dbl>  <dbl>  <dbl>
-#> 1    33 academic -0.0347 -0.129 0.0438
-#> 2    34 academic -0.0368 -0.132 0.0483
-#> 3    35 academic -0.0389 -0.136 0.0531
-#> 4    36 academic -0.0411 -0.140 0.0577
-#> 5    37 academic -0.0433 -0.143 0.0613
-#> 6    38 academic -0.0454 -0.147 0.0638
+#>   math    prog2        mean      lower      upper
+#> 1   33 academic -0.03435581 -0.1488132 0.03994656
+#> 2   34 academic -0.03671573 -0.1567565 0.04179571
+#> 3   35 academic -0.03914827 -0.1646638 0.04351644
+#> 4   36 academic -0.04163856 -0.1724790 0.04537434
+#> 5   37 academic -0.04416841 -0.1801430 0.04757742
+#> 6   38 academic -0.04671626 -0.1875949 0.04962998
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
