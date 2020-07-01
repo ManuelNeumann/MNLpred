@@ -102,6 +102,8 @@ mnl_fd_ova <- function(model,
   }
 
   # Predictions for first scenario
+  cat("First scenario:\n")
+
   pred1 <- mnl_pred_ova(model = model,
                         data = data,
                         xvari = xvari,
@@ -112,6 +114,8 @@ mnl_fd_ova <- function(model,
   output[["Prediction1"]] <- pred1
 
   # Predictions for second scenario
+  cat("Second scenario:\n")
+
   pred2 <- mnl_pred_ova(model = model,
                         data = data,
                         xvari = xvari,
@@ -119,7 +123,6 @@ mnl_fd_ova <- function(model,
                         scenvalue = scenvalues[2],
                         by = by, nsim = nsim, seed = seed,
                         probs = probs)
-
   output[["Prediction2"]] <- pred2
 
   plotdat <- rbind(pred1$plotdata,

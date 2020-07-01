@@ -233,6 +233,12 @@ mnl_pred_ova <- function(model,
   # Prepare array of observed values:
   ovaV <- array(NA, c(obs, nsim, nseq, J))
 
+  # Add progress bar
+  pb_multiplication <- txtProgressBar(min = 0, max = nseq, initial = 0)
+
+  # Loop over all scenarios
+  cat("Multiplying values with simulated estimates:\n")
+
   # Loop over all scenarios
   for(i in 1:nseq){
     ovaV[, , i, 1] <- apply(matrix(0,
@@ -249,6 +255,9 @@ mnl_pred_ova <- function(model,
                                      "], 1, function(s) ovacases[,, i] %*% s)"))
       eval(element)
     }
+
+    # Progress bar:
+    setTxtProgressBar(pb_multiplication, i)
   }
 
   # Multinomial link function:
@@ -260,10 +269,19 @@ mnl_pred_ova <- function(model,
   P <- array(NA, c(nsim, J, nseq))
 
   # 2. Part: take the exponent and divide through the sum of all (Sexp)
+  # Add progress bar
+  pb_link <- txtProgressBar(min = 0, max = nseq, initial = 0)
+
+  # Loop over all scenarios
+  cat("\nApply link function:\n")
+
   for (l in 1:nseq) {
     for (m in 1:J) {
       P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
     }
+
+    # Progress bar:
+    setTxtProgressBar(pb_link, l)
   }
 
   output[["P"]] <- P
@@ -304,6 +322,7 @@ mnl_pred_ova <- function(model,
 
   # Aggregate
   start <- 1
+
   for (i in 1:J) {
     end <- i*length(variation)
     plotdat[c(start:end), "mean"] <- apply(P[, i,], 2, mean)
@@ -322,6 +341,8 @@ mnl_pred_ova <- function(model,
 
   # Put the data in the output
   output[["plotdata"]] <- plotdat
+
+  cat("\nDone!\n\n")
 
   return(output)
 }

@@ -208,7 +208,12 @@ mnl_fd2_ova <- function(model,
   # Prepare array of observed values:
   ovaV <- array(NA, c(obs, nsim, nseq, J))
 
+  # Add progress bar
+  pb_multiplication <- txtProgressBar(min = 0, max = nseq, initial = 0)
+
   # Loop over all scenarios
+  cat("Multiplying values with simulated estimates:\n")
+
   for(i in 1:nseq){
     ovaV[, , i, 1] <- apply(matrix(0,
                                    nrow = nsim,
@@ -224,6 +229,9 @@ mnl_fd2_ova <- function(model,
                                      "], 1, function(s) ovacases[,, i] %*% s)"))
       eval(element)
     }
+
+    # Progress bar:
+    setTxtProgressBar(pb_multiplication, i)
   }
 
   # Multinomial link function:
@@ -259,13 +267,20 @@ mnl_fd2_ova <- function(model,
 
 
   # Aggregate
+
+  pb_aggregation <- txtProgressBar(min = 0, max = J, initial = 0)
+
   start <- 1
+  cat("\nAggregating simulated predictions:\n")
+
   for (i in 1:J) {
     end <- i*length(variation)
     plotdat[c(start:end), "mean"] <- apply(P[, i,], 2, mean)
     plotdat[c(start:end), "lower"] <- apply(P[, i,], 2, quantile, probs = probs[1])
     plotdat[c(start:end), "upper"] <- apply(P[, i,], 2, quantile, probs = probs[2])
     start <- end+1
+
+    setTxtProgressBar(pb_aggregation, i)
   }
 
   # Rename the variables in the plot data
