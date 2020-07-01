@@ -7,8 +7,6 @@
 
 [![Travis build
 status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
 [![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
 [![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
@@ -72,7 +70,9 @@ predicted probabilities and first differences for values of interest
 (see e.g., King, Tomz, and Wittenberg 2000 for approaches in social
 sciences). Based on simulations, this package helps to easily predict
 probabilities and their uncertainty in forms of confidence intervals for
-each choice category over a specified scenario.
+each choice category over a specified scenario. The functions use the
+observed values to compute the predicted probabilities, as is
+recommended by Hanmer and Ozan Kalkan (2013).
 
 The procedure follows the following steps:
 
@@ -107,13 +107,10 @@ functions can be used.
 
 ### Example
 
-The example is based on [this UCLA R data analysis
-example](https://stats.idre.ucla.edu/r/dae/multinomial-logistic-regression/).
+The example uses data from the German Longitudinal Election Study (GLES,
+Roßteutscher et al. (2019)).
 
-The data is an example dataset, including the career choice of 200 high
-school students and their respective performance indicators. We want to
-predict the probability of the students to choose either an academic,
-general, or vocational program.
+The contains 1,000 respondents characteristics and their vote choice.
 
 For this task, we need the following packages:
 
@@ -138,22 +135,7 @@ Now we load the data:
 
 ``` r
 # The data:
-ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
-```
-
-As we have seen above, we need a baseline or reference category for the
-model to work. With the function `relevel()` we set the category
-`"academic"` as the baseline. Additionally, we compute a numeric dummy
-for the gender variable to include it in the model.
-
-``` r
-# Data preparation:
-
-# Set "academic" as the reference category for the multinomial model
-ml$prog2 <- relevel(ml$prog, ref = "academic")
-
-# Computing a numeric dummy for "female" (= 1)
-ml$female2 <- as.numeric(ml$female == "female")
+data("gles")
 ```
 
 The next step is to compute the actual model. The function of the
@@ -164,64 +146,97 @@ is very easy and resembles the ordinary regression functions. Important
 is that the Hessian matrix is returned with `Hess = TRUE`. The matrix is
 needed to simulate the sampling distribution.
 
+As we have seen above, we need a baseline or reference category for the
+model to work. Therefore, be aware what your baseline category is. If
+you use a dependent variable that is of type `character`, the categories
+will be ordered in alphabetical order. If you have a `factor`at hand,
+you can define your baseline category, for example with the
+`relevel()`function.
+
+Now, let’s estimate the model:
+
 ``` r
 # Multinomial logit model:
-mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
-                 Hess = TRUE,
-                 data = ml)
-#> # weights:  21 (12 variable)
-#> initial  value 219.722458 
-#> iter  10 value 189.686272
-#> final  value 168.079235 
+mod1 <- multinom(vote ~ egoposition_immigration + 
+                   political_interest + 
+                   income + gender + ostwest, 
+                 data = gles,
+                 Hess = TRUE)
+#> # weights:  42 (30 variable)
+#> initial  value 1791.759469 
+#> iter  10 value 1644.501289
+#> iter  20 value 1553.803188
+#> iter  30 value 1538.792079
+#> final  value 1537.906674 
 #> converged
 ```
 
 The results show the coefficients and standard errors. As we can see,
-there are two sets of coefficients. They describe the relationship
-between the reference category and the choices `general` and `vocation`.
+there are five sets of coefficients. They describe the relationship
+between the reference category (`AfD`) and the vote choices for the
+parties `CDU/CSU`, `FDP`, `Gruene`, `LINKE`, and `SPD`.
 
 ``` r
 summary(mod1)
 #> Call:
-#> multinom(formula = prog2 ~ female2 + read + write + math + science, 
-#>     data = ml, Hess = TRUE)
+#> multinom(formula = vote ~ egoposition_immigration + political_interest + 
+#>     income + gender + ostwest, data = gles, Hess = TRUE)
 #> 
 #> Coefficients:
-#>          (Intercept)   female2        read       write        math    science
-#> general     4.314585 0.2180419 -0.05466370 -0.03863058 -0.09931014 0.09386869
-#> vocation    8.592285 0.3618313 -0.05535549 -0.07165604 -0.12226602 0.06388337
+#>         (Intercept) egoposition_immigration political_interest      income
+#> CDU/CSU    3.101201              -0.4419104        -0.29177070  0.33114348
+#> FDP        2.070618              -0.4106626        -0.19044703  0.18496691
+#> Gruene     3.232074              -0.8482213        -0.03023454  0.24330589
+#> LINKE      4.990008              -0.7477359        -0.04503371 -0.24206850
+#> SPD        3.799394              -0.6425427        -0.03514426  0.08211066
+#>           gender     ostwest
+#> CDU/CSU 1.296949  0.79760035
+#> FDP     1.252112  1.01378955
+#> Gruene  1.831714  0.76299897
+#> LINKE   1.368591 -0.02428322
+#> SPD     1.497019  0.74026388
 #> 
 #> Std. Errors:
-#>          (Intercept)   female2       read      write       math    science
-#> general     1.444954 0.4368366 0.02816753 0.03088249 0.03307516 0.03007196
-#> vocation    1.553752 0.4595495 0.03060286 0.03142334 0.03598240 0.03020753
+#>         (Intercept) egoposition_immigration political_interest    income
+#> CDU/CSU   0.8568928              0.06504100          0.1694270 0.1872533
+#> FDP       0.9508589              0.07083385          0.1882974 0.2063590
+#> Gruene    0.9854950              0.07887427          0.1969704 0.2149368
+#> LINKE     0.9505656              0.07755359          0.1962954 0.2058036
+#> SPD       0.8880256              0.06912678          0.1779570 0.1924002
+#>            gender   ostwest
+#> CDU/CSU 0.3530225 0.3120178
+#> FDP     0.3794295 0.3615071
+#> Gruene  0.3875116 0.3671397
+#> LINKE   0.3885663 0.3493941
+#> SPD     0.3625652 0.3269007
 #> 
-#> Residual Deviance: 336.1585 
-#> AIC: 360.1585
+#> Residual Deviance: 3075.813 
+#> AIC: 3135.813
 ```
 
-A first rough review of the coefficients shows that higher math scores
-lead to a lower probability of the students to choose a general or
-vocational track. It is hard to evaluate whether the effect is
-statistically significant and how the probabilities for each choice look
-like. For this it is helpful to predict the probabilities for certain
-scenarios and plot the means and confidence intervals for visual
-analysis.
+A first rough review of the coefficients shows that a more restrictive
+ego-position toward immigration leads to a lower probability of the
+voters to choose any other party than the AfD. It is hard to evaluate
+whether the effect is statistically significant and how the
+probabilities for each choice look like. For this it is helpful to
+predict the probabilities for certain scenarios and plot the means and
+confidence intervals for visual analysis.
 
-Let’s say we are interested in the relationship between the math scores
-and the probability to choose one or the other type of track. It would
-be helpful to plot the predicted probabilities for the span of the math
-scores.
+Let’s say we are interested in the relationship between the ego-position
+toward immigration and the probability to choose any of the parties. It
+would be helpful to plot the predicted probabilities for the span of the
+positions.
 
 ``` r
-summary(ml$math)
+summary(gles$egoposition_immigration)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   33.00   45.00   52.00   52.65   59.00   75.00
+#>   0.000   3.000   4.000   4.361   6.000  10.000
 ```
 
-As we can see, the math scores range from 33 to 75. Let’s pick this
-score as the x-variable (`xvari`) and use the `mnl_pred_ova()` function
-to get predicted probabilities for each math score in this range.
+As we can see, the ego positions were recorded on a scale from 0 to 10.
+Higher numbers represent more restrictive positions. We pick this score
+as the x-variable (`xvari`) and use the `mnl_pred_ova()` function to get
+predicted probabilities for each position in this range.
 
 The function needs a multinomial logit model (`model`), data (`data`),
 the variable of interest `xvari`, the steps for which the probabilities
@@ -234,8 +249,8 @@ If we want to hold another variable stable, we can specify so with
 
 ``` r
 pred1 <- mnl_pred_ova(model = mod1,
-                      data = ml,
-                      xvari = "math",
+                      data = gles,
+                      xvari = "egoposition_immigration",
                       by = 1,
                       seed = "random", # default
                       nsim = 100, # faster
@@ -247,33 +262,35 @@ returns a `plotdata` data set:
 
 ``` r
 pred1$plotdata %>% head()
-#>   math    prog2      mean      lower     upper
-#> 1   33 academic 0.1364237 0.06509270 0.2762660
-#> 2   34 academic 0.1485928 0.07399314 0.2866149
-#> 3   35 academic 0.1616646 0.08396523 0.2971575
-#> 4   36 academic 0.1756663 0.09510033 0.3078852
-#> 5   37 academic 0.1906184 0.10748828 0.3187893
-#> 6   38 academic 0.2065332 0.12186680 0.3300093
+#>   egoposition_immigration vote        mean        lower       upper
+#> 1                       0  AfD 0.002560302 0.0008212766 0.006469958
+#> 2                       1  AfD 0.004862334 0.0018631381 0.011109641
+#> 3                       2  AfD 0.009046314 0.0040917285 0.018509543
+#> 4                       3  AfD 0.016432669 0.0086144400 0.029469860
+#> 5                       4  AfD 0.029034456 0.0175710100 0.046013386
+#> 6                       5  AfD 0.049669972 0.0344344380 0.069375535
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
 and an upper bound of the confidence interval. Concerning the choice
 category, the data is in a long format. This makes it easy to plot it
 with the `ggplot` syntax. The choice category can now easily be used to
-differentiate the lines in the plot by using `linetype = prog2` in the
+differentiate the lines in the plot by using `linetype = vote` in the
 `aes()`. Another option is to use `facet_wrap()` or `facet_grid()` to
 differentiate the predictions:
 
 ``` r
-ggplot(data = pred1$plotdata, aes(x = math, y = mean,
+ggplot(data = pred1$plotdata, aes(x = egoposition_immigration, 
+                                  y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) + # Confidence intervals
   geom_line() + # Mean
-  facet_grid(prog2 ~., scales = "free_y") +
+  facet_wrap(.~ vote, scales = "free_y", ncol = 2) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
+  scale_x_continuous(breaks = c(0:10)) +
   theme_bw() +
   labs(y = "Predicted probabilities",
-       x = "Math score") # Always label your axes ;)
+       x = "Ego-position toward immigration") # Always label your axes ;)
 ```
 
 ![](man/figures/README-prediction_plot1-1.png)<!-- -->
@@ -281,27 +298,31 @@ ggplot(data = pred1$plotdata, aes(x = math, y = mean,
 If we want first differences between two scenarios, we can use the
 function `mnl_fd2_ova()`. The function takes similar arguments as the
 function above, but now the values for the scenarios of interest have to
-be supplied. Imagine we want to know what difference it makes to have
-the lowest or highest `math` score. This can be done as follows:
+be supplied. Imagine we want to know what difference it makes to
+position oneself on the most tolerant or most restrictive end of the
+`egoposition_immigration` scale. This can be done as follows:
 
 ``` r
 fdif1 <- mnl_fd2_ova(model = mod1,
-                     data = ml,
-                     xvari = "math",
-                     value1 = min(ml$math),
-                     value2 = max(ml$math),
+                     data = gles,
+                     xvari = "egoposition_immigration",
+                     value1 = min(gles$egoposition_immigration),
+                     value2 = max(gles$egoposition_immigration),
                      nsim = 100)
 ```
 
 The first differences can then be depicted in a graph.
 
 ``` r
-ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
-                              ymin = lower, max = upper)) +
+ggplot(fdif1$plotdata_fd, aes(x = categories, 
+                              y = mean,
+                              ymin = lower, ymax = upper)) +
   geom_pointrange() +
   geom_hline(yintercept = 0) +
   scale_y_continuous(labels = percent_format()) +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Predicted probabilities",
+       x = "Party vote")
 ```
 
 ![](man/figures/README-static_fd_plot-1.png)<!-- -->
@@ -309,36 +330,37 @@ ggplot(fdif1$plotdata_fd, aes(categories, y = mean,
 We are often not only interested in the static difference, but the
 difference across a span of values, given a difference in a second
 variable. This is especially helpful when we look at dummy variables.
-For example, we could be interested in the effect of `female`. With the
-`mnl_fd_ova()` function, we can predict the probabilities for two
-scenarios and subtract them. The function returns the differences and
-the confidence intervals of the differences. The different scenarios can
-be held stable with `scenname` and the `scenvalues`. `scenvalues` takes
-a vector of two numeric values. These values are held stable for the
-variable that is named in `scenname`.
+For example, we could be interested in the effect of `gender` on the
+vote decision over the different ego-positions. With the `mnl_fd_ova()`
+function, we can predict the probabilities for two scenarios and
+subtract them. The function returns the differences and the confidence
+intervals of the differences. The different scenarios can be held stable
+with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two
+numeric values. These values are held stable for the variable that is
+named in `scenname`.
 
 ``` r
 fdif2 <- mnl_fd_ova(model = mod1,
-                    data = ml,
-                    xvari = "math",
+                    data = gles,
+                    xvari = "egoposition_immigration",
                     by = 1,
-                    scenname = "female2",
+                    scenname = "gender",
                     scenvalues = c(0,1),
                     nsim = 100)
 ```
 
-As before, the function returns a list, including a data set that can be
+As before, the function returns a list including a data set that can be
 used to plot the differences.
 
 ``` r
 fdif2$plotdata_fd %>% head()
-#>   math    prog2        mean      lower      upper
-#> 1   33 academic -0.03435581 -0.1488132 0.03994656
-#> 2   34 academic -0.03671573 -0.1567565 0.04179571
-#> 3   35 academic -0.03914827 -0.1646638 0.04351644
-#> 4   36 academic -0.04163856 -0.1724790 0.04537434
-#> 5   37 academic -0.04416841 -0.1801430 0.04757742
-#> 6   38 academic -0.04671626 -0.1875949 0.04962998
+#>   egoposition_immigration vote         mean       lower        upper
+#> 1                       0  AfD -0.003004592 -0.00788632 -0.001029104
+#> 2                       1  AfD -0.005650374 -0.01324906 -0.002179697
+#> 3                       2  AfD -0.010385367 -0.02186791 -0.004571091
+#> 4                       3  AfD -0.018587104 -0.03599670 -0.009316858
+#> 5                       4  AfD -0.032238589 -0.05682488 -0.017223890
+#> 6                       5  AfD -0.053834228 -0.08390635 -0.030473691
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -348,46 +370,54 @@ already bound together row wise to easily plot the predicted
 probabilities.
 
 ``` r
-ggplot(data = fdif2$plotdata, aes(x = math, y = mean,
-                                ymin = lower, ymax = upper,
-                                linetype = as.factor(female2))) +
+ggplot(data = fdif2$plotdata, aes(x = egoposition_immigration, 
+                                  y = mean,
+                                  ymin = lower, ymax = upper,
+                                  group = as.factor(gender),
+                                  linetype = as.factor(gender))) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +
-  facet_grid(prog2 ~., scales = "free_y") +
+  facet_wrap(. ~ vote, scales = "free_y", ncol = 2) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
-  scale_linetype_discrete(name = "Female") +
+  scale_x_continuous(breaks = c(0:10)) +
+  scale_linetype_discrete(name = "Gender",
+                          breaks = c(0, 1),
+                          labels = c("Male", "Female")) +
   theme_bw() +
   labs(y = "Predicted probabilities",
-       x = "Math score") # Always label your axes ;)
+       x = "Ego-position toward immigration") # Always label your axes ;)
 ```
 
 ![](man/figures/README-prediction_plot2-1.png)<!-- -->
 
-As we can see, the differences between `female` and not-`female` are
-minimal. So let’s take a look at the differences:
+As we can see, the differences between `female` and `male` differ,
+depending on the party and ego-position. So let’s take a look at the
+differences:
 
 ``` r
-ggplot(data = fdif2$plotdata_fd, aes(x = math, y = mean,
+ggplot(data = fdif2$plotdata_fd, aes(x = egoposition_immigration, 
+                                     y = mean,
                                   ymin = lower, ymax = upper)) +
   geom_ribbon(alpha = 0.1) +
   geom_line() +
   geom_hline(yintercept = 0) +
-  facet_grid(prog2 ~., scales = "free_y") +
+  facet_wrap(. ~ vote, ncol = 3) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
+  scale_x_continuous(breaks = c(0:10)) +
   theme_bw() +
   labs(y = "Predicted probabilities",
-       x = "Math score") # Always label your axes ;)
+       x = "Ego-position toward immigration") # Always label your axes ;)
 ```
 
 ![](man/figures/README-first_differences_plot-1.png)<!-- -->
 
-We can see that the differences are in fact minimal and at no point
+We can see that the differences are for some parties at no point
 statistically significant from 0.
 
 ## Conclusion
 
 Multinomial logit models are important to model nominal choices. They
-are restricted however by being in need of a baseline category.
+are, however, restricted by being in need of a baseline category.
 Additionally, the log-character of the estimates makes it difficult to
 interpret them in meaningful ways. Predicting probabilities for all
 choices for scenarios, based on the observed data provides much more
@@ -413,13 +443,33 @@ Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
+
+<div id="ref-hanmer2013">
+
+Hanmer, Michael J., and Kerem Ozan Kalkan. 2013. “Behind the Curve:
+Clarifying the Best Approach to Calculating Predicted Probabilities and
+Marginal Effects from Limited Dependent Variable Models.” *American
+Journal of Political Science* 57 (1): 263–77.
+<https://doi.org/10.1111/j.1540-5907.2012.00602.x>.
+
+</div>
 
 <div id="ref-king2000">
 
 King, Gary, Michael Tomz, and Jason Wittenberg. 2000. “Making the Most
 of Statistical Analyses: Improving Interpretation and Presentation.”
 *American Journal of Political Science* 44 (2): 341–55.
+<https://doi.org/10.2307/2669316>.
+
+</div>
+
+<div id="ref-rosteutscher2019">
+
+Roßteutscher, Sigrid, Harald Schoen, Rüdiger Schmitt-Beck, Christof
+Wolf, and Alexander Staudt. 2019. “Rolling Cross-Section-Wahlkampfstudie
+Mit Nachwahl-Panelwelle (GLES 2017).” GESIS Datenarchiv.
+<https://doi.org/10.4232/1.13213>.
 
 </div>
 
