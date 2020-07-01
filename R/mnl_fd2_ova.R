@@ -81,6 +81,22 @@ mnl_fd2_ova <- function(model,
     stop("Please supply values to compute differences")
   }
 
+  if (is.null(model$Hessian) == TRUE) {
+    stop("There is no Hessian matrix. Please specify Hess = TRUE in your multinom() call.")
+  }
+
+  # Names of variables in model (without the "list" character in the vector)
+  variables <- as.character(attr(model$terms, "variables"))[-1]
+
+  if(!(xvari %in% variables) == TRUE){
+    stop("x-variable is not an independent variable in the model. There might be a typo.")
+  }
+
+  if(is.null(scenname) == FALSE){
+    if (!(scenname %in% variables) == TRUE) {
+      stop("The scenario variable is not an independent variable in the model. There might be a typo.")
+    }
+  }
 
   # Create list that is returned in the end.
   output <- list()
@@ -112,10 +128,6 @@ mnl_fd2_ova <- function(model,
   output[["ScenarioValues"]] <- variation
 
   nseq <- length(variation)
-
-
-  # Names of variables in model (without the "list" character in the vector)
-  variables <- as.character(attr(model$terms, "variables"))[-1]
 
   # Name of independent variables
   iv <- variables[2:length(variables)]
