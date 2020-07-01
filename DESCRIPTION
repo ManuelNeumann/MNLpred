@@ -1,6 +1,6 @@
 Package: MNLpred
 Title: Simulated Predicted Probabilities for Multinomial Logit Models
-Version: 0.0.2
+Version: 0.0.2.900
 Authors@R: 
     person(given = "Manuel",
            family = "Neumann",
@@ -16,7 +16,7 @@ Description: Functions to easily return simulated predicted probabilities and
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: 
     knitr,
     rmarkdown,

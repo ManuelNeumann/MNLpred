@@ -7,8 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
-[![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
+[![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
 [![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
 <!-- badges: end -->
 
@@ -263,12 +263,12 @@ returns a `plotdata` data set:
 ``` r
 pred1$plotdata %>% head()
 #>   egoposition_immigration vote        mean        lower       upper
-#> 1                       0  AfD 0.002560302 0.0008212766 0.006469958
-#> 2                       1  AfD 0.004862334 0.0018631381 0.011109641
-#> 3                       2  AfD 0.009046314 0.0040917285 0.018509543
-#> 4                       3  AfD 0.016432669 0.0086144400 0.029469860
-#> 5                       4  AfD 0.029034456 0.0175710100 0.046013386
-#> 6                       5  AfD 0.049669972 0.0344344380 0.069375535
+#> 1                       0  AfD 0.002551383 0.0009350245 0.005029258
+#> 2                       1  AfD 0.004842439 0.0021392100 0.008671032
+#> 3                       2  AfD 0.009000998 0.0046635746 0.015262993
+#> 4                       3  AfD 0.016334023 0.0095505658 0.025591613
+#> 5                       4  AfD 0.028828409 0.0191431426 0.042071495
+#> 6                       5  AfD 0.049244764 0.0364713289 0.065916024
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -354,13 +354,13 @@ used to plot the differences.
 
 ``` r
 fdif2$plotdata_fd %>% head()
-#>   egoposition_immigration vote         mean       lower        upper
-#> 1                       0  AfD -0.003004592 -0.00788632 -0.001029104
-#> 2                       1  AfD -0.005650374 -0.01324906 -0.002179697
-#> 3                       2  AfD -0.010385367 -0.02186791 -0.004571091
-#> 4                       3  AfD -0.018587104 -0.03599670 -0.009316858
-#> 5                       4  AfD -0.032238589 -0.05682488 -0.017223890
-#> 6                       5  AfD -0.053834228 -0.08390635 -0.030473691
+#>   egoposition_immigration vote         mean        lower         upper
+#> 1                       0  AfD -0.002785471 -0.006618214 -0.0008217659
+#> 2                       1  AfD -0.005259506 -0.010972634 -0.0019080486
+#> 3                       2  AfD -0.009712245 -0.017851305 -0.0042050987
+#> 4                       3  AfD -0.017470368 -0.028924102 -0.0083183233
+#> 5                       4  AfD -0.030455572 -0.048350994 -0.0152984534
+#> 6                       5  AfD -0.051095125 -0.077886389 -0.0291022833
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it

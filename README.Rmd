@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-  [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
-  [![downloads](http://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+  [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
+  [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
   [![total_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
   <!-- badges: end -->
 
