@@ -1,6 +1,6 @@
 Package: MNLpred
 Title: Simulated Predicted Probabilities for Multinomial Logit Models
-Version: 0.0.2.900
+Version: 0.0.3
 Authors@R: 
     person(given = "Manuel",
            family = "Neumann",
@@ -13,7 +13,8 @@ Description: Functions to easily return simulated predicted probabilities and
     coefficients, drawn from a simulated sampling distribution. The simulated 
     predictions allow for meaningful plots with means and confidence intervals.
     The methodological approach is based on the principles laid out by King,
-    Tomz, and Wittenberg (2000) <doi:10.2307/2669316>.
+    Tomz, and Wittenberg (2000) <doi:10.2307/2669316> and Hanmer and Ozan Kalkan 
+    (2016) <doi:10.1111/j.1540-5907.2012.00602.x>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
