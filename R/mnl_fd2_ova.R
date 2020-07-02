@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-#'library(nnet)
+#' library(nnet)
 #' library(MASS)
 #'
 #' dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
@@ -25,27 +25,11 @@
 #'
 #' fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
 #'                     xvari = "x1",
-#'                     value1 = min(dataset$x1), value2 = max(dataset$x1))
+#'                     value1 = min(dataset$x1),
+#'                     value2 = max(dataset$x1),
+#'                     nsim = 10)
 #'
 #'
-#' \donttest{
-#' library(foreign)
-#' library(nnet)
-#' library(MASS)
-#'
-#' ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
-#'
-#' ml$prog2 <- relevel(ml$prog, ref = "academic")
-#' ml$female2 <- as.numeric(ml$female == "female")
-#'
-#' mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
-#'                  Hess = TRUE, data = ml)
-#'
-#' fd1 <- mnl_fd2_ova(model = mod1, data = ml,
-#'                    xvari = "math",
-#'                    value1 = min(ml$math), value2= max(ml$math),
-#'                    nsim = 1000)
-#' }
 #'
 #' @importFrom stats coef na.omit quantile
 #' @importFrom MASS mvrnorm
@@ -90,12 +74,6 @@ mnl_fd2_ova <- function(model,
 
   if(!(xvari %in% variables) == TRUE){
     stop("x-variable is not an independent variable in the model. There might be a typo.")
-  }
-
-  if(is.null(scenname) == FALSE){
-    if (!(scenname %in% variables) == TRUE) {
-      stop("The scenario variable is not an independent variable in the model. There might be a typo.")
-    }
   }
 
   # Create list that is returned in the end.
@@ -236,6 +214,9 @@ mnl_fd2_ova <- function(model,
 
   # Multinomial link function:
 
+  pb_aggregation <- txtProgressBar(min = 0, max = J, initial = 0)
+  cat("\nApplying link function:\n")
+
   # 1. Part: Sum over cases
   Sexp <- apply(ovaV, c(1, 2, 3), function(x) sum(exp(x)))
 
@@ -247,6 +228,8 @@ mnl_fd2_ova <- function(model,
     for (m in 1:J) {
       P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
     }
+
+    setTxtProgressBar(pb_aggregation, l)
   }
 
   output[["P"]] <- P
@@ -268,10 +251,7 @@ mnl_fd2_ova <- function(model,
 
   # Aggregate
 
-  pb_aggregation <- txtProgressBar(min = 0, max = J, initial = 0)
-
   start <- 1
-  cat("\nAggregating simulated predictions:\n")
 
   for (i in 1:J) {
     end <- i*length(variation)
@@ -279,8 +259,6 @@ mnl_fd2_ova <- function(model,
     plotdat[c(start:end), "lower"] <- apply(P[, i,], 2, quantile, probs = probs[1])
     plotdat[c(start:end), "upper"] <- apply(P[, i,], 2, quantile, probs = probs[2])
     start <- end+1
-
-    setTxtProgressBar(pb_aggregation, i)
   }
 
   # Rename the variables in the plot data
