@@ -75,9 +75,6 @@ The contains 1,000 respondents characteristics and their vote choice.
 For this task, we need the following packages:
 
 ```{r setup}
-# Reading data
-library(foreign)
-
 # Required packages
 library(magrittr) # for pipes
 library(nnet) # for the multinom()-function
