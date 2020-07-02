@@ -51,26 +51,10 @@ mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 
 fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
                     xvari = "x1",
-                    value1 = min(dataset$x1), value2 = max(dataset$x1))
+                    value1 = min(dataset$x1),
+                    value2 = max(dataset$x1),
+                    nsim = 10)
 
 
-\donttest{
-library(foreign)
-library(nnet)
-library(MASS)
-
-ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
-
-ml$prog2 <- relevel(ml$prog, ref = "academic")
-ml$female2 <- as.numeric(ml$female == "female")
-
-mod1 <- multinom(prog2 ~ female2 + read + write + math + science,
-                 Hess = TRUE, data = ml)
-
-fd1 <- mnl_fd2_ova(model = mod1, data = ml,
-                   xvari = "math",
-                   value1 = min(ml$math), value2= max(ml$math),
-                   nsim = 1000)
-}
 
 }
