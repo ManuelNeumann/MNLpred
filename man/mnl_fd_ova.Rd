@@ -66,5 +66,4 @@ fdif <- mnl_fd_ova(model = mod, data = dataset,
                    scenvalues = c(min(dataset$x3), max(dataset$x3)),
                    nsim = 10)
 
-
 }

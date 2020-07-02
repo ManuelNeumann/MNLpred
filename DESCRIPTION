@@ -6,6 +6,7 @@ Authors@R:
            family = "Neumann",
            role = c("aut", "cre"),
            email = "manuel.neumann@mzes.uni-mannheim.de")
+Depends: R (>= 3.5.0)
 Description: Functions to easily return simulated predicted probabilities and
     first differences for multinomial logit models. It takes a specified 
     scenario and a multinomial model to predict probabilities with a set of
