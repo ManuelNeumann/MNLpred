@@ -5,11 +5,13 @@
 
 <!-- badges: start -->
 
+[![GPLv3
+license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html)
 [![Travis build
 status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
-[![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
-[![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
+[![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
+[![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable
@@ -115,9 +117,6 @@ The contains 1,000 respondents characteristics and their vote choice.
 For this task, we need the following packages:
 
 ``` r
-# Reading data
-library(foreign)
-
 # Required packages
 library(magrittr) # for pipes
 library(nnet) # for the multinom()-function
@@ -255,6 +254,11 @@ pred1 <- mnl_pred_ova(model = mod1,
                       seed = "random", # default
                       nsim = 100, # faster
                       probs = c(0.025, 0.975)) # default
+#> Multiplying values with simulated estimates:
+#> ================================================================================
+#> Applying link function:
+#> ================================================================================
+#> Done!
 ```
 
 The function returns a list with several elements. Most importantly, it
@@ -263,12 +267,12 @@ returns a `plotdata` data set:
 ``` r
 pred1$plotdata %>% head()
 #>   egoposition_immigration vote        mean        lower       upper
-#> 1                       0  AfD 0.002551383 0.0009350245 0.005029258
-#> 2                       1  AfD 0.004842439 0.0021392100 0.008671032
-#> 3                       2  AfD 0.009000998 0.0046635746 0.015262993
-#> 4                       3  AfD 0.016334023 0.0095505658 0.025591613
-#> 5                       4  AfD 0.028828409 0.0191431426 0.042071495
-#> 6                       5  AfD 0.049244764 0.0364713289 0.065916024
+#> 1                       0  AfD 0.002417054 0.0008918529 0.005624639
+#> 2                       1  AfD 0.004619356 0.0019226763 0.009712040
+#> 3                       2  AfD 0.008642079 0.0041200624 0.016347866
+#> 4                       3  AfD 0.015777104 0.0086118666 0.026715281
+#> 5                       4  AfD 0.028004116 0.0178964022 0.042207240
+#> 6                       5  AfD 0.048105941 0.0337289589 0.064225373
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -309,6 +313,11 @@ fdif1 <- mnl_fd2_ova(model = mod1,
                      value1 = min(gles$egoposition_immigration),
                      value2 = max(gles$egoposition_immigration),
                      nsim = 100)
+#> Multiplying values with simulated estimates:
+#> ================================================================================
+#> Applying link function:
+#> ================================================================================
+#> Done!
 ```
 
 The first differences can then be depicted in a graph.
@@ -347,6 +356,19 @@ fdif2 <- mnl_fd_ova(model = mod1,
                     scenname = "gender",
                     scenvalues = c(0,1),
                     nsim = 100)
+#> First scenario:
+#> Multiplying values with simulated estimates:
+#> ================================================================================
+#> Applying link function:
+#> ================================================================================
+#> Done!
+#> 
+#> Second scenario:
+#> Multiplying values with simulated estimates:
+#> ================================================================================
+#> Applying link function:
+#> ================================================================================
+#> Done!
 ```
 
 As before, the function returns a list including a data set that can be
@@ -354,13 +376,13 @@ used to plot the differences.
 
 ``` r
 fdif2$plotdata_fd %>% head()
-#>   egoposition_immigration vote         mean        lower         upper
-#> 1                       0  AfD -0.002785471 -0.006618214 -0.0008217659
-#> 2                       1  AfD -0.005259506 -0.010972634 -0.0019080486
-#> 3                       2  AfD -0.009712245 -0.017851305 -0.0042050987
-#> 4                       3  AfD -0.017470368 -0.028924102 -0.0083183233
-#> 5                       4  AfD -0.030455572 -0.048350994 -0.0152984534
-#> 6                       5  AfD -0.051095125 -0.077886389 -0.0291022833
+#>   egoposition_immigration vote         mean        lower        upper
+#> 1                       0  AfD -0.002950531 -0.005996833 -0.001199990
+#> 2                       1  AfD -0.005549981 -0.010519156 -0.002517706
+#> 3                       2  AfD -0.010193463 -0.017984987 -0.004997250
+#> 4                       3  AfD -0.018209758 -0.030237718 -0.009743893
+#> 5                       4  AfD -0.031484879 -0.048222600 -0.016516560
+#> 6                       5  AfD -0.052337667 -0.075155958 -0.028616931
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it

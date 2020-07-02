@@ -18,10 +18,11 @@ knitr::opts_chunk$set(
 # MNLpred - Simulated Predictions From Multinomial Logistic Models
 
 <!-- badges: start -->
+  [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html)
   [![Travis build status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
-  [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/MNLpred)](http://cran.r-project.org/package=MNLpred)
-  [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
-  [![total_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](http://cran.rstudio.com/web/packages/MNLpred/index.html)
+  [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
+  [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
+  [![total_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
   <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable predictions from multinomial logit models. The predictions are based on simulated draws of regression estimates from their respective sampling distribution.
@@ -89,9 +90,6 @@ The contains 1,000 respondents characteristics and their vote choice.
 For this task, we need the following packages:
 
 ```{r setup}
-# Reading data
-library(foreign)
-
 # Required packages
 library(magrittr) # for pipes
 library(nnet) # for the multinom()-function

@@ -214,7 +214,7 @@ mnl_fd2_ova <- function(model,
 
   # Multinomial link function:
 
-  pb_aggregation <- txtProgressBar(min = 0, max = J, initial = 0)
+  pb_link <- txtProgressBar(min = 0, max = nseq, initial = 0)
   cat("\nApplying link function:\n")
 
   # 1. Part: Sum over cases
@@ -229,7 +229,7 @@ mnl_fd2_ova <- function(model,
       P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
     }
 
-    setTxtProgressBar(pb_aggregation, l)
+    setTxtProgressBar(pb_link, l)
   }
 
   output[["P"]] <- P
@@ -294,5 +294,6 @@ mnl_fd2_ova <- function(model,
 
   output[["plotdata_fd"]] <- plotdat_fd
 
+  cat("\nDone!\n\n")
   return(output)
 }
