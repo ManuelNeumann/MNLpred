@@ -32,6 +32,7 @@
 #'
 #'
 #' @importFrom stats coef na.omit quantile
+#' @importFrom utils setTxtProgressBar txtProgressBar
 #' @importFrom MASS mvrnorm
 
 

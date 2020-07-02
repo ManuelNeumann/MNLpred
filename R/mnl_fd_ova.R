@@ -39,7 +39,6 @@
 #'                    scenvalues = c(min(dataset$x3), max(dataset$x3)),
 #'                    nsim = 10)
 #'
-#'
 
 mnl_fd_ova <- function(model,
                        data,
