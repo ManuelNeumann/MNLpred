@@ -1,6 +1,5 @@
 context("Variations in the input")
 library(MNLpred)
-library(foreign)
 library(nnet)
 library(MASS)
 
