@@ -16,7 +16,7 @@ An data frame with 1,000 observations and 6 variables:
 }
 }
 \source{
-\href{https://www.doi.org/10.4232/1.13213}{Gesis Datenarchiv}
+\href{https://www.doi.org/10.4232/1.13213}{GESIS Datenarchiv}
 }
 \usage{
 data(gles)
@@ -31,8 +31,8 @@ table(gles$vote)
 }
 \references{
 Roßteutscher, Sigrid et al. 2019.
-“Rolling Cross-Section-Wahlkampfstudie Mit Nachwahl-Panelwelle (GLES 2017).”
+“Rolling Cross-Section-Wahlkampfstudie mit Nachwahl-Panelwelle (GLES 2017).”
 ZA6803 Datenfile Version 4.0.1.
-(\href{https://www.doi.org/10.4232/1.13213}{Gesis Datenarchiv}).
+(\href{https://www.doi.org/10.4232/1.13213}{GESIS Datenarchiv}).
 }
 \keyword{datasets}
