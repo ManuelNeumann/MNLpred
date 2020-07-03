@@ -1,6 +1,6 @@
 Package: MNLpred
 Title: Simulated Predicted Probabilities for Multinomial Logit Models
-Version: 0.0.3
+Version: 0.0.3.9000
 Authors@R: 
     person(given = "Manuel",
            family = "Neumann",
