@@ -14,6 +14,17 @@ mod2 <- multinom(vote ~ egoposition_immigration +
                    income + gender + ostwest,
                  data = gles)
 
+# Add factors:
+gles$factor <- as.factor(sample(c("A", "B", "C"), nrow(gles), replace = T))
+
+mod3 <- multinom(vote ~ egoposition_immigration +
+                   political_interest +
+                   income + gender + ostwest +
+                   factor,
+                 data = gles,
+                 Hess = TRUE)
+
+# Tests
 test_that("mnl_pred_ova() returns two predictions when by = NULL", {
 
   expect_equal(mnl_pred_ova(model = mod1,
@@ -78,10 +89,20 @@ test_that("mnl_pred_ova() returns error message when there is no Hessian matrix"
 
   expect_error(mnl_pred_ova(model = mod2,
                             data = gles,
-                            xvari = "immigration",
+                            xvari = "egoposition_immigration",
                             by = 1,
                             seed = "random", # default
                             nsim = 2, # faster
                             probs = c(0.025, 0.975)),
                regexp = "Hess = TRUE")
+})
+
+test_that("mnl_pred_ova() stops if non-numeric variables are supplied with the data", {
+
+  expect_error(mnl_pred_ova(model = mod3,
+                            data = gles,
+                            xvari = "egoposition_immigration",
+                            nsim = 2),
+               regexp = "Please supply data that consists of numeric values.")
+
 })
