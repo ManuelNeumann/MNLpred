@@ -111,7 +111,7 @@ mnl_pred_ova <- function(model,
   S <- mvrnorm(nsim, mu, varcov)
   output[["S"]] <- S
 
-  # Artificial variation ov independent variable of interest
+  # Artificial variation of independent variable of interest (x)
   if (is.null(by) == TRUE) {
     by <- abs(min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE) -
       max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE))
