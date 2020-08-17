@@ -22,14 +22,6 @@ There is one NOTE:
 
 Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
 
-  Possibly mis-spelled words in DESCRIPTION:
-  
-  Hanmer (16:59)
-  Kalkan (16:75)
-  Ozan (16:70)
-
-* Words are Journal author's names.
-  
   Found the following (possibly) invalid DOIs:
     DOI: 10.2307/2669316
       From: DESCRIPTION
