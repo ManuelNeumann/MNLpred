@@ -1,11 +1,12 @@
 Package: MNLpred
 Title: Simulated Predicted Probabilities for Multinomial Logit Models
-Version: 0.0.3.9000
+Version: 0.0.4
 Authors@R: 
     person(given = "Manuel",
            family = "Neumann",
            role = c("aut", "cre"),
-           email = "manuel.neumann@mzes.uni-mannheim.de")
+           email = "manuel.neumann@mzes.uni-mannheim.de",
+           comment = c(ORCID = "0000-0002-7953-3939"))
 Depends: R (>= 3.5.0)
 Description: Functions to easily return simulated predicted probabilities and
     first differences for multinomial logit models. It takes a specified 

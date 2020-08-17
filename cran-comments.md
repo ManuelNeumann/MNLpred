@@ -1,9 +1,10 @@
 ## Resubmission
 
-This is a submission for a new release (0.0.3). 
+This is a submission for a new minor release (0.0.4). 
 
-It fixes the bug of missing data for examples, vignettes, etc. due to a dead URL.
-It also includes minor enhancements, such as descriptive error messages.
+It includes a very important error message for people that want to use models
+with factor variables. 
+It refers to a related issue on github that presents a workaround.
 
 
 ## Test environments
@@ -21,14 +22,6 @@ There is one NOTE:
 
 Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
 
-  Possibly mis-spelled words in DESCRIPTION:
-  
-  Hanmer (16:59)
-  Kalkan (16:75)
-  Ozan (16:70)
-
-* Words are Journal author's names.
-  
   Found the following (possibly) invalid DOIs:
     DOI: 10.2307/2669316
       From: DESCRIPTION
