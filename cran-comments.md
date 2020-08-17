@@ -21,12 +21,22 @@ There were no ERRORs or WARNINGs
 There is one NOTE:
 
 Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
+  
+Found the following (possibly) invalid URLs:
+  URL: https://www.doi.org/10.4232/1.13213
+    From: man/gles.Rd
+    Status: Error
+    Message: libcurl error code 60:
+      	SSL certificate problem: unable to get local issuer certificate
+      	(Status without verification: OK)
 
-  Found the following (possibly) invalid DOIs:
-    DOI: 10.2307/2669316
-      From: DESCRIPTION
-      Status: Forbidden
-      Message: 403
+* URL links to the correct website by Gesis
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.2307/2669316
+    From: DESCRIPTION
+    Status: Forbidden
+    Message: 403
 
 * DOI is correct, but article is behind a pay-wall.
 
