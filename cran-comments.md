@@ -1,10 +1,12 @@
 ## Resubmission
 
-This is a submission for a new minor release (0.0.4). 
+This is a submission for a new minor release (0.0.4).
 
 It includes a very important error message for people that want to use models
 with factor variables. 
 It refers to a related issue on github that presents a workaround.
+
+"http"" was changed to "https" in link
 
 
 ## Test environments
