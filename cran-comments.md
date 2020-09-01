@@ -20,7 +20,7 @@ It refers to a related issue on github that presents a workaround.
 ## R CMD check results
 There were no ERRORs or WARNINGs
 
-There is one NOTE:
+There are two NOTEs:
 
 Maintainer: ‘Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>’
 
