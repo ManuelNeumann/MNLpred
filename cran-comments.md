@@ -6,7 +6,7 @@ It includes a very important error message for people that want to use models
 with factor variables. 
 It refers to a related issue on github that presents a workaround.
 
-"http" was changed to "https" in link - now also in the knitted README.md
+Updated all links in the README and vignettes, and knitted them.
 
 
 ## Test environments
