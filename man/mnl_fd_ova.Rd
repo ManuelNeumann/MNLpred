@@ -7,6 +7,9 @@
 mnl_fd_ova(
   model,
   data,
+  x,
+  z,
+  z_values,
   xvari,
   scenname,
   scenvalues,
@@ -21,13 +24,13 @@ mnl_fd_ova(
 
 \item{data}{the data with which the model was estimated}
 
-\item{xvari}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
+\item{x}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
 
-\item{scenname}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
+\item{z}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
 
-\item{scenvalues}{determine the two values at which value you want to fix the scenario (\code{scenname}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.}
+\item{z_values}{determine the two values at which value you want to fix the scenario (\code{z}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.}
 
-\item{by}{define the steps of the \code{xvari}.}
+\item{by}{define the steps of the \code{x}.}
 
 \item{nsim}{numbers of simulations}
 
@@ -62,8 +65,8 @@ dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
 mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 
 fdif <- mnl_fd_ova(model = mod, data = dataset,
-                   xvari = "x1", scenname = "x3",
-                   scenvalues = c(min(dataset$x3), max(dataset$x3)),
+                   x = "x1", z = "x3",
+                   z_values = c(min(dataset$x3), max(dataset$x3)),
                    nsim = 10)
 
 }
