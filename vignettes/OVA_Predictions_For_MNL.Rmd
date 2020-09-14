@@ -251,6 +251,6 @@ Multinomial logit models are important to model nominal choices. They are, howev
 
 ## Acknowledgment
 
-My code is inspired by the method courses in the [Political Science master's program  at the University of Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool place, check it out!). The skeleton of the code is based on a tutorial taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/) (lecture: "Advanced Quantitative Methods" by [Thomas Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
+My code is inspired by the method courses in the [Political Science master's program  at the University of Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool place, check it out!). The skeleton of the code is based on a tutorial taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/) (lecture: "Advanced Quantitative Methods" by [Thomas Gschwend](https://www.sowi.uni-mannheim.de/gschwend/)).
 
 ## References

@@ -267,12 +267,12 @@ returns a `plotdata` data set:
 ``` r
 pred1$plotdata %>% head()
 #>   egoposition_immigration vote        mean        lower       upper
-#> 1                       0  AfD 0.002542384 0.0008824122 0.005781465
-#> 2                       1  AfD 0.004830211 0.0019099219 0.009858447
-#> 3                       2  AfD 0.008995787 0.0042242499 0.016372401
-#> 4                       3  AfD 0.016365730 0.0088724006 0.026530469
-#> 5                       4  AfD 0.028963192 0.0179605817 0.041066115
-#> 6                       5  AfD 0.049604901 0.0348963869 0.064858008
+#> 1                       0  AfD 0.002280170 0.0008558598 0.005491734
+#> 2                       1  AfD 0.004375939 0.0018961206 0.009450405
+#> 3                       2  AfD 0.008229726 0.0041619617 0.016110250
+#> 4                       3  AfD 0.015121617 0.0088159160 0.027347834
+#> 5                       4  AfD 0.027047128 0.0178399439 0.044993868
+#> 6                       5  AfD 0.046869060 0.0344841912 0.070355686
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -377,12 +377,12 @@ used to plot the differences.
 ``` r
 fdif2$plotdata_fd %>% head()
 #>   egoposition_immigration vote         mean        lower        upper
-#> 1                       0  AfD -0.002809305 -0.006054596 -0.000907856
-#> 2                       1  AfD -0.005312847 -0.010745906 -0.002039326
-#> 3                       2  AfD -0.009835140 -0.018493328 -0.004320129
-#> 4                       3  AfD -0.017747651 -0.031427791 -0.008634304
-#> 5                       4  AfD -0.031049368 -0.051355335 -0.016791086
-#> 6                       5  AfD -0.052272564 -0.081004465 -0.031273690
+#> 1                       0  AfD -0.003090183 -0.006936944 -0.001006274
+#> 2                       1  AfD -0.005810533 -0.011890347 -0.002198163
+#> 3                       2  AfD -0.010675364 -0.020070808 -0.004674165
+#> 4                       3  AfD -0.019088597 -0.033123068 -0.009552083
+#> 5                       4  AfD -0.033055017 -0.052620717 -0.018523845
+#> 6                       5  AfD -0.055067265 -0.081466477 -0.034462678
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -461,7 +461,7 @@ Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-
 place, check it out\!). The skeleton of the code is based on a tutorial
 taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
 (lecture: “Advanced Quantitative Methods” by [Thomas
-Gschwend](http://methods.sowi.uni-mannheim.de/thomas_gschwend/)).
+Gschwend](https://www.sowi.uni-mannheim.de/gschwend/)).
 
 ## References
 
