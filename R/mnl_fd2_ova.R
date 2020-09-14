@@ -2,7 +2,7 @@
 #'
 #' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
 #' @param data the data with which the model was estimated
-#' @param xvari the name of the variable that should be varied
+#' @param x the name of the variable that should be varied
 #' @param value1 first value for the difference
 #' @param value2 second value for the difference
 #' @param nsim numbers of simulations
@@ -24,7 +24,7 @@
 #' mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 #'
 #' fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
-#'                     xvari = "x1",
+#'                     x = "x1",
 #'                     value1 = min(dataset$x1),
 #'                     value2 = max(dataset$x1),
 #'                     nsim = 10)
@@ -38,12 +38,20 @@
 
 mnl_fd2_ova <- function(model,
                         data,
-                        xvari,
+                        x,
                         value1,
                         value2,
+                        xvari,
                         nsim = 1000,
                         seed = "random",
                         probs = c(0.025, 0.975)){
+
+  # Warnings for deprecated arguments
+  if (!missing(xvari)) {
+    warning("The argument xvari is deprecated; please use x instead.\n\n",
+            call. = FALSE)
+    x <- xvari
+  }
 
   # Errors:
   if (is.null(model) == TRUE) {
@@ -58,7 +66,7 @@ mnl_fd2_ova <- function(model,
     stop("Please supply a data set")
   }
 
-  if (is.null(xvari) == TRUE | is.character(xvari) == FALSE) {
+  if (is.null(x) == TRUE | is.character(x) == FALSE) {
     stop("Please supply a character of your x-variable of interest")
   }
 
@@ -73,7 +81,7 @@ mnl_fd2_ova <- function(model,
   # Names of variables in model (without the "list" character in the vector)
   variables <- as.character(attr(model$terms, "variables"))[-1]
 
-  if (!(xvari %in% variables) == TRUE){
+  if (!(x %in% variables) == TRUE){
     stop("x-variable is not an independent variable in the model. There might be a typo.")
   }
 
@@ -153,13 +161,13 @@ mnl_fd2_ova <- function(model,
   ovacases[,,] <- X
 
   # Select the position of the variable which should vary:
-  if (is.null(xvari) == FALSE) {
-    varidim <- which(colnames(X) == xvari)
+  if (is.null(x) == FALSE) {
+    varidim <- which(colnames(X) == x)
   }
 
   # Artificially alter the variable in each dimension according to
   # the preferred sequence:
-  if (is.null(xvari) == FALSE) {
+  if (is.null(x) == FALSE) {
     for (i in 1:nseq) {
       ovacases[, varidim, i] <- variation[i]
     }
@@ -269,7 +277,7 @@ mnl_fd2_ova <- function(model,
   }
 
   # Rename the variables in the plot data
-  colnames(plotdat)[1:2] <- c(xvari, dv)
+  colnames(plotdat)[1:2] <- c(x, dv)
 
 
   # Put the data in the output
