@@ -5,10 +5,10 @@
 #'
 #' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
 #' @param data the data with which the model was estimated
-#' @param xvari the name of the variable that should be varied (the x-axis variable in prediction plots)
-#' @param scenname if you want to hold a specific variable stable over all scenarios, you can name it here (optional).
-#' @param scenvalue determine at which value you want to fix the \code{scenname}.
-#' @param by define the steps of the \code{xvari}.
+#' @param x the name of the variable that should be varied (the x-axis variable in prediction plots)
+#' @param z if you want to hold a specific variable stable over all scenarios, you can name it here (optional).
+#' @param z_value determine at which value you want to fix the \code{z}.
+#' @param by define the steps of the \code{x}.
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
 #' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}
@@ -28,7 +28,7 @@
 #' mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 #'
 #' pred <- mnl_pred_ova(model = mod, data = dataset,
-#'                      xvari = "x1",
+#'                      x = "x1",
 #'                      nsim = 10)
 #'
 #'
@@ -39,13 +39,36 @@
 
 mnl_pred_ova <- function(model,
                          data,
-                         xvari,
+                         x,
                          by = NULL,
-                         scenname = NULL,
-                         scenvalue = NULL,
+                         z = NULL,
+                         z_value = NULL,
+                         xvari,
+                         scenname,
+                         scenvalue,
                          nsim = 1000,
                          seed = "random",
                          probs = c(0.025, 0.975)){
+
+  # Warnings for deprecated arguments
+  if (!missing(xvari)) {
+    warning("The argument xvari is deprecated; please use x instead.\n\n",
+            call. = FALSE)
+    x <- xvari
+  }
+
+  if (!missing(scenname)) {
+    warning("The argument scenname is deprecated; please use z instead.\n\n",
+            call. = FALSE)
+    z <- scenname
+  }
+
+  if (!missing(scenvalue)) {
+    warning("The argument scenvalue is deprecated; please use z_value instead.\n\n",
+            call. = FALSE)
+    z_value <- scenvalue
+  }
+
 
   # Errors:
   if (is.null(model) == TRUE) {
@@ -60,7 +83,7 @@ mnl_pred_ova <- function(model,
     stop("Please supply a data set")
   }
 
-  if (is.null(xvari) == TRUE | is.character(xvari) == FALSE) {
+  if (is.null(x) == TRUE | is.character(x) == FALSE) {
     stop("Please supply a character string of your x-variable of interest")
   }
 
@@ -71,17 +94,17 @@ mnl_pred_ova <- function(model,
   # Names of variables in model (without the "list" character in the vector)
   variables <- as.character(attr(model$terms, "variables"))[-1]
 
-  if(!(xvari %in% variables) == TRUE){
+  if(!(x %in% variables) == TRUE){
     stop("x-variable is not an independent variable in the model. There might be a typo.")
   }
 
   # Check if scenario is supplied correctly
-  if (is.null(scenname) == FALSE & is.character(scenname) == FALSE) {
+  if (is.null(z) == FALSE & is.character(z) == FALSE) {
     stop("Please supply a character string of your scenario of interest")
   }
 
-  if(is.null(scenname) == FALSE){
-    if (!(scenname %in% variables) == TRUE) {
+  if(is.null(z) == FALSE){
+    if (!(z %in% variables) == TRUE) {
       stop("The scenario variable is not an independent variable in the model. There might be a typo.")
     }
   }
@@ -113,13 +136,13 @@ mnl_pred_ova <- function(model,
 
   # Artificial variation of independent variable of interest (x)
   if (is.null(by) == TRUE) {
-    by <- abs(min(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE) -
-      max(eval(parse(text = paste0("data$", xvari))), na.rm = TRUE))
+    by <- abs(min(eval(parse(text = paste0("data$", x))), na.rm = TRUE) -
+      max(eval(parse(text = paste0("data$", x))), na.rm = TRUE))
   }
 
-  variation <- seq(from = min(eval(parse(text = paste0("data$", xvari))),
+  variation <- seq(from = min(eval(parse(text = paste0("data$", x))),
                               na.rm = TRUE),
-                   to = max(eval(parse(text = paste0("data$", xvari))),
+                   to = max(eval(parse(text = paste0("data$", x))),
                             na.rm = TRUE),
                    by = by)
 
@@ -183,7 +206,7 @@ mnl_pred_ova <- function(model,
   ovacases[,,] <- X
 
   # Select the position of the variable which should vary:
-  varidim <- which(colnames(X) == xvari)
+  varidim <- which(colnames(X) == x)
 
 
   # Artificially alter the variable in each dimension according to
@@ -193,11 +216,11 @@ mnl_pred_ova <- function(model,
   }
 
   # Hold a second variable steady (if need be)
-  if(is.null(scenname) == FALSE) {
-    scendim <- which(colnames(X) == scenname)
+  if(is.null(z) == FALSE) {
+    scendim <- which(colnames(X) == z)
 
     for (i in 1:nseq) {
-      ovacases[, scendim, i] <- scenvalue
+      ovacases[, scendim, i] <- z_value
     }
   }
 
@@ -287,7 +310,7 @@ mnl_pred_ova <- function(model,
 
   # Aggregate the simulations
   # Create tibble for plot
-  # if (is.null(scenvalue) == TRUE) {
+  # if (is.null(z_value) == TRUE) {
   #   plotdat <- tibble::tibble(iv = rep(variation, J),
   #                             categories = rep(categories, each = length(variation)),
   #                             mean = NA,
@@ -296,13 +319,13 @@ mnl_pred_ova <- function(model,
   # } else {
   #   plotdat <- tibble::tibble(iv = rep(variation, J),
   #                             categories = rep(categories, each = length(variation)),
-  #                             scen = rep(scenvalue, each = length(categories)),
+  #                             scen = rep(z_value, each = length(categories)),
   #                             mean = NA,
   #                             lower = NA,
   #                             upper = NA)
   # }
 
-  if (is.null(scenvalue) == TRUE) {
+  if (is.null(z_value) == TRUE) {
     plotdat <- data.frame(iv = rep(variation, J),
                           categories = rep(categories, each = length(variation)),
                           mean = NA,
@@ -311,7 +334,7 @@ mnl_pred_ova <- function(model,
   } else {
     plotdat <- data.frame(iv = rep(variation, J),
                           categories = rep(categories, each = length(variation)),
-                          scen = rep(scenvalue, each = length(variation)),
+                          scen = rep(z_value, each = length(variation)),
                           mean = NA,
                           lower = NA,
                           upper = NA)
@@ -331,10 +354,10 @@ mnl_pred_ova <- function(model,
   }
 
   # Rename the variables in the plot data
-  if (is.null(scenname) == TRUE) {
-    colnames(plotdat)[1:2] <- c(xvari, dv)
+  if (is.null(z) == TRUE) {
+    colnames(plotdat)[1:2] <- c(x, dv)
   } else {
-    colnames(plotdat)[1:3] <- c(xvari, dv, scenname)
+    colnames(plotdat)[1:3] <- c(x, dv, z)
   }
 
 
