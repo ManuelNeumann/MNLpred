@@ -8,6 +8,9 @@
 #' @param x the name of the variable that should be varied (the x-axis variable in prediction plots)
 #' @param z if you want to hold a specific variable stable over all scenarios, you can name it here (optional).
 #' @param z_value determine at which value you want to fix the \code{z}.
+#' @param xvari former argument for \code{x} (deprecated).
+#' @param scenname former argument for \code{z} (deprecated).
+#' @param scenvalue former argument for \code{z_value} (deprecated).
 #' @param by define the steps of the \code{x}.
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.

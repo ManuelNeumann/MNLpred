@@ -27,6 +27,8 @@ mnl_fd2_ova(
 
 \item{value2}{second value for the difference}
 
+\item{xvari}{former argument for \code{x} (deprecated).}
+
 \item{nsim}{numbers of simulations}
 
 \item{seed}{set a seed for replication purposes.}

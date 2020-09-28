@@ -32,6 +32,12 @@ mnl_pred_ova(
 
 \item{z_value}{determine at which value you want to fix the \code{z}.}
 
+\item{xvari}{former argument for \code{x} (deprecated).}
+
+\item{scenname}{former argument for \code{z} (deprecated).}
+
+\item{scenvalue}{former argument for \code{z_value} (deprecated).}
+
 \item{nsim}{numbers of simulations}
 
 \item{seed}{set a seed for replication purposes.}

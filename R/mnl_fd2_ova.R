@@ -5,6 +5,7 @@
 #' @param x the name of the variable that should be varied
 #' @param value1 first value for the difference
 #' @param value2 second value for the difference
+#' @param xvari former argument for \code{x} (deprecated).
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
 #' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}

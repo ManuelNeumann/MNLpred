@@ -30,6 +30,12 @@ mnl_fd_ova(
 
 \item{z_values}{determine the two values at which value you want to fix the scenario (\code{z}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.}
 
+\item{xvari}{former argument for \code{x} (deprecated).}
+
+\item{scenname}{former argument for \code{z} (deprecated).}
+
+\item{scenvalues}{former argument for \code{z_values} (deprecated).}
+
 \item{by}{define the steps of the \code{x}.}
 
 \item{nsim}{numbers of simulations}
