@@ -18,7 +18,7 @@
 #' @param xvari former argument for \code{x} (deprecated).
 #' @param scenname former argument for \code{z} (deprecated).
 #' @param scenvalues former argument for \code{z_values} (deprecated).
-#' @param by define the steps of the \code{x}.
+#' @param by define the steps of \code{x}.
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
 #' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}
