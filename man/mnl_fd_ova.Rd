@@ -26,7 +26,7 @@ mnl_fd_ova(
 
 \item{x}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
 
-\item{z}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
+\item{z}{define the variable for which you want to compute the difference.}
 
 \item{z_values}{determine the two values at which value you want to fix the scenario (\code{z}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.}
 
@@ -36,7 +36,7 @@ mnl_fd_ova(
 
 \item{scenvalues}{former argument for \code{z_values} (deprecated).}
 
-\item{by}{define the steps of the \code{x}.}
+\item{by}{define the steps of \code{x}.}
 
 \item{nsim}{numbers of simulations}
 

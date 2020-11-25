@@ -26,7 +26,7 @@ mnl_pred_ova(
 
 \item{x}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
 
-\item{by}{define the steps of the \code{x}.}
+\item{by}{define the steps of \code{x}.}
 
 \item{z}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
 
