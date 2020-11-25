@@ -13,7 +13,7 @@
 #' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
 #' @param data the data with which the model was estimated
 #' @param x the name of the variable that should be varied (the x-axis variable in prediction plots)
-#' @param z if you want to hold a specific variable stable over all scenarios, you can name it here (optional).
+#' @param z define the variable for which you want to compute the difference.
 #' @param z_values determine the two values at which value you want to fix the scenario (\code{z}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.
 #' @param xvari former argument for \code{x} (deprecated).
 #' @param scenname former argument for \code{z} (deprecated).
