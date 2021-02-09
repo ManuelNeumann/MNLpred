@@ -7,11 +7,11 @@
 
 [![GPLv3
 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html)
-[![Travis build
-status](https://travis-ci.org/ManuelNeumann/MNLpred.svg?branch=master)](https://travis-ci.org/ManuelNeumann/MNLpred)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
 [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 [![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
+[![R build
+status](https://github.com/ManuelNeumann/MNLpred/workflows/R-CMD-check/badge.svg)](https://github.com/ManuelNeumann/MNLpred/actions)
 <!-- badges: end -->
 
 This package provides functions that make it easy to get plottable
@@ -34,13 +34,13 @@ file, this is not the place to write comprehensively about it.
 
 These are the important characteristics of the model:
 
-  - The multinomial logit regression is used to model nominal outcomes.
+-   The multinomial logit regression is used to model nominal outcomes.
     It provides the opportunity to assign specific choices a
     probability, based on a set of independent variables.
-  - The model needs an assigned baseline category to be identifiable.
+-   The model needs an assigned baseline category to be identifiable.
     All other choices are evaluated in contrast to this reference.
-  - The model returns a set of coefficients for each choice category.
-  - Like all logit models, the multinomial logit model returns log-odds
+-   The model returns a set of coefficients for each choice category.
+-   Like all logit models, the multinomial logit model returns log-odds
     which are difficult to interpret in terms of effect sizes and
     uncertainties.
 
@@ -267,12 +267,12 @@ returns a `plotdata` data set:
 ``` r
 pred1$plotdata %>% head()
 #>   egoposition_immigration vote        mean        lower       upper
-#> 1                       0  AfD 0.002426454 0.0008695362 0.006251296
-#> 2                       1  AfD 0.004608444 0.0019746388 0.010600986
-#> 3                       2  AfD 0.008584863 0.0042662927 0.017486018
-#> 4                       3  AfD 0.015636385 0.0089197719 0.028002848
-#> 5                       4  AfD 0.027741754 0.0180952375 0.043858729
-#> 6                       5  AfD 0.047715282 0.0358517353 0.067670627
+#> 1                       0  AfD 0.002574547 0.0008574365 0.005269062
+#> 2                       1  AfD 0.004858778 0.0019021238 0.009025602
+#> 3                       2  AfD 0.008979284 0.0040742059 0.015737725
+#> 4                       3  AfD 0.016200141 0.0085063523 0.026138105
+#> 5                       4  AfD 0.028434851 0.0172336365 0.040839788
+#> 6                       5  AfD 0.048346279 0.0332185247 0.064579199
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -376,13 +376,13 @@ used to plot the differences.
 
 ``` r
 fdif2$plotdata_fd %>% head()
-#>   egoposition_immigration vote         mean        lower        upper
-#> 1                       0  AfD -0.003039628 -0.006791288 -0.001160208
-#> 2                       1  AfD -0.005750599 -0.011913082 -0.002612355
-#> 3                       2  AfD -0.010624364 -0.019997473 -0.005437892
-#> 4                       3  AfD -0.019093576 -0.032390697 -0.010659820
-#> 5                       4  AfD -0.033211858 -0.051199182 -0.020019933
-#> 6                       5  AfD -0.055533663 -0.082333369 -0.033331970
+#>   egoposition_immigration vote         mean        lower         upper
+#> 1                       0  AfD -0.003129881 -0.006782947 -0.0009810147
+#> 2                       1  AfD -0.005879401 -0.011921863 -0.0021165459
+#> 3                       2  AfD -0.010785318 -0.020425260 -0.0045423940
+#> 4                       3  AfD -0.019243999 -0.034364021 -0.0090925282
+#> 5                       4  AfD -0.033227369 -0.055568701 -0.0168962111
+#> 6                       5  AfD -0.055135529 -0.086503541 -0.0293905629
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -458,16 +458,16 @@ scenarios and their first differences.
 My code is inspired by the method courses in the [Political Science
 master’s program at the University of
 Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool
-place, check it out\!). The skeleton of the code is based on a tutorial
+place, check it out!). The skeleton of the code is based on a tutorial
 taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
 (lecture: “Advanced Quantitative Methods” by [Thomas
 Gschwend](https://www.sowi.uni-mannheim.de/gschwend/)).
 
 ## References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-hanmer2013">
+<div id="ref-hanmer2013" class="csl-entry">
 
 Hanmer, Michael J., and Kerem Ozan Kalkan. 2013. “Behind the Curve:
 Clarifying the Best Approach to Calculating Predicted Probabilities and
@@ -477,7 +477,7 @@ Journal of Political Science* 57 (1): 263–77.
 
 </div>
 
-<div id="ref-king2000">
+<div id="ref-king2000" class="csl-entry">
 
 King, Gary, Michael Tomz, and Jason Wittenberg. 2000. “Making the Most
 of Statistical Analyses: Improving Interpretation and Presentation.”
@@ -486,7 +486,7 @@ of Statistical Analyses: Improving Interpretation and Presentation.”
 
 </div>
 
-<div id="ref-rosteutscher2019">
+<div id="ref-rosteutscher2019" class="csl-entry">
 
 Roßteutscher, Sigrid, Harald Schoen, Rüdiger Schmitt-Beck, Christof
 Wolf, and Alexander Staudt. 2019. “Rolling Cross-Section-Wahlkampfstudie
