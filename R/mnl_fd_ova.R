@@ -58,19 +58,19 @@ mnl_fd_ova <- function(model,
 
   # Warnings for deprecated arguments
   if (!missing(xvari)) {
-    warning("The argument xvari is deprecated; please use x instead.\n\n",
+    warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
             call. = FALSE)
     x <- xvari
   }
 
   if (!missing(scenname)) {
-    warning("The argument scenname is deprecated; please use z instead.\n\n",
+    warning("The argument 'scenname' is deprecated; please use 'z' instead.\n\n",
             call. = FALSE)
     z <- scenname
   }
 
   if (!missing(scenvalues)) {
-    warning("The argument scenvalues is deprecated; please use z_values instead.\n\n",
+    warning("The argument 'scenvalues' is deprecated; please use 'z_values' instead.\n\n",
             call. = FALSE)
     z_values <- scenvalues
   }

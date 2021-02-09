@@ -55,19 +55,19 @@ mnl_pred_ova <- function(model,
 
   # Warnings for deprecated arguments
   if (!missing(xvari)) {
-    warning("The argument xvari is deprecated; please use x instead.\n\n",
+    warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
             call. = FALSE)
     x <- xvari
   }
 
   if (!missing(scenname)) {
-    warning("The argument scenname is deprecated; please use z instead.\n\n",
+    warning("The argument 'scenname' is deprecated; please use 'z' instead.\n\n",
             call. = FALSE)
     z <- scenname
   }
 
   if (!missing(scenvalue)) {
-    warning("The argument scenvalue is deprecated; please use z_value instead.\n\n",
+    warning("The argument 'scenvalue' is deprecated; please use 'z_value' instead.\n\n",
             call. = FALSE)
     z_value <- scenvalue
   }
@@ -303,7 +303,9 @@ mnl_pred_ova <- function(model,
   for (l in 1:nseq) {
     for (m in 1:J) {
       P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
-    }
+      if (sum(is.na(P[, m, l])) != 0) {
+        stop("Stop")
+      }
 
     # Progress bar:
     setTxtProgressBar(pb_link, l)

@@ -49,7 +49,7 @@ mnl_fd2_ova <- function(model,
 
   # Warnings for deprecated arguments
   if (!missing(xvari)) {
-    warning("The argument xvari is deprecated; please use x instead.\n\n",
+    warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
             call. = FALSE)
     x <- xvari
   }
@@ -243,7 +243,11 @@ mnl_fd2_ova <- function(model,
   for (l in 1:nseq) {
     for (m in 1:J) {
       P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
-    }
+      if (sum(is.na(P[, m, l])) != 0) {
+        stop(
+          "Some of the log-odds are very large and the exponent cannot be computed. Please check your model specification for any problems, such as perfectly separated variables."
+        )
+      }
 
     setTxtProgressBar(pb_link, l)
   }
