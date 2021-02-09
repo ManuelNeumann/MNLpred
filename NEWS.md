@@ -1,3 +1,10 @@
+# MNLpred 0.0.5
+  
+  - Arguments 'xvari', 'scenname', 'scenvalue', and 'scenvalues' are deprecated 
+  in favor of 'x', 'z', 'z_value', and 'z_values' respectively.
+  - New error messages.
+  - Major speed enhancement.
+
 # MNLpred 0.0.4
 
   - Error message for factor variables in data.
