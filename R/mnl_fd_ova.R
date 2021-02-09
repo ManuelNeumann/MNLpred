@@ -12,10 +12,13 @@
 #'
 #' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
 #' @param data the data with which the model was estimated
-#' @param xvari the name of the variable that should be varied (the x-axis variable in prediction plots)
-#' @param scenname if you want to hold a specific variable stable over all scenarios, you can name it here (optional).
-#' @param scenvalues determine the two values at which value you want to fix the scenario (\code{scenname}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.
-#' @param by define the steps of the \code{xvari}.
+#' @param x the name of the variable that should be varied (the x-axis variable in prediction plots)
+#' @param z define the variable for which you want to compute the difference.
+#' @param z_values determine the two values at which value you want to fix the scenario (\code{z}). The first differences will be computed by subtracting the values of the first supplied scenario from the second one.
+#' @param xvari former argument for \code{x} (deprecated).
+#' @param scenname former argument for \code{z} (deprecated).
+#' @param scenvalues former argument for \code{z_values} (deprecated).
+#' @param by define the steps of \code{x}.
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
 #' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}
@@ -35,13 +38,16 @@
 #' mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 #'
 #' fdif <- mnl_fd_ova(model = mod, data = dataset,
-#'                    xvari = "x1", scenname = "x3",
-#'                    scenvalues = c(min(dataset$x3), max(dataset$x3)),
+#'                    x = "x1", z = "x3",
+#'                    z_values = c(min(dataset$x3), max(dataset$x3)),
 #'                    nsim = 10)
 #'
 
 mnl_fd_ova <- function(model,
                        data,
+                       x,
+                       z,
+                       z_values,
                        xvari,
                        scenname,
                        scenvalues,
@@ -49,6 +55,26 @@ mnl_fd_ova <- function(model,
                        nsim = 1000,
                        seed = "random",
                        probs = c(0.025, 0.975)){
+
+  # Warnings for deprecated arguments
+  if (!missing(xvari)) {
+    warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
+            call. = FALSE)
+    x <- xvari
+  }
+
+  if (!missing(scenname)) {
+    warning("The argument 'scenname' is deprecated; please use 'z' instead.\n\n",
+            call. = FALSE)
+    z <- scenname
+  }
+
+  if (!missing(scenvalues)) {
+    warning("The argument 'scenvalues' is deprecated; please use 'z_values' instead.\n\n",
+            call. = FALSE)
+    z_values <- scenvalues
+  }
+
   # Errors:
   if (is.null(model) == TRUE) {
     stop("Please supply a model")
@@ -62,17 +88,17 @@ mnl_fd_ova <- function(model,
     stop("Please supply a data set")
   }
 
-  if (is.null(xvari) == TRUE | is.character(xvari) == FALSE) {
+  if (is.null(x) == TRUE | is.character(x) == FALSE) {
     stop("Please supply a character of your x-variable of interest")
   }
 
-  if (is.null(scenname) == TRUE | is.character(scenname) == FALSE) {
+  if (is.null(z) == TRUE | is.character(z) == FALSE) {
     stop("Please supply a character of the scenario variable of interest")
   }
 
-  if (is.null(scenvalues) == TRUE |
-      length(scenvalues) != 2 |
-      is.vector(scenvalues, mode = "numeric") == FALSE) {
+  if (is.null(z_values) == TRUE |
+      length(z_values) != 2 |
+      is.vector(z_values, mode = "numeric") == FALSE) {
     stop("Please two numeric values that are used for the different scenarios")
   }
 
@@ -89,9 +115,9 @@ mnl_fd_ova <- function(model,
 
   pred1 <- mnl_pred_ova(model = model,
                         data = data,
-                        xvari = xvari,
-                        scenname = scenname,
-                        scenvalue = scenvalues[1],
+                        x = x,
+                        z = z,
+                        z_value = z_values[1],
                         by = by, nsim = nsim, seed = seed,
                         probs = probs)
   output[["Prediction1"]] <- pred1
@@ -101,9 +127,9 @@ mnl_fd_ova <- function(model,
 
   pred2 <- mnl_pred_ova(model = model,
                         data = data,
-                        xvari = xvari,
-                        scenname = scenname,
-                        scenvalue = scenvalues[2],
+                        x = x,
+                        z = z,
+                        z_value = z_values[2],
                         by = by, nsim = nsim, seed = seed,
                         probs = probs)
   output[["Prediction2"]] <- pred2
@@ -130,7 +156,7 @@ mnl_fd_ova <- function(model,
   start <- 1
   for (i in 1:pred1$nChoices){
     end <- i*pred1$nVariation
-    plotdata_fd[c(start:end), "mean"] <- apply(P_fd[, i, ], 2, mean)
+    plotdata_fd[c(start:end), "mean"] <- colMeans(P_fd[, i, ])
     plotdata_fd[c(start:end), "lower"] <- apply(P_fd[, i, ], 2, quantile, probs = probs[1])
     plotdata_fd[c(start:end), "upper"] <- apply(P_fd[, i, ], 2, quantile, probs = probs[2])
     start <- end+1

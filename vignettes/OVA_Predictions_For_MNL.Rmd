@@ -124,16 +124,16 @@ summary(gles$egoposition_immigration)
 ```
 
 As we can see, the ego positions were recorded on a scale from 0 to 10. Higher numbers represent more restrictive positions.
-We pick this score as the x-variable (`xvari`) and use the `mnl_pred_ova()` function to get predicted probabilities for each position in this range. 
+We pick this score as the x-variable (`x`) and use the `mnl_pred_ova()` function to get predicted probabilities for each position in this range. 
 
-The function needs a multinomial logit model (`model`), data (`data`), the variable of interest `xvari`, the steps for which the probabilities should be predicted (`by`). Additionally, a `seed` can be defined for replication purposes, the numbers of simulations can be defined (`nsim`), and the confidence intervals (`probs`). 
+The function needs a multinomial logit model (`model`), data (`data`), the variable of interest `x`, the steps for which the probabilities should be predicted (`by`). Additionally, a `seed` can be defined for replication purposes, the numbers of simulations can be defined (`nsim`), and the confidence intervals (`probs`). 
 
-If we want to hold another variable stable, we can specify so with `scennname`and `scenvalue`. See also the `mnl_fd_ova()` function below.
+If we want to hold another variable stable, we can specify so with `z`and `z_value`. See also the `mnl_fd_ova()` function below.
 
 ```{r mnl_pred_ova}
 pred1 <- mnl_pred_ova(model = mod1,
                       data = gles,
-                      xvari = "egoposition_immigration",
+                      x = "egoposition_immigration",
                       by = 1,
                       seed = "random", # default
                       nsim = 100, # faster
@@ -167,7 +167,7 @@ If we want first differences between two scenarios, we can use the function `mnl
 ```{r static_fd}
 fdif1 <- mnl_fd2_ova(model = mod1,
                      data = gles,
-                     xvari = "egoposition_immigration",
+                     x = "egoposition_immigration",
                      value1 = min(gles$egoposition_immigration),
                      value2 = max(gles$egoposition_immigration),
                      nsim = 100)
@@ -188,15 +188,15 @@ ggplot(fdif1$plotdata_fd, aes(x = categories,
 ```
 
 
-We are often not only interested in the static difference, but the difference across a span of values, given a difference in a second variable. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `gender` on the vote decision over the different ego-positions. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two numeric values. These values are held stable for the variable that is named in `scenname`. 
+We are often not only interested in the static difference, but the difference across a span of values, given a difference in a second variable. This is especially helpful when we look at dummy variables. For example, we could be interested in the effect of `gender` on the vote decision over the different ego-positions. With the `mnl_fd_ova()` function, we can predict the probabilities for two scenarios and subtract them. The function returns the differences and the confidence intervals of the differences. The different scenarios can be held stable with `z` and the `z_values`. `z_values` takes a vector of two numeric values. These values are held stable for the variable that is named in `z`. 
 
 ```{r first_diffferences_prediction}
 fdif2 <- mnl_fd_ova(model = mod1,
                     data = gles,
-                    xvari = "egoposition_immigration",
+                    x = "egoposition_immigration",
                     by = 1,
-                    scenname = "gender",
-                    scenvalues = c(0,1),
+                    z = "gender",
+                    z_values = c(0,1),
                     nsim = 100)
 ```
 As before, the function returns a list including a data set that can be used to plot the differences.

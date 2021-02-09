@@ -2,9 +2,10 @@
 #'
 #' @param model the multinomial model, from a \code{\link{multinom}}()-function call (see the \code{\link{nnet}} package)
 #' @param data the data with which the model was estimated
-#' @param xvari the name of the variable that should be varied
+#' @param x the name of the variable that should be varied
 #' @param value1 first value for the difference
 #' @param value2 second value for the difference
+#' @param xvari former argument for \code{x} (deprecated).
 #' @param nsim numbers of simulations
 #' @param seed set a seed for replication purposes.
 #' @param probs a vector with two numbers, defining the significance levels. Default to 5\% significance level: \code{c(0.025, 0.975)}
@@ -24,7 +25,7 @@
 #' mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 #'
 #' fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
-#'                     xvari = "x1",
+#'                     x = "x1",
 #'                     value1 = min(dataset$x1),
 #'                     value2 = max(dataset$x1),
 #'                     nsim = 10)
@@ -38,12 +39,20 @@
 
 mnl_fd2_ova <- function(model,
                         data,
-                        xvari,
+                        x,
                         value1,
                         value2,
+                        xvari,
                         nsim = 1000,
                         seed = "random",
                         probs = c(0.025, 0.975)){
+
+  # Warnings for deprecated arguments
+  if (!missing(xvari)) {
+    warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
+            call. = FALSE)
+    x <- xvari
+  }
 
   # Errors:
   if (is.null(model) == TRUE) {
@@ -58,7 +67,7 @@ mnl_fd2_ova <- function(model,
     stop("Please supply a data set")
   }
 
-  if (is.null(xvari) == TRUE | is.character(xvari) == FALSE) {
+  if (is.null(x) == TRUE | is.character(x) == FALSE) {
     stop("Please supply a character of your x-variable of interest")
   }
 
@@ -73,7 +82,7 @@ mnl_fd2_ova <- function(model,
   # Names of variables in model (without the "list" character in the vector)
   variables <- as.character(attr(model$terms, "variables"))[-1]
 
-  if (!(xvari %in% variables) == TRUE){
+  if (!(x %in% variables) == TRUE){
     stop("x-variable is not an independent variable in the model. There might be a typo.")
   }
 
@@ -153,13 +162,13 @@ mnl_fd2_ova <- function(model,
   ovacases[,,] <- X
 
   # Select the position of the variable which should vary:
-  if (is.null(xvari) == FALSE) {
-    varidim <- which(colnames(X) == xvari)
+  if (is.null(x) == FALSE) {
+    varidim <- which(colnames(X) == x)
   }
 
   # Artificially alter the variable in each dimension according to
   # the preferred sequence:
-  if (is.null(xvari) == FALSE) {
+  if (is.null(x) == FALSE) {
     for (i in 1:nseq) {
       ovacases[, varidim, i] <- variation[i]
     }
@@ -219,13 +228,15 @@ mnl_fd2_ova <- function(model,
     setTxtProgressBar(pb_multiplication, i)
   }
 
+
+
   # Multinomial link function:
 
   pb_link <- txtProgressBar(min = 0, max = nseq, initial = 0)
   cat("\nApplying link function:\n")
 
   # 1. Part: Sum over cases
-  Sexp <- apply(ovaV, c(1, 2, 3), function(x) sum(exp(x)))
+  Sexp <- rowSums(exp(ovaV), dims = 3L)
 
   # Create P (array with predictions)
   P <- array(NA, c(nsim, J, nseq))
@@ -233,7 +244,12 @@ mnl_fd2_ova <- function(model,
   # 2. Part: take the exponent and divide through the sum of all (Sexp)
   for (l in 1:nseq) {
     for (m in 1:J) {
-      P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
+      P[, m, l] <- colMeans(exp(ovaV[, , l, m]) / Sexp[, , l])
+      if (sum(is.na(P[, m, l])) != 0) {
+        stop(
+          "Some of the log-odds are very large and the exponent cannot be computed. Please check your model specification for any problems, such as perfectly separated variables."
+        )
+      }
     }
 
     setTxtProgressBar(pb_link, l)
@@ -262,14 +278,14 @@ mnl_fd2_ova <- function(model,
 
   for (i in 1:J) {
     end <- i*length(variation)
-    plotdat[c(start:end), "mean"] <- apply(P[, i,], 2, mean)
+    plotdat[c(start:end), "mean"] <- colMeans(P[, i,])
     plotdat[c(start:end), "lower"] <- apply(P[, i,], 2, quantile, probs = probs[1])
     plotdat[c(start:end), "upper"] <- apply(P[, i,], 2, quantile, probs = probs[2])
     start <- end+1
   }
 
   # Rename the variables in the plot data
-  colnames(plotdat)[1:2] <- c(xvari, dv)
+  colnames(plotdat)[1:2] <- c(x, dv)
 
 
   # Put the data in the output

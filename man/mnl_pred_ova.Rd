@@ -7,10 +7,13 @@
 mnl_pred_ova(
   model,
   data,
-  xvari,
+  x,
   by = NULL,
-  scenname = NULL,
-  scenvalue = NULL,
+  z = NULL,
+  z_value = NULL,
+  xvari,
+  scenname,
+  scenvalue,
   nsim = 1000,
   seed = "random",
   probs = c(0.025, 0.975)
@@ -21,13 +24,19 @@ mnl_pred_ova(
 
 \item{data}{the data with which the model was estimated}
 
-\item{xvari}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
+\item{x}{the name of the variable that should be varied (the x-axis variable in prediction plots)}
 
-\item{by}{define the steps of the \code{xvari}.}
+\item{by}{define the steps of \code{x}.}
 
-\item{scenname}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
+\item{z}{if you want to hold a specific variable stable over all scenarios, you can name it here (optional).}
 
-\item{scenvalue}{determine at which value you want to fix the \code{scenname}.}
+\item{z_value}{determine at which value you want to fix the \code{z}.}
+
+\item{xvari}{former argument for \code{x} (deprecated).}
+
+\item{scenname}{former argument for \code{z} (deprecated).}
+
+\item{scenvalue}{former argument for \code{z_value} (deprecated).}
 
 \item{nsim}{numbers of simulations}
 
@@ -54,7 +63,7 @@ dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
 mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 
 pred <- mnl_pred_ova(model = mod, data = dataset,
-                     xvari = "x1",
+                     x = "x1",
                      nsim = 10)
 
 

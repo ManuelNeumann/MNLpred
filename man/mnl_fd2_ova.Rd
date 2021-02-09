@@ -7,9 +7,10 @@
 mnl_fd2_ova(
   model,
   data,
-  xvari,
+  x,
   value1,
   value2,
+  xvari,
   nsim = 1000,
   seed = "random",
   probs = c(0.025, 0.975)
@@ -20,11 +21,13 @@ mnl_fd2_ova(
 
 \item{data}{the data with which the model was estimated}
 
-\item{xvari}{the name of the variable that should be varied}
+\item{x}{the name of the variable that should be varied}
 
 \item{value1}{first value for the difference}
 
 \item{value2}{second value for the difference}
+
+\item{xvari}{former argument for \code{x} (deprecated).}
 
 \item{nsim}{numbers of simulations}
 
@@ -50,7 +53,7 @@ dataset <- data.frame(y = c(rep("a", 10), rep("b", 10), rep("c", 10)),
 mod <- multinom(y ~ x1 + x2 + x3, data = dataset, Hess = TRUE)
 
 fdi1 <- mnl_fd2_ova(model = mod, data = dataset,
-                    xvari = "x1",
+                    x = "x1",
                     value1 = min(dataset$x1),
                     value2 = max(dataset$x1),
                     nsim = 10)

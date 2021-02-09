@@ -34,13 +34,13 @@ file, this is not the place to write comprehensively about it.
 
 These are the important characteristics of the model:
 
-  - The multinomial logit regression is used to model nominal outcomes.
+-   The multinomial logit regression is used to model nominal outcomes.
     It provides the opportunity to assign specific choices a
     probability, based on a set of independent variables.
-  - The model needs an assigned baseline category to be identifiable.
+-   The model needs an assigned baseline category to be identifiable.
     All other choices are evaluated in contrast to this reference.
-  - The model returns a set of coefficients for each choice category.
-  - Like all logit models, the multinomial logit model returns log-odds
+-   The model returns a set of coefficients for each choice category.
+-   Like all logit models, the multinomial logit model returns log-odds
     which are difficult to interpret in terms of effect sizes and
     uncertainties.
 
@@ -234,22 +234,22 @@ summary(gles$egoposition_immigration)
 
 As we can see, the ego positions were recorded on a scale from 0 to 10.
 Higher numbers represent more restrictive positions. We pick this score
-as the x-variable (`xvari`) and use the `mnl_pred_ova()` function to get
+as the x-variable (`x`) and use the `mnl_pred_ova()` function to get
 predicted probabilities for each position in this range.
 
 The function needs a multinomial logit model (`model`), data (`data`),
-the variable of interest `xvari`, the steps for which the probabilities
+the variable of interest `x`, the steps for which the probabilities
 should be predicted (`by`). Additionally, a `seed` can be defined for
 replication purposes, the numbers of simulations can be defined
 (`nsim`), and the confidence intervals (`probs`).
 
 If we want to hold another variable stable, we can specify so with
-`scennname`and `scenvalue`. See also the `mnl_fd_ova()` function below.
+`z`and `z_value`. See also the `mnl_fd_ova()` function below.
 
 ``` r
 pred1 <- mnl_pred_ova(model = mod1,
                       data = gles,
-                      xvari = "egoposition_immigration",
+                      x = "egoposition_immigration",
                       by = 1,
                       seed = "random", # default
                       nsim = 100, # faster
@@ -267,13 +267,13 @@ returns a `plotdata` data set:
 
 ``` r
 pred1$plotdata %>% head()
-#>   egoposition_immigration vote        mean       lower       upper
-#> 1                       0  AfD 0.002573855 0.001037561 0.006108907
-#> 2                       1  AfD 0.004879975 0.002281916 0.010206829
-#> 3                       2  AfD 0.009071440 0.004868063 0.017062220
-#> 4                       3  AfD 0.016474478 0.009890898 0.027905467
-#> 5                       4  AfD 0.029107386 0.019508769 0.043061536
-#> 6                       5  AfD 0.049774098 0.036301252 0.065773320
+#>   egoposition_immigration vote        mean        lower       upper
+#> 1                       0  AfD 0.002574547 0.0008574365 0.005269062
+#> 2                       1  AfD 0.004858778 0.0019021238 0.009025602
+#> 3                       2  AfD 0.008979284 0.0040742059 0.015737725
+#> 4                       3  AfD 0.016200141 0.0085063523 0.026138105
+#> 5                       4  AfD 0.028434851 0.0172336365 0.040839788
+#> 6                       5  AfD 0.048346279 0.0332185247 0.064579199
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -310,7 +310,7 @@ position oneself on the most tolerant or most restrictive end of the
 ``` r
 fdif1 <- mnl_fd2_ova(model = mod1,
                      data = gles,
-                     xvari = "egoposition_immigration",
+                     x = "egoposition_immigration",
                      value1 = min(gles$egoposition_immigration),
                      value2 = max(gles$egoposition_immigration),
                      nsim = 100)
@@ -346,17 +346,17 @@ vote decision over the different ego-positions. With the `mnl_fd_ova()`
 function, we can predict the probabilities for two scenarios and
 subtract them. The function returns the differences and the confidence
 intervals of the differences. The different scenarios can be held stable
-with `scenname` and the `scenvalues`. `scenvalues` takes a vector of two
-numeric values. These values are held stable for the variable that is
-named in `scenname`.
+with `z` and the `z_values`. `z_values` takes a vector of two numeric
+values. These values are held stable for the variable that is named in
+`z`.
 
 ``` r
 fdif2 <- mnl_fd_ova(model = mod1,
                     data = gles,
-                    xvari = "egoposition_immigration",
+                    x = "egoposition_immigration",
                     by = 1,
-                    scenname = "gender",
-                    scenvalues = c(0,1),
+                    z = "gender",
+                    z_values = c(0,1),
                     nsim = 100)
 #> Warning: The argument xvari is deprecated; please use x instead.
 #> Warning: The argument scenname is deprecated; please use z instead.
@@ -382,12 +382,12 @@ used to plot the differences.
 ``` r
 fdif2$plotdata_fd %>% head()
 #>   egoposition_immigration vote         mean        lower         upper
-#> 1                       0  AfD -0.002885746 -0.006398719 -0.0009715812
-#> 2                       1  AfD -0.005470656 -0.011406509 -0.0021341759
-#> 3                       2  AfD -0.010132628 -0.019666757 -0.0043554636
-#> 4                       3  AfD -0.018265903 -0.031968308 -0.0084270058
-#> 5                       4  AfD -0.031887635 -0.050668206 -0.0168462669
-#> 6                       5  AfD -0.053539723 -0.078863334 -0.0302089752
+#> 1                       0  AfD -0.003129881 -0.006782947 -0.0009810147
+#> 2                       1  AfD -0.005879401 -0.011921863 -0.0021165459
+#> 3                       2  AfD -0.010785318 -0.020425260 -0.0045423940
+#> 4                       3  AfD -0.019243999 -0.034364021 -0.0090925282
+#> 5                       4  AfD -0.033227369 -0.055568701 -0.0168962111
+#> 6                       5  AfD -0.055135529 -0.086503541 -0.0293905629
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
@@ -463,16 +463,16 @@ scenarios and their first differences.
 My code is inspired by the method courses in the [Political Science
 master’s program at the University of
 Mannheim](https://www.sowi.uni-mannheim.de/en/academics/prospective-students/ma-in-political-science/)(cool
-place, check it out\!). The skeleton of the code is based on a tutorial
+place, check it out!). The skeleton of the code is based on a tutorial
 taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
 (lecture: “Advanced Quantitative Methods” by [Thomas
 Gschwend](https://www.sowi.uni-mannheim.de/gschwend/)).
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-hanmer2013">
+<div id="ref-hanmer2013" class="csl-entry">
 
 Hanmer, Michael J., and Kerem Ozan Kalkan. 2013. “Behind the Curve:
 Clarifying the Best Approach to Calculating Predicted Probabilities and
@@ -482,7 +482,7 @@ Journal of Political Science* 57 (1): 263–77.
 
 </div>
 
-<div id="ref-king2000">
+<div id="ref-king2000" class="csl-entry">
 
 King, Gary, Michael Tomz, and Jason Wittenberg. 2000. “Making the Most
 of Statistical Analyses: Improving Interpretation and Presentation.”
@@ -491,7 +491,7 @@ of Statistical Analyses: Improving Interpretation and Presentation.”
 
 </div>
 
-<div id="ref-rosteutscher2019">
+<div id="ref-rosteutscher2019" class="csl-entry">
 
 Roßteutscher, Sigrid, Harald Schoen, Rüdiger Schmitt-Beck, Christof
 Wolf, and Alexander Staudt. 2019. “Rolling Cross-Section-Wahlkampfstudie
