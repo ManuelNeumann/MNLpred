@@ -288,7 +288,7 @@ mnl_pred_ova <- function(model,
   # Multinomial link function:
 
   # 1. Part: Sum over cases
-  Sexp <- apply(ovaV, c(1, 2, 3), function(x) sum(exp(x)))
+  Sexp <- rowSums(exp(ovaV), dims = 3L)
 
   # Create P (array with predictions)
   P <- array(NA, c(nsim, J, nseq))
@@ -302,14 +302,16 @@ mnl_pred_ova <- function(model,
 
   for (l in 1:nseq) {
     for (m in 1:J) {
-      P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
+      P[, m, l] <- colMeans(exp(ovaV[, , l, m]) / Sexp[, , l])
       if (sum(is.na(P[, m, l])) != 0) {
         stop("Stop")
       }
+    }
 
     # Progress bar:
     setTxtProgressBar(pb_link, l)
   }
+
 
   output[["P"]] <- P
 
@@ -352,7 +354,7 @@ mnl_pred_ova <- function(model,
 
   for (i in 1:J) {
     end <- i*length(variation)
-    plotdat[c(start:end), "mean"] <- apply(P[, i,], 2, mean)
+    plotdat[c(start:end), "mean"] <- colMeans(P[, i,])
     plotdat[c(start:end), "lower"] <- apply(P[, i,], 2, quantile, probs = probs[1])
     plotdat[c(start:end), "upper"] <- apply(P[, i,], 2, quantile, probs = probs[2])
     start <- end+1

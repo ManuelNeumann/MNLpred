@@ -228,13 +228,15 @@ mnl_fd2_ova <- function(model,
     setTxtProgressBar(pb_multiplication, i)
   }
 
+
+
   # Multinomial link function:
 
   pb_link <- txtProgressBar(min = 0, max = nseq, initial = 0)
   cat("\nApplying link function:\n")
 
   # 1. Part: Sum over cases
-  Sexp <- apply(ovaV, c(1, 2, 3), function(x) sum(exp(x)))
+  Sexp <- rowSums(exp(ovaV), dims = 3L)
 
   # Create P (array with predictions)
   P <- array(NA, c(nsim, J, nseq))
@@ -242,12 +244,13 @@ mnl_fd2_ova <- function(model,
   # 2. Part: take the exponent and divide through the sum of all (Sexp)
   for (l in 1:nseq) {
     for (m in 1:J) {
-      P[, m, l] <- apply(exp(ovaV[, , l, m])/Sexp[, , l], 2, mean)
+      P[, m, l] <- colMeans(exp(ovaV[, , l, m]) / Sexp[, , l])
       if (sum(is.na(P[, m, l])) != 0) {
         stop(
           "Some of the log-odds are very large and the exponent cannot be computed. Please check your model specification for any problems, such as perfectly separated variables."
         )
       }
+    }
 
     setTxtProgressBar(pb_link, l)
   }
@@ -275,7 +278,7 @@ mnl_fd2_ova <- function(model,
 
   for (i in 1:J) {
     end <- i*length(variation)
-    plotdat[c(start:end), "mean"] <- apply(P[, i,], 2, mean)
+    plotdat[c(start:end), "mean"] <- colMeans(P[, i,])
     plotdat[c(start:end), "lower"] <- apply(P[, i,], 2, quantile, probs = probs[1])
     plotdat[c(start:end), "upper"] <- apply(P[, i,], 2, quantile, probs = probs[2])
     start <- end+1

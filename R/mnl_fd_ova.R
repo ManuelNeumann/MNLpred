@@ -156,7 +156,7 @@ mnl_fd_ova <- function(model,
   start <- 1
   for (i in 1:pred1$nChoices){
     end <- i*pred1$nVariation
-    plotdata_fd[c(start:end), "mean"] <- apply(P_fd[, i, ], 2, mean)
+    plotdata_fd[c(start:end), "mean"] <- colMeans(P_fd[, i, ])
     plotdata_fd[c(start:end), "lower"] <- apply(P_fd[, i, ], 2, quantile, probs = probs[1])
     plotdata_fd[c(start:end), "upper"] <- apply(P_fd[, i, ], 2, quantile, probs = probs[2])
     start <- end+1
