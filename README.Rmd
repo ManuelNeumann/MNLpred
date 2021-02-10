@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
   [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html)
   [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
+  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4525343.svg)](https://doi.org/10.5281/zenodo.4525343)
   [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
   [![total_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 [![R build status](https://github.com/ManuelNeumann/MNLpred/workflows/R-CMD-check/badge.svg)](https://github.com/ManuelNeumann/MNLpred/actions)
@@ -150,7 +151,7 @@ pred1 <- mnl_pred_ova(model = mod1,
                       data = gles,
                       x = "egoposition_immigration",
                       by = 1,
-                      seed = "random", # default
+                      seed = 68159,
                       nsim = 100, # faster
                       probs = c(0.025, 0.975)) # default
 ```
@@ -185,6 +186,7 @@ fdif1 <- mnl_fd2_ova(model = mod1,
                      x = "egoposition_immigration",
                      value1 = min(gles$egoposition_immigration),
                      value2 = max(gles$egoposition_immigration),
+                     seed = 68159,
                      nsim = 100)
 ```
 
@@ -212,6 +214,7 @@ fdif2 <- mnl_fd_ova(model = mod1,
                     by = 1,
                     z = "gender",
                     z_values = c(0,1),
+                    seed = 68159,
                     nsim = 100)
 ```
 As before, the function returns a list including a data set that can be used to plot the differences.

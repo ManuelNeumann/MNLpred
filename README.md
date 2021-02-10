@@ -8,6 +8,7 @@
 [![GPLv3
 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4525343.svg)](https://doi.org/10.5281/zenodo.4525343)
 [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 [![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 [![R build
@@ -251,10 +252,9 @@ pred1 <- mnl_pred_ova(model = mod1,
                       data = gles,
                       x = "egoposition_immigration",
                       by = 1,
-                      seed = "random", # default
+                      seed = 68159,
                       nsim = 100, # faster
                       probs = c(0.025, 0.975)) # default
-#> Warning: The argument xvari is deprecated; please use x instead.
 #> Multiplying values with simulated estimates:
 #> ================================================================================
 #> Applying link function:
@@ -267,13 +267,13 @@ returns a `plotdata` data set:
 
 ``` r
 pred1$plotdata %>% head()
-#>   egoposition_immigration vote        mean        lower       upper
-#> 1                       0  AfD 0.002574547 0.0008574365 0.005269062
-#> 2                       1  AfD 0.004858778 0.0019021238 0.009025602
-#> 3                       2  AfD 0.008979284 0.0040742059 0.015737725
-#> 4                       3  AfD 0.016200141 0.0085063523 0.026138105
-#> 5                       4  AfD 0.028434851 0.0172336365 0.040839788
-#> 6                       5  AfD 0.048346279 0.0332185247 0.064579199
+#>   egoposition_immigration vote        mean       lower       upper
+#> 1                       0  AfD 0.002419192 0.001025942 0.004913258
+#> 2                       1  AfD 0.004625108 0.002172854 0.008685788
+#> 3                       2  AfD 0.008653845 0.004472502 0.014698651
+#> 4                       3  AfD 0.015796304 0.008923480 0.025148142
+#> 5                       4  AfD 0.028022769 0.017756232 0.040861062
+#> 6                       5  AfD 0.048081830 0.033241425 0.063794110
 ```
 
 As we can see, it includes the range of the x variable, a mean, a lower,
@@ -313,8 +313,8 @@ fdif1 <- mnl_fd2_ova(model = mod1,
                      x = "egoposition_immigration",
                      value1 = min(gles$egoposition_immigration),
                      value2 = max(gles$egoposition_immigration),
+                     seed = 68159,
                      nsim = 100)
-#> Warning: The argument xvari is deprecated; please use x instead.
 #> Multiplying values with simulated estimates:
 #> ================================================================================
 #> Applying link function:
@@ -357,10 +357,8 @@ fdif2 <- mnl_fd_ova(model = mod1,
                     by = 1,
                     z = "gender",
                     z_values = c(0,1),
+                    seed = 68159,
                     nsim = 100)
-#> Warning: The argument xvari is deprecated; please use x instead.
-#> Warning: The argument scenname is deprecated; please use z instead.
-#> Warning: The argument scenvalues is deprecated; please use z_values instead.
 #> First scenario:
 #> Multiplying values with simulated estimates:
 #> ================================================================================
@@ -381,13 +379,13 @@ used to plot the differences.
 
 ``` r
 fdif2$plotdata_fd %>% head()
-#>   egoposition_immigration vote         mean        lower         upper
-#> 1                       0  AfD -0.003129881 -0.006782947 -0.0009810147
-#> 2                       1  AfD -0.005879401 -0.011921863 -0.0021165459
-#> 3                       2  AfD -0.010785318 -0.020425260 -0.0045423940
-#> 4                       3  AfD -0.019243999 -0.034364021 -0.0090925282
-#> 5                       4  AfD -0.033227369 -0.055568701 -0.0168962111
-#> 6                       5  AfD -0.055135529 -0.086503541 -0.0293905629
+#>   egoposition_immigration vote         mean        lower        upper
+#> 1                       0  AfD -0.002861681 -0.006172786 -0.001206796
+#> 2                       1  AfD -0.005396410 -0.010531302 -0.002537904
+#> 3                       2  AfD -0.009942124 -0.017921934 -0.005038667
+#> 4                       3  AfD -0.017827751 -0.029548569 -0.009657235
+#> 5                       4  AfD -0.030957366 -0.046960384 -0.017810853
+#> 6                       5  AfD -0.051691516 -0.071903589 -0.031438906
 ```
 
 Since the function calls the `mnl_pred_ova()` function internally, it
