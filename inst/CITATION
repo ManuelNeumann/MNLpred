@@ -4,9 +4,8 @@ citEntry(entry = "Manual",
   title        = "MNLpred - Simulated Predicted Probabilities for Multinomial Logit Models",
   author       = as.person("Manuel Neumann"),
   year         = "2020",
-  doi          = "10.5281/zenodo.4525342",
   url          = "https://CRAN.R-project.org/package=MNLpred",
-  note         = "Version 0.0.5",
+  note         = "DOI: 10.5281/zenodo.4525342. Version 0.0.5",
 
   textVersion  =
   paste("Neumann, Manuel (2020).",
