@@ -3,14 +3,14 @@ citHeader("To cite MNLpred in publications please use:")
 citEntry(entry = "Manual",
   title        = "MNLpred - Simulated Predicted Probabilities for Multinomial Logit Models",
   author       = as.person("Manuel Neumann"),
-  year         = "2020",
+  year         = "2021",
   url          = "https://CRAN.R-project.org/package=MNLpred",
-  note         = "DOI: 10.5281/zenodo.4525342. Version 0.0.5",
-
+  note         = "Version 0.0.5",
+  doi          = "10.5281/zenodo.4525342",
   textVersion  =
   paste("Neumann, Manuel (2020).",
         "MNLpred - Simulated Predicted Probabilities for Multinomial Logit Models",
         "(Version 0.0.5).",
-        "DOI 10.5281/zenodo.4525342."
+        "DOI 10.5281/zenodo.4525342.",
         "URL https://CRAN.R-project.org/package=MNLpred.")
 )

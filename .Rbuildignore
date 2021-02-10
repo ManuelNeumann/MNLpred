@@ -5,6 +5,7 @@
 feedback
 issues
 README_files
+PDF
 ^CRAN-RELEASE$
 release
 ^\.github$
