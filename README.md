@@ -8,7 +8,7 @@
 [![GPLv3
 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/MNLpred)](https://cran.r-project.org/package=MNLpred)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4525343.svg)](https://doi.org/10.5281/zenodo.4525343)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4525342.svg)](https://doi.org/10.5281/zenodo.4525342)
 [![downloads](https://cranlogs.r-pkg.org/badges/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 [![total\_downloads](https://cranlogs.r-pkg.org/badges/grand-total/MNLpred)](https://www.r-pkg.org/badges/version/MNLpred)
 [![R build
@@ -23,7 +23,7 @@ distribution.
 At first I will present the theoretical and statistical background,
 before using sample data to demonstrate the functions of the package.
 
-## The multinomial logit model
+## The Multinomial Logit Model
 
 For the statistical and theoretical background of the multinomial logit
 regression please refer to the vignette or sources like [these lecture
@@ -47,7 +47,7 @@ These are the important characteristics of the model:
 
 This package helps to interpret the model in meaningful ways.
 
-## Using the package
+## Using the Package
 
 ### Installing
 
@@ -60,7 +60,7 @@ The package can be both installed from CRAN or the github repository:
 # devtools::install_github("ManuelNeumann/MNLpred")
 ```
 
-### How does the function work?
+### How Does the Function Work?
 
 As we have seen above, the multinomial logit can be used to get an
 insight into the probabilities to choose one option out of a set of
@@ -292,7 +292,8 @@ ggplot(data = pred1$plotdata, aes(x = egoposition_immigration,
   geom_line() + # Mean
   facet_wrap(.~ vote, scales = "free_y", ncol = 2) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
-  scale_x_continuous(breaks = c(0:10)) +
+  scale_x_continuous(breaks = c(0:10),
+                     minor_breaks = FALSE) +
   theme_bw() +
   labs(y = "Predicted probabilities",
        x = "Ego-position toward immigration") # Always label your axes ;)
@@ -404,7 +405,8 @@ ggplot(data = fdif2$plotdata, aes(x = egoposition_immigration,
   geom_line() +
   facet_wrap(. ~ vote, scales = "free_y", ncol = 2) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
-  scale_x_continuous(breaks = c(0:10)) +
+  scale_x_continuous(breaks = c(0:10),
+                     minor_breaks = FALSE) +
   scale_linetype_discrete(name = "Gender",
                           breaks = c(0, 1),
                           labels = c("Male", "Female")) +
@@ -428,7 +430,8 @@ ggplot(data = fdif2$plotdata_fd, aes(x = egoposition_immigration,
   geom_hline(yintercept = 0) +
   facet_wrap(. ~ vote, ncol = 3) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) + # % labels
-  scale_x_continuous(breaks = c(0:10)) +
+  scale_x_continuous(breaks = c(0:10),
+                     minor_breaks = FALSE) +
   theme_bw() +
   labs(y = "Predicted probabilities",
        x = "Ego-position toward immigration") # Always label your axes ;)
@@ -465,6 +468,14 @@ place, check it out!). The skeleton of the code is based on a tutorial
 taught by [Marcel Neunhoeffer](https://www.marcel-neunhoeffer.com/)
 (lecture: “Advanced Quantitative Methods” by [Thomas
 Gschwend](https://www.sowi.uni-mannheim.de/gschwend/)).
+
+## DOI
+
+General DOI (always links to most recent version):
+[10.5281/zenodo.4525342](https://doi.org/10.5281/zenodo.4525342)
+
+Version 0.0.5:
+[10.5281/zenodo.4525343](https://doi.org/10.5281/zenodo.4525343)
 
 ## References
 
