@@ -5,7 +5,7 @@
 feedback
 issues
 README_files
-^\.travis\.yml$
+PDF
 ^CRAN-RELEASE$
 release
 ^\.github$
