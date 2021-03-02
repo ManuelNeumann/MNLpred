@@ -24,6 +24,11 @@ mod3 <- multinom(vote ~ egoposition_immigration +
                  data = gles,
                  Hess = TRUE)
 
+# Just one IV
+mod4 <- multinom(vote ~ egoposition_immigration,
+                 data = gles,
+                 Hess = TRUE)
+
 # Tests
 test_that("mnl_pred_ova() returns two predictions when by = NULL", {
 
@@ -105,4 +110,14 @@ test_that("mnl_pred_ova() stops if non-numeric variables are supplied with the d
                             nsim = 2),
                regexp = "Please supply data that consists of numeric values.")
 
+})
+
+
+# Fixing bug with apply() and one IV (v0.0.6)
+test_that("mnl_pred_ov() works with just one iv", {
+
+  expect_type(mnl_pred_ova(model = mod4,
+                           data = gles,
+                           x = "egoposition_immigration",
+                           nsim = 2), "list")
 })
