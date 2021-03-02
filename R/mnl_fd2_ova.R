@@ -123,8 +123,14 @@ mnl_fd2_ova <- function(model,
   output[["IV"]] <- iv
 
   # Variables have to be numeric
-  if (sum(apply(data[, iv], 2, class) %in% c("numeric", "integer")) < ncol(data[, iv])) {
-    stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will be fixed with the 0.1.0 release.")
+  if (length(iv) > 1) {
+    if (sum(apply(data[, iv], 2, class) %in% c("numeric", "integer")) < ncol(data[, iv])) {
+      stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will hopefully be fixed with the 0.1.0 release.")
+    }
+  } else {
+    if ((class(data[, iv]) %in% c("numeric", "integer")) == FALSE) {
+      stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will hopefully be fixed with the 0.1.0 release.")
+    }
   }
 
   # Name of dependent variable
