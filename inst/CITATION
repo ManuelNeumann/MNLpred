@@ -5,12 +5,12 @@ citEntry(entry = "Manual",
   author       = as.person("Manuel Neumann"),
   year         = "2021",
   url          = "https://CRAN.R-project.org/package=MNLpred",
-  note         = "Version 0.0.5",
+  note         = "Version 0.0.6",
   doi          = "10.5281/zenodo.4525342",
   textVersion  =
-  paste("Neumann, Manuel (2020).",
+  paste("Neumann, Manuel (2021).",
         "MNLpred - Simulated Predicted Probabilities for Multinomial Logit Models",
-        "(Version 0.0.5).",
+        "(Version 0.0.6).",
         "DOI 10.5281/zenodo.4525342.",
         "URL https://CRAN.R-project.org/package=MNLpred.")
 )

@@ -1,3 +1,7 @@
+# MNLpred 0.0.6
+
+  - Fixes a bug so that the function also works with just one IV.
+
 # MNLpred 0.0.5
   
   - Arguments 'xvari', 'scenname', 'scenvalue', and 'scenvalues' are deprecated 
