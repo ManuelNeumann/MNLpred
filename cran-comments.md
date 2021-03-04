@@ -1,9 +1,8 @@
-## Resubmission
+## Submission
 
-This is a submission for a new minor release (0.0.5).
+This is a submission for a new minor release (0.0.6).
 
-It includes a important error message, enhances the speed of the functions, and
-deprecates arguments.
+This release fixes a bug where the functions crash when only one IV is supplied.
 
 
 ## Test environments
@@ -16,7 +15,26 @@ deprecates arguments.
 
 
 ## R CMD check results
-There were no ERRORs, WARNINGs, or NOTES
+There were no ERRORs or WARNINGs
+
+There was one NOTE:
+
+Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
+
+Found the following (possibly) invalid URLs:
+  URL: https://doi.org/10.2307/2669316
+    From: inst/doc/OVA_Predictions_For_MNL.html
+          README.md
+    Status: 403
+    Message: Forbidden
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.2307/2669316
+    From: DESCRIPTION
+    Status: Forbidden
+    Message: 403
+    
+Both the URL and the DOI are valid and lead to the correct location.
 
 
 ## Downstram dependencies
