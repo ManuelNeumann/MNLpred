@@ -1,3 +1,8 @@
+# MNLpred 0.0.7
+
+  - Fixing an erroneously triggered error message that did not correctly
+    evaluate the class of the IV when only one IV is supplied in the model.
+
 # MNLpred 0.0.6
 
   - Fixes a bug so that the function also works with just one IV.
