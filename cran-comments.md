@@ -1,8 +1,9 @@
 ## Submission
 
-This is a submission for a new minor release (0.0.6).
+This is a submission for a new minor release (0.0.7).
 
-This release fixes a bug where the functions crash when only one IV is supplied.
+This release fixes a bug where the functions stopped because of an erroneously 
+triggered error message.
 
 
 ## Test environments
@@ -15,26 +16,7 @@ This release fixes a bug where the functions crash when only one IV is supplied.
 
 
 ## R CMD check results
-There were no ERRORs or WARNINGs
-
-There was one NOTE:
-
-Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
-
-Found the following (possibly) invalid URLs:
-  URL: https://doi.org/10.2307/2669316
-    From: inst/doc/OVA_Predictions_For_MNL.html
-          README.md
-    Status: 403
-    Message: Forbidden
-
-Found the following (possibly) invalid DOIs:
-  DOI: 10.2307/2669316
-    From: DESCRIPTION
-    Status: Forbidden
-    Message: 403
-    
-Both the URL and the DOI are valid and lead to the correct location.
+There were no ERRORs, WARNINGs, or NOTES.
 
 
 ## Downstram dependencies
