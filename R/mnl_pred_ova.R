@@ -53,6 +53,9 @@ mnl_pred_ova <- function(model,
                          seed = "random",
                          probs = c(0.025, 0.975)){
 
+  # Create list that is returned in the end.
+  output <- list()
+
   # Warnings for deprecated arguments
   if (!missing(xvari)) {
     warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
@@ -112,10 +115,36 @@ mnl_pred_ova <- function(model,
     }
   }
 
+  # > Handeling the IVs --------------------------------------------------------
+  # Name of independent variables
+  iv <- variables[2:length(variables)]
+  output[["IV"]] <- iv
 
-  # Create list that is returned in the end.
-  output <- list()
+  # Variables have to be numeric
+  if (length(iv) > 1) {
+    if (sum(apply(data[, iv], 2, class) %in% c("numeric", "integer")) < ncol(data[, iv])) {
+      stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will hopefully be fixed with the 0.1.0 release.")
+    }
+  } else {
+    if (class(eval(parse(text = paste0("data$", iv)))) %in% c("numeric", "integer") == FALSE) {
+      stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will hopefully be fixed with the 0.1.0 release.")
+    }
+  }
 
+  # > Handeling the DVs --------------------------------------------------------
+  # Name of dependent variable
+  dv <- variables[1]
+  output[["DV"]] <- dv
+
+
+  # > Full observations (listwise deletion) ------------------------------------
+  data_redux <- na.omit(data[, c(dv, iv)])
+
+  # Number of full observations
+  obs <- nrow(data_redux)
+  output[["Observations"]] <- obs
+
+  # > Working with the model ---------------------------------------------------
   # Get matrix of coefficients out of the model
   coefmatrix <- coef(model)
 
@@ -159,32 +188,6 @@ mnl_pred_ova <- function(model,
   }
 
   output[["nVariation"]] <- nseq
-
-  # Name of independent variables
-  iv <- variables[2:length(variables)]
-  output[["IV"]] <- iv
-
-  # Variables have to be numeric
-  if (length(iv) > 1) {
-    if (sum(apply(data[, iv], 2, class) %in% c("numeric", "integer")) < ncol(data[, iv])) {
-      stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will hopefully be fixed with the 0.1.0 release.")
-    }
-  } else {
-    if ((class(data[, iv]) %in% c("numeric", "integer")) == FALSE) {
-      stop("Please supply data that consists of numeric values. The package can not handle factor or character variables, yet. For workarounds, please take a look at the github issues (https://github.com/ManuelNeumann/MNLpred/issues/1). The problem will hopefully be fixed with the 0.1.0 release.")
-    }
-  }
-
-  # Name of dependent variable
-  dv <- variables[1]
-  output[["DV"]] <- dv
-
-  # Full observations (listwise deletion):
-  data_redux <- na.omit(data[, c(dv, iv)])
-
-  # Number of full observations
-  obs <- nrow(data_redux)
-  output[["Observations"]] <- obs
 
   # Choice categories of the dependent variable
   categories <- sort(unique(eval(parse(text = paste0("data$", dv)))))
