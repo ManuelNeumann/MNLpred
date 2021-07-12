@@ -29,6 +29,19 @@ mod4 <- multinom(vote ~ egoposition_immigration,
                  data = gles,
                  Hess = TRUE)
 
+data_1iv <- data.frame(x1 = c(1:4),
+                       x2 = rep(c("m", "n"), 2),
+                       y = factor(c("a", "b", "c", "d")))
+
+mod5a_1iv <- multinom(y ~ x1,
+                      data = data_1iv,
+                      Hess = TRUE)
+
+mod5b_1iv <- multinom(y ~ x2,
+                      data = data_1iv,
+                      Hess = TRUE)
+
+
 # Tests
 test_that("mnl_pred_ova() returns two predictions when by = NULL", {
 
@@ -120,4 +133,21 @@ test_that("mnl_pred_ov() works with just one iv", {
                            data = gles,
                            x = "egoposition_immigration",
                            nsim = 2), "list")
+})
+
+test_that("mnl_pred_ov() does correctly evaluate the class of one iv",{
+
+  expect_error(mnl_pred_ova(model = mod5b_1iv,
+                             data = data_1iv,
+                             x = "x2",
+                             nsim = 2),
+               "Please supply data that consists of numeric values. The package can not handle factor or character variables, yet.*")
+})
+
+test_that("mnl_pred_ov() does correctly evaluate the class of one iv",{
+
+  expect_length(mnl_pred_ova(model = mod5a_1iv,
+                             data = data_1iv,
+                             x = "x1",
+                             nsim = 2)$IV, n = 1)
 })

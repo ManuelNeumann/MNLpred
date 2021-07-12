@@ -56,6 +56,9 @@ mnl_fd_ova <- function(model,
                        seed = "random",
                        probs = c(0.025, 0.975)){
 
+  # Prepare output:
+  output <- list()
+
   # Warnings for deprecated arguments
   if (!missing(xvari)) {
     warning("The argument 'xvari' is deprecated; please use 'x' instead.\n\n",
@@ -102,9 +105,6 @@ mnl_fd_ova <- function(model,
     stop("Please two numeric values that are used for the different scenarios")
   }
 
-
-  # Prepare output:
-  output <- list()
 
   if (seed == "random") {
     seed <- sample(1:10000, 1)
