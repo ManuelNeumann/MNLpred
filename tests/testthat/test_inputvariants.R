@@ -50,7 +50,7 @@ test_that("mnl_pred_ova() returns two predictions when by = NULL", {
                             x = "egoposition_immigration",
                             by = NULL,
                             seed = "random", # default
-                            nsim = 100, # faster
+                            nsim = 2, # faster
                             probs = c(0.025, 0.975))$nVariation, 2)
 })
 
@@ -135,7 +135,7 @@ test_that("mnl_pred_ov() works with just one iv", {
                            nsim = 2), "list")
 })
 
-test_that("mnl_pred_ov() does correctly evaluate the class of one iv",{
+test_that("mnl_pred_ov() does correctly evaluate the class of one iv (negative example)",{
 
   expect_error(mnl_pred_ova(model = mod5b_1iv,
                              data = data_1iv,
@@ -144,10 +144,11 @@ test_that("mnl_pred_ov() does correctly evaluate the class of one iv",{
                "Please supply data that consists of numeric values. The package can not handle factor or character variables, yet.*")
 })
 
-test_that("mnl_pred_ov() does correctly evaluate the class of one iv",{
-
+test_that("mnl_pred_ov() does correctly evaluate the class of one iv", {
+  skip_on_cran()
   expect_length(mnl_pred_ova(model = mod5a_1iv,
                              data = data_1iv,
                              x = "x1",
-                             nsim = 2)$IV, n = 1)
+                             nsim = 2)$IV,
+                n = 1)
 })

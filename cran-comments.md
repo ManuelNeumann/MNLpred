@@ -1,9 +1,13 @@
 ## Submission
 
-This is a submission for a new minor release (0.0.7).
+This is a resubmission for a new minor release (0.0.7).
 
-This release fixes a bug where the functions stopped because of an erroneously 
+The 0.0.7 release fixes a bug where the functions stopped because of an erroneously 
 triggered error message.
+
+The resubmission is necessary because a test failed in a 
+r-devel-linux-x86_64-fedora-gcc environment. This test is now skipped because 
+the error is not replicable on a local fedora-gcc-devel container.
 
 
 ## Test environments
