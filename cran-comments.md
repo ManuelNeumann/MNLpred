@@ -17,6 +17,7 @@ the error is not replicable on a local fedora-gcc-devel container.
 * windows latest, release (github actions)
 * Ubuntu 20.04, release (github actions)
 * Ubuntu 20.04, devel (github actions)
+* Fedora Linux, R-devel, GCC (R-hub)
 * macOS latest, release (github actions)
 
 
@@ -26,6 +27,8 @@ There were no ERRORs or WARNINGs.
 There was one NOTE:
 
 Maintainer: 'Manuel Neumann <manuel.neumann@mzes.uni-mannheim.de>'
+
+Days since last update: 3
 
 Found the following (possibly) invalid URLs:
   URL: https://doi.org/10.2307/2669316
@@ -49,7 +52,7 @@ Found the following (possibly) invalid DOIs:
     Status: Forbidden
     Message: 403
     
-* All DOIs and URLs were manually checked and lead to the correct websites.
+* All DOIs and URLs were manually checked and are valid.
 
 
 ## Downstram dependencies
