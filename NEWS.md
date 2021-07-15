@@ -1,3 +1,7 @@
+# MNLpred 0.0.8
+  
+  - Skipping a package test that causes issues on CRAN.
+
 # MNLpred 0.0.7
 
   - Fixing an erroneously triggered error message that did not correctly
