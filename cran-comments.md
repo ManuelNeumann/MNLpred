@@ -1,8 +1,8 @@
 ## Submission
 
-This is a resubmission for a new minor release (0.0.7).
+This is a submission for a new patch release (0.0.8).
 
-The 0.0.7 release fixes a bug where the functions stopped because of an erroneously 
+The 0.0.8 release fixes a bug where the functions stopped because of an erroneously 
 triggered error message.
 
 The resubmission is necessary because a test failed in a 
