@@ -278,6 +278,9 @@ My code is inspired by the method courses in the [Political Science master's pro
 
 General DOI (always links to most recent version): [10.5281/zenodo.4525342](https://doi.org/10.5281/zenodo.4525342)
 
-Version 0.0.5: [10.5281/zenodo.4525343](https://doi.org/10.5281/zenodo.4525343)
+DOIs for different versions:
+
+  - Version 0.0.6: [10.5281/zenodo.4580427](https://doi.org/10.5281/zenodo.4580427)
+  - Version 0.0.5: [10.5281/zenodo.4525343](https://doi.org/10.5281/zenodo.4525343)
 
 ## References
